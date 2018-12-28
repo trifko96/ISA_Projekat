@@ -9,10 +9,9 @@ public class AvioKompanija {
 	private String opis;
 	private ArrayList<String> destinacije;
 	private ArrayList<Let> letovi;
-	// spisak karata sa popustima???
+	private ArrayList<Let> kartePopust;
 	private ArrayList<Integer> ocene;
 	private double prihod;
-	// cenovnik???
 	private String infoPrtljag;
 	
 	public AvioKompanija(String naziv, String adresa, String opis, ArrayList<String> destinacije, ArrayList<Let> letovi,
@@ -88,6 +87,14 @@ public class AvioKompanija {
 
 	public void setInfoPrtljag(String infoPrtljag) {
 		this.infoPrtljag = infoPrtljag;
+	}
+	
+	public ArrayList<Let> getKartePopust() {
+		return kartePopust;
+	}
+
+	public void setKartePopust(ArrayList<Let> kartePopust) {
+		this.kartePopust = kartePopust;
 	}
 	
 	

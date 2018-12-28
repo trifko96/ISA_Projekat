@@ -7,16 +7,17 @@ public class Let {
 
 	private Date vremePoletanja;
 	private Date vremeSletanja;
-	// vreme putovanja???
 	private double duzinaPutovanja;
 	private ArrayList<Integer> ocene;
-	private int segment; //???
+	private String segment;
 	private int [][] sedista;
-	private String lokacijePresedanja; // da li treba i broj???
-	//cena karte???
+	private int [][] karte;
+	private ArrayList<String> lokacijePresedanja;
+	private int brDestinacija;
+	private double cenaKarte;
 	
-	public Let(Date vremePoletanja, Date vremeSletanja, double duzinaPutovanja, int segment, int[][] sedista,
-			String lokacijePresedanja) {
+	public Let(Date vremePoletanja, Date vremeSletanja, double duzinaPutovanja, String segment, int[][] sedista,
+			ArrayList<String> lokacijePresedanja) {
 		super();
 		this.vremePoletanja = vremePoletanja;
 		this.vremeSletanja = vremeSletanja;
@@ -58,11 +59,11 @@ public class Let {
 		this.ocene = ocene;
 	}
 
-	public int getSegment() {
+	public String getSegment() {
 		return segment;
 	}
 
-	public void setSegment(int segment) {
+	public void setSegment(String segment) {
 		this.segment = segment;
 	}
 
@@ -74,13 +75,39 @@ public class Let {
 		this.sedista = sedista;
 	}
 
-	public String getLokacijePresedanja() {
+	public int[][] getKarte() {
+		return karte;
+	}
+
+	public void setKarte(int[][] karte) {
+		this.karte = karte;
+	}
+
+	public ArrayList<String> getLokacijePresedanja() {
 		return lokacijePresedanja;
 	}
 
-	public void setLokacijePresedanja(String lokacijePresedanja) {
+	public void setLokacijePresedanja(ArrayList<String> lokacijePresedanja) {
 		this.lokacijePresedanja = lokacijePresedanja;
 	}
 	
-	
+	public double getCenaKarte() {
+		return cenaKarte;
+	}
+
+	public int getBrDestinacija() {
+		return brDestinacija;
+	}
+
+	public void setBrDestinacija(int brDestinacija) {
+		this.brDestinacija = brDestinacija;
+	}
+
+	public void setCenaKarte(double cenaKarte) {
+		this.cenaKarte = cenaKarte;
+	}
+
+	public long trajanjeLeta() {
+		return (this.vremeSletanja.getTime() - this.vremePoletanja.getTime());
+	}
 }
