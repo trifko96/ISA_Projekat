@@ -7,6 +7,8 @@ public class Let {
 
 	private Date vremePoletanja;
 	private Date vremeSletanja;
+	private Aerodrom polaznaDestinacija;
+	private Aerodrom odredisnaDestinacija;
 	private double duzinaPutovanja;
 	private ArrayList<Integer> ocene;
 	private String segment;
@@ -105,6 +107,22 @@ public class Let {
 
 	public void setCenaKarte(double cenaKarte) {
 		this.cenaKarte = cenaKarte;
+	}
+
+	public Aerodrom getPolaznaDestinacija() {
+		return polaznaDestinacija;
+	}
+
+	public void setPolaznaDestinacija(Aerodrom polaznaDestinacija) {
+		this.polaznaDestinacija = polaznaDestinacija;
+	}
+
+	public Aerodrom getOdredisnaDestinacija() {
+		return odredisnaDestinacija;
+	}
+
+	public void setOdredisnaDestinacija(Aerodrom odredisnaDestinacija) {
+		this.odredisnaDestinacija = odredisnaDestinacija;
 	}
 
 	public long trajanjeLeta() {

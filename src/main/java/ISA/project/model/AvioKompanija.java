@@ -7,14 +7,14 @@ public class AvioKompanija {
 	private String naziv;
 	private String adresa;
 	private String opis;
-	private ArrayList<String> destinacije;
+	private ArrayList<Aerodrom> destinacije;
 	private ArrayList<Let> letovi;
 	private ArrayList<Let> kartePopust;
 	private ArrayList<Integer> ocene;
 	private double prihod;
 	private String infoPrtljag;
 	
-	public AvioKompanija(String naziv, String adresa, String opis, ArrayList<String> destinacije, ArrayList<Let> letovi,
+	public AvioKompanija(String naziv, String adresa, String opis, ArrayList<Aerodrom> destinacije, ArrayList<Let> letovi,
 			String infoPrtljag) {
 		super();
 		this.naziv = naziv;
@@ -49,11 +49,11 @@ public class AvioKompanija {
 		this.opis = opis;
 	}
 
-	public ArrayList<String> getDestinacije() {
+	public ArrayList<Aerodrom> getDestinacije() {
 		return destinacije;
 	}
 
-	public void setDestinacije(ArrayList<String> destinacije) {
+	public void setDestinacije(ArrayList<Aerodrom> destinacije) {
 		this.destinacije = destinacije;
 	}
 

@@ -2,6 +2,51 @@ package ISA.project.model;
 
 public class AvionskaKarta {
 	
+	private Let let;
+	private double cena;
+	private double popust;
+	private Sediste sediste;
+	
+	public AvionskaKarta(Let let, double cena, Sediste sediste) {
+		super();
+		this.let = let;
+		this.cena = cena;
+		this.sediste = sediste;
+	}
+
+	public Let getLet() {
+		return let;
+	}
+
+	public void setLet(Let let) {
+		this.let = let;
+	}
+
+	public double getCena() {
+		return cena;
+	}
+
+	public void setCena(double cena) {
+		this.cena = cena;
+	}
+
+	public double getPopust() {
+		return popust;
+	}
+
+	public void setPopust(double popust) {
+		this.popust = popust;
+	}
+
+	public Sediste getSediste() {
+		return sediste;
+	}
+
+	public void setSediste(Sediste sediste) {
+		this.sediste = sediste;
+	}
+	
+	
 	
 	
 }
