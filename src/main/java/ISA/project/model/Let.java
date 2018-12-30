@@ -20,6 +20,7 @@ public class Let {
 	private ArrayList<RezervacijaKarata> listaRezervacija;
 	private AvioKompanija avioKompanija;
 	
+	
 	public Let(Date vremePoletanja, Date vremeSletanja, double duzinaPutovanja, String segment, int[][] sedista,
 			ArrayList<String> lokacijePresedanja) {
 		super();
