@@ -12,6 +12,7 @@ public class Hotel {
 	private ArrayList<Soba> sobe;
 	private int brojSlobodnihSoba;
 	private ArrayList<Soba> cenovnik;
+	private ArrayList<RezervacijaSmestaja> listaRezervacija;
 
 	public Hotel(String ime, String adresa, String opis, ArrayList<Soba> sobe) {
 		super();
@@ -83,5 +84,13 @@ public class Hotel {
 
 	public void setCenovnik(ArrayList<Soba> cenovnik) {
 		this.cenovnik = cenovnik;
+	}
+
+	public ArrayList<RezervacijaSmestaja> getListaRezervacija() {
+		return listaRezervacija;
+	}
+
+	public void setListaRezervacija(ArrayList<RezervacijaSmestaja> listaRezervacija) {
+		this.listaRezervacija = listaRezervacija;
 	}
 }
