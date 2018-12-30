@@ -17,6 +17,8 @@ public class Let {
 	private ArrayList<String> lokacijePresedanja;
 	private int brDestinacija;
 	private double cenaKarte;
+	private ArrayList<RezervacijaKarata> listaRezervacija;
+	private AvioKompanija avioKompanija;
 	
 	public Let(Date vremePoletanja, Date vremeSletanja, double duzinaPutovanja, String segment, int[][] sedista,
 			ArrayList<String> lokacijePresedanja) {
@@ -125,7 +127,23 @@ public class Let {
 		this.odredisnaDestinacija = odredisnaDestinacija;
 	}
 
+	public ArrayList<RezervacijaKarata> getListaRezervacija() {
+		return listaRezervacija;
+	}
+
+	public void setListaRezervacija(ArrayList<RezervacijaKarata> listaRezervacija) {
+		this.listaRezervacija = listaRezervacija;
+	}
+
 	public long trajanjeLeta() {
 		return (this.vremeSletanja.getTime() - this.vremePoletanja.getTime());
+	}
+
+	public AvioKompanija getAvioKompanija() {
+		return avioKompanija;
+	}
+
+	public void setAvioKompanija(AvioKompanija avioKompanija) {
+		this.avioKompanija = avioKompanija;
 	}
 }
