@@ -14,6 +14,7 @@ public class Vozilo {
 	private int brSedista;
 	private String tip;
 	private ArrayList<Integer> ocena;
+	private boolean rezervisano;
 	
 	
 	public Vozilo(double cena, String naziv, String marka, String model, String godinaProizvodnje, int brSedista,
@@ -116,6 +117,16 @@ public class Vozilo {
 
 	public void setOcena(ArrayList<Integer> ocena) {
 		this.ocena = ocena;
+	}
+
+
+	public boolean isRezervisano() {
+		return rezervisano;
+	}
+
+
+	public void setRezervisano(boolean rezervisano) {
+		this.rezervisano = rezervisano;
 	}
 	
 	

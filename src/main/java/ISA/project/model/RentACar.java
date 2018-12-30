@@ -8,10 +8,11 @@ public class RentACar {
 	private String adresa;
 	private String opis;
 	private ArrayList<Vozilo> spisakVozila;
-	private ArrayList<String> lokacije;
+	private ArrayList<Lokacija> lokacije;
 	private ArrayList<Vozilo> cenovnik;
 	private ArrayList<Integer> ocene;
 	private double prihod;
+	private ArrayList<RezervacijaVozila> listaRezervacija;
 	
 	public RentACar(String naziv, String adresa, String opis, ArrayList<Vozilo> spisakVozila) {
 		super();
@@ -61,11 +62,11 @@ public class RentACar {
 		this.cenovnik = cenovnik;
 	}
 
-	public ArrayList<String> getLokacije() {
+	public ArrayList<Lokacija> getLokacije() {
 		return lokacije;
 	}
 
-	public void setLokacije(ArrayList<String> lokacije) {
+	public void setLokacije(ArrayList<Lokacija> lokacije) {
 		this.lokacije = lokacije;
 	}
 
@@ -84,9 +85,15 @@ public class RentACar {
 	public void setPrihod(double prihod) {
 		this.prihod = prihod;
 	}
-	
-	
-	
+
+	public ArrayList<RezervacijaVozila> getListaRezervacija() {
+		return listaRezervacija;
+	}
+
+	public void setListaRezervacija(ArrayList<RezervacijaVozila> listaRezervacija) {
+		this.listaRezervacija = listaRezervacija;
+	}
+
 	
 	
 
