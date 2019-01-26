@@ -7,7 +7,7 @@ public class Lokacija {
 	private String adresa;
 	private RentACar rentACar;
 	private UUID id;
-	
+
 	
 	public Lokacija(String adresa, RentACar rentACar) {
 		super();
@@ -15,7 +15,7 @@ public class Lokacija {
 		this.rentACar = rentACar;
 	}
 
-
+	
 	public String getAdresa() {
 		return adresa;
 	}
@@ -44,9 +44,6 @@ public class Lokacija {
 	public void setId(UUID id) {
 		this.id = id;
 	}
-	
-	
-	
-	
 
+	
 }
