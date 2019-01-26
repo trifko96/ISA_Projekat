@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Online rezervacija letova</title>
+	<script type="text/javascript" src="../skripte/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
+	<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+	<style>
+	
+		
+		
+		ul {
+    		list-style-type: none;
+    		margin: 0;
+    		padding: 0;
+    		overflow: hidden;
+    		
+		}
+
+		li {
+    		float: left;
+		}
+
+		li a {
+		    display: block;
+    		color: black;
+    		text-align: center;
+    		padding: 14px 16px;
+    		text-decoration: none;
+		}
+
+		li a:hover {
+    		background-color: #5bc0de;
+		}
+		
+		li a:hover:not(.active) {
+    		background-color: #5bc0de;
+		}
+		
+		.active {
+    		background-color: #ffffff;
+		}
+		
+		.scroll {
+			overflow-y: auto;
+		}
+	
+	</style>
+</head>
+<body>
+
+	<nav class="navbar bg-info">
+		  <a class="navbar-brand text-white" href="">Online rezervacija letova</a>
+		  <ul>
+  			<li><a class="active navbar-link" id="tabRes" href="#">Avio kompanije</a></li>
+  			<li><a class="navbar-link" id="tabReg" href="#">Hoteli</a></li>
+  			<li><a class="navbar-link" id="tabReg" href="#">Rent a car servisi</a></li>
+  			<li><a class="navbar-link" id="tabReg" href="#">Registracija</a></li>
+  			<li><a class="navbar-link" id="tabLog" href="#">Prijavljivanje</a></li>
+		</ul>
+	</nav>
+
+ 
+	
+	
+	<div class="container-fluid" id="divRegistracija">
+		<div class="row">
+		<div class="col-6" id="divReg">
+		<form method="post" id="formaRegistracija" >
+			<table id="tabelaReg" class="table">
+				<tr>
+					<td colspan="2" align="center" style="font-size: 30px;"><b>Registracija:</b></td>
+				</tr>
+				<tr>
+					<th>Lozinka: </th>
+					<td align="right"><input type="password" id="pass"/></td>
+				</tr>
+				<tr>
+					<th>Ime: </th>
+					<td align="right"><input type="text" id="ime"/></td>
+				</tr>
+				<tr>
+					<th>Prezime: </th>
+					<td align="right"><input type="text" id="prezime"/></td>
+				</tr>
+				<tr>
+					<th>Broj telefona: </th>
+					<td align="right"><input type="text" id="telefon"/>
+					<small id="greskaTelefon" class="text-danger">Dozvoljen je unos samo brojeva!</small></td>
+				</tr>
+				<tr>
+					<th>E-mail adresa: </th>
+					<td align="right"><input type="text" id="email"/>
+					<small id="greskaEmail" class="text-danger">Uneli ste e-mail adresu koja već postoji!</small>
+					<small id="greskaEmailOblik" class="text-danger">Neispravan oblik e-mail adrese!</small>
+					</td>
+				</tr>
+				<tr>
+					<th>Grad: </th>
+					<td align="right"><input type="text" id="grad"/>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"><button id="butReg">Registruj se</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	</div>
+	</div>
+	<div class="container-fluid" id="divLogovanje">
+	 
+	<div class="row">
+	<div class="col-6" id="divLog">
+		<form id="formaLogovanje" method="post">
+				<table class="table" id="tabelaLog">
+					<tr>
+						<td colspan="2" align="center" style="font-size: 30px;"><b>Ulogujte se:</b></td>
+					</tr>
+					<tr>
+						<th align="left">E-mail: </th>
+						<td align="right"><input type="text" name="E-mail" id="emailLog" placeholder="E-mail" /></td>
+					</tr>
+					<tr>
+						<th align="left">Lozinka: </th>
+						<td align="right"><input type="password" name="lozinka" id="loz" placeholder="Lozinka"/></td>
+					</tr>
+					<tr>
+					<td>
+						<small id="greskaLog" class="text-danger">Neispravan email ili lozinka!</small>
+					</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center"><button id="butLog">Uloguj se</button></td>
+					</tr>
+				</table>
+		</form>
+	</div> 
+	</div>
+	</div>
+	
+	<!-- OBAVEZNO UBACITI SKROL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	
+	<div class="container-fluid" id="divKompanija">
+	<div class="row">
+	<div class="col scroll" id="divKom">
+		<h2>Avio kompanije:</h2>
+		<table id="tabelaKompanija" class="table">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Naziv</th>
+					<th style="text-align: center;">Adresa</th>
+					<th style="text-align: center;">Promotivni opis</th>
+					<th style="text-align: center;">Prosecna ocena</th>
+					<th style="text-align: center;">Destinacije saobracanja</th>
+					<th>&nbsp</th>
+					<th>&nbsp</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihKompanija">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="w-100"></div>
+	
+	<!-- UBACITI KOD LETOVA PRIKAZ SLOBODNIH MESTA -->
+	
+	<div class="col scroll" id="divArt" style="height:300px;">
+		<h2>Letovi:</h2>
+		<table id="tabelaLetova" class="table" >
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;"><select id="datPol"><option value="Datum i vreme poletanja">Datum i vreme poletanja</option></select></th>
+					<th style="text-align: center;"><select id="datSl"><option value="Datum i vreme sletanja">Datum i vreme sletanja</option></select></th>
+					<th style="text-align: center;"><select id="Poldest"><option value="Polazna destinacija">Polazna destinacija</option></select></th>
+					<th style="text-align: center;"><select id="Odrdest"><option value="Odredisna destinacija">Odredisna destinacija</option></select></th>
+					<th style="text-align: center;">Duzina putovanja</th>
+					<th style="text-align: center;">Prosecna ocena leta</th>
+					<th style="text-align: center;">Lokacije presedanja</th>
+					<th><button class="btn btn-outline-primary">Pretrazi</button></th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihLetova">
+				
+			</tbody>
+		</table>
+	</div>
+	</div>
+	</div>
+	
+	<!-- POGLEDATI OPET SVE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	
+	<div class="container-fluid" id="divHotel">
+		<div class="row">
+			<div class="col scroll" id="divHoteli">
+				<h2>Hoteli:</h2>
+				<table id="tabelaHotela" class="table" >
+					<thead class="thead-light">
+						<tr>
+							<th style="text-align: center;">Naziv</th>
+							<th style="text-align: center;">Adresa</th>
+							<th style="text-align: center;">Promotivni opis</th>
+							<th style="text-align: center;">Prosecna ocena</th>
+							<th style="text-align: center;">Slobodne sobe</th>
+							<th style="text-align: center;">Cenovnik</th>
+							<th style="text-align: center;">Dodatne usluge</th>
+						</tr>
+					</thead>
+					<tbody id="tabelaNovihHotela">
+				
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid" id="divRentACar">
+	<div class="row">
+	<div class="col scroll" id="divServ">
+		<h2>Rent a Car servisi:</h2>
+		<table id="tabelaServisa" class="table">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Naziv</th>
+					<th style="text-align: center;">Adresa</th>
+					<th style="text-align: center;">Promotivni opis</th>
+					<th style="text-align: center;">Prosecna ocena</th>
+					<th style="text-align: center;">Filijale</th>
+					<th>&nbsp</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihKompanija">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="w-100"></div>
+	<div class="col scroll" id="divArt" style="height:300px;">
+		<h2>Vozila:</h2>
+		<table id="tabelaVozila" class="table" >
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Naziv</th>
+					<th style="text-align: center;">Marka</th>
+					<th style="text-align: center;">Model</th>
+					<th style="text-align: center;">Godina proizvodnje</th>
+					<th style="text-align: center;">Broj sedista</th>
+					<th style="text-align: center;">Tip</th>
+					<th style="text-align: center;">Prosecna ocena</th>
+					<th style="text-align: center;">Cena</th>
+					<th>&nbsp</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihVozila">
+				
+			</tbody>
+			<tfoot>
+				<tr>
+					<td style="text-align: center;">Pretraga:</td>
+					<td style="text-align: center;">&nbsp</td>
+					<td style="text-align: center;">&nbsp</td>
+					<td style="text-align: center;"><input type="text" id="godAuto"/></td>
+					<td style="text-align: center;"><input type="text" id="BrojSedAuto"/></td>
+					<td style="text-align: center;">
+						<select id="TipAuto">
+							<option value="Automobil">Automobil</option>
+						</select>
+					</td>
+					<td style="text-align: center;">&nbsp</td>
+					<td style="text-align: center;">&nbsp</td>
+					<td><button class="btn btn-outline-primary">Pretrazi</button></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	</div>
+	</div>
+	
+</body>
+</html>
