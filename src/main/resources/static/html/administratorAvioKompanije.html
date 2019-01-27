@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Online rezervacija letova</title>
+	<script type="text/javascript" src="../skripte/jquery.min.js"></script>
+	<script type="text/javascript" src="../skripte/administratorAvioKompanije.js"></script>
+	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
+	<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+	<style>
+	
+		
+		
+		ul {
+    		list-style-type: none;
+    		margin: 0;
+    		padding: 0;
+    		overflow: hidden;
+    		
+		}
+
+		li {
+    		float: left;
+		}
+
+		li a {
+		    display: block;
+    		color: black;
+    		text-align: center;
+    		padding: 14px 16px;
+    		text-decoration: none;
+		}
+
+		li a:hover {
+    		background-color: #5bc0de;
+		}
+		
+		li a:hover:not(.active) {
+    		background-color: #5bc0de;
+		}
+		
+		.active {
+    		background-color: #ffffff;
+		}
+		
+		.scroll {
+			overflow-y: auto;
+		}
+	
+	</style>
+</head>
+<body>
+
+	<nav class="navbar bg-info">
+		  <a class="navbar-brand text-white" href="">Online rezervacija letova</a>
+		  <ul>
+  			<li><a class="active navbar-link" id="tabKom" href="#">Avio kompanija</a></li>
+  			<li><a class="navbar-link" id="tabLet" href="#">Letovi</a></li>
+  			<li><a class="navbar-link" id="tabAer" href="#">Aerodromi</a></li>
+  			<li><a class="navbar-link" id="tabAvi" href="#">Avioni</a></li>
+  			<li><a class="navbar-link" id="tabPro" href="#">Profil</a></li>
+		</ul>
+	</nav>
+	
+	<div class="container-fluid" id="divKompanija">
+	<div class="row">
+	<div class="col-8 scroll" id="divKom">
+		<table id="tabelaKompanija" class="table">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Naziv</th>
+					<th style="text-align: center;">Adresa</th>
+					<th style="text-align: center;">Promotivni opis</th>
+					<th style="text-align: center;">Prosecna ocena</th>
+					<th>&nbsp</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihKompanija">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="col-4 scroll" id="divIzmKom">
+		<table class="table" id="izmeniKompaniju">
+						<tr>
+							<td align="center">Naziv:</td>
+							<td align="center"><input type="text" id="nazivKompanije"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Adresa:</td>
+							<td align="center"><input type="text" id="adresaKompanije"/></td>
+						</tr>
+						<tr>
+							<td align="center">Opis:</td>
+							<td align="center"><input type="text" id="opisKompanije"/></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><button id="izmeniKom" class="btn btn-outline-secondary">Izmeni</button></td>
+						</tr>
+					</table>
+	</div>
+	<div class="w-100"></div>
+	<div class="col scroll" id="divPrihod">
+		<h2>Prihodi:</h2>
+		<table id="tabelaPrihoda" class="table">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Na nedeljnom nivou:</th>
+					<th style="text-align: center;">Na mesecnom nivou:</th>
+					<th style="text-align: center;">Na godisnjem nivou:</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihPrihoda">
+				
+			</tbody>
+		</table>
+	</div>
+	</div>
+	</div>
+	
+	<div class="container-fluid" id="divLet">
+		<div class="row">
+			<div class="col scroll" id="divLetovi">
+				<h2>Letovi:</h2>
+				<table id="tabelaLetova" class="table" >
+					<thead class="thead-light">
+						<tr>
+							<th style="text-align: center;">Datum i vreme poletanja</th>
+							<th style="text-align: center;">Datum i vreme sletanja</th>
+							<th style="text-align: center;">Vreme putovanja</th>
+							<th style="text-align: center;">Mesto poletanja</th>
+							<th style="text-align: center;">Mesto sletanja</th>
+							<th style="text-align: center;">Broj presedanja</th>
+							<th style="text-align: center;">Lokacije presedanja</th>
+							<th style="text-align: center;">Broj prodatih karata</th>
+							<th style="text-align: center;">Prosecna ocena</th>
+							<th style="text-align: center;">Avion</th>
+						</tr>
+					</thead>
+					<tbody id="tabelaNovihLetova">
+				
+					</tbody>
+				</table>
+			</div>
+			<div class="w-100"></div>
+	
+			<div class="col" id="divDodLet">
+				<h3>Dodaj novi let:</h3>
+					<table class="table" id="dodajLet">
+						
+						<tr>
+							<td colspan="2" align="center"><button id="dodajHot">Dodaj</button></td>
+						</tr>
+					</table>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid" id="divAerodrom">
+	<div class="row">
+	<div class="col scroll" id="divAero">
+		<h2>Aerodromi:</h2>
+		<table id="tabelaAerodroma" class="table">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Naziv</th>
+					<th style="text-align: center;">Grad</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihAerodroma">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="w-100"></div>
+	<div class="col-6 scroll" id="divDodAero">
+		<h3>Dodaj novi aerodrom:</h3>
+					<table class="table" id="dodajAerodrom">
+						<tr>
+							<td align="center">Naziv:</td>
+							<td align="center"><input type="text" id="nazivAerodroma"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Grad:</td>
+							<td align="center"><input type="text" id="gradAero"/></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><button id="dodajAero">Dodaj</button></td>
+						</tr>
+					</table>
+	</div>
+	</div>
+	</div>
+	
+	<div class="container-fluid" id="divProfil">
+	<div class="row">
+	<div class="col scroll" id="divPro">
+		<h2>Moji podaci:</h2>
+		<table id="tabelaPodataka" class="table">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Ime</th>
+					<th style="text-align: center;">Prezime</th>
+					<th style="text-align: center;">E-mail</th>
+					<th style="text-align: center;">Lozinka</th>
+					<th style="text-align: center;">Grad</th>
+					<th style="text-align: center;">Broj telefona</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihPodataka">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="w-100"></div>
+	
+	<div class="col-6" id="divIzmPod">
+		<h3>Izmeni podatke:</h3>
+					<table class="table" id="izmeniPodatke">
+						<tr>
+							<td align="center">Ime:</td>
+							<td align="center"><input type="text" id="novoIme"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Prezime:</td>
+							<td align="center"><input type="text" id="novoPrezime"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">E-mail:</td>
+							<td align="center"><input type="text" id="noviMail"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Lozinka:</td>
+							<td align="center"><input type="password" id="novaLozinka"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Grad:</td>
+							<td align="center"><input type="text" id="noviGrad"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Broj telefona:</td>
+							<td align="center"><input type="text" id="noviTel"/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><button id="izmPodatke">Izmeni</button></td>
+						</tr>
+					</table>
+	</div>
+	</div>
+	</div>
+	
+</body>
+</html>
