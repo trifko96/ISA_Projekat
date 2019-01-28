@@ -21,6 +21,7 @@ public class Let {
 	private int brProdatihKarata;
 	
 	
+	
 	public Let(Date vremePoletanja, Date vremeSletanja, double vremePutovanja,
 			ArrayList<Aerodrom> lokacijePresedanja) {
 		super();

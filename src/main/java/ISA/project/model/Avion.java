@@ -7,6 +7,7 @@ public class Avion {
 	private Segment ekonomskaKlasa;
 	private AvioKompanija avioKompanija;
 	
+	
 	public Avion(String ime, Segment biznisKlasa, Segment ekonomskaKlasa, AvioKompanija avioKompanija) {
 		super();
 		this.ime = ime;

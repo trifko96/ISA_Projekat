@@ -10,6 +10,7 @@ public class Sediste {
 	private UUID id;
 	private AvionskaKarta karta;
 
+	
 	public Sediste(int brReda, int brKolone) {
 		super();
 		this.brReda = brReda;

@@ -7,6 +7,7 @@ public class Segment {
 	private int brojKolona;
 	private Sediste [][] listaSedista;
 	
+	
 	public Segment(TipKlase tip, int brojRedova, int brojKolona) {
 		super();
 		this.tip = tip;
