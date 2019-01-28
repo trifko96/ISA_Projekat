@@ -136,6 +136,8 @@
 							<th style="text-align: center;">Broj prodatih karata</th>
 							<th style="text-align: center;">Prosecna ocena</th>
 							<th style="text-align: center;">Avion</th>
+							<th style="text-align: center;">Cena biznis klase</th>
+							<th style="text-align: center;">Cena ekonomske klase</th>
 						</tr>
 					</thead>
 					<tbody id="tabelaNovihLetova">
@@ -145,12 +147,54 @@
 			</div>
 			<div class="w-100"></div>
 	
-			<div class="col" id="divDodLet">
+			<div class="col-6" id="divDodLet">
 				<h3>Dodaj novi let:</h3>
 					<table class="table" id="dodajLet">
-						
 						<tr>
-							<td colspan="2" align="center"><button id="dodajHot">Dodaj</button></td>
+							<td align="center">Datum i vreme poletanja:</td>
+							<td align="center"><input type="datetime-local" id="datumPol"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Datum i vreme sletanja:</td>
+							<td align="center"><input type="datetime-local" id="datumSl"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Vreme putovanja:</td>
+							<td align="center"><input type="text" id="vremePut"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Mesto poletanja:</td>
+							<td align="center"><select id="mestoPol"></select></td>
+						</tr>
+						<tr>
+							<td align="center">Mesto sletanja:</td>
+							<td align="center"><select id="mestoSl"></select></td>
+						</tr>
+						<tr>
+							<td align="center">Broj presedanja:</td>
+							<td align="center"><input type="text" id="brPres"/></td>
+						</tr>
+						<tr>
+							<td align="center">Lokacije presedanja:</td>
+							<td align="center"><select id="lokPres"></select></td>
+						</tr>
+						<tr>
+							<td align="center">Avion:</td>
+							<td align="center"><select id="avion"></select></td>
+						</tr>
+						<tr>
+							<td align="center">Cena biznis klase:</td>
+							<td align="center"><input type="text" id="cenaBiz"/></td>
+						</tr>
+						<tr>
+							<td align="center">Cena ekonomske klase:</td>
+							<td align="center"><input type="text" id="cenaEko"/></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><button id="dodLet">Dodaj</button></td>
 						</tr>
 					</table>
 			</div>
@@ -188,6 +232,64 @@
 						</tr>
 						<tr>
 							<td colspan="2" align="center"><button id="dodajAero">Dodaj</button></td>
+						</tr>
+					</table>
+	</div>
+	</div>
+	</div>
+	
+	<div class="container-fluid" id="divAvion">
+	<div class="row">
+	<div class="col scroll" id="divAvio">
+		<h2>Avioni:</h2>
+		<table id="tabelaAviona" class="table">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Naziv</th>
+					<th style="text-align: center;">Biznis klasa</th>
+					<th style="text-align: center;">Ekonomska klasa</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihAviona">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="w-100"></div>
+	<div class="col-6 scroll" id="divDodAvio">
+		<h3>Dodaj novi avion:</h3>
+					<table class="table" id="dodajAvion">
+						<tr>
+							<td align="center">Naziv:</td>
+							<td align="center"><input type="text" id="nazivAviona"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center"><b>Biznis klasa:</b></td>
+							<td align="center">&nbsp</td>
+						</tr>
+						<tr>
+							<td align="center">Broj redova:</td>
+							<td align="center"><input type="text" id="brojRedBiznis"/></td>
+						</tr>
+						<tr>
+							<td align="center">Broj kolona:</td>
+							<td align="center"><input type="text" id="brojKolBiznis"/></td>
+						</tr>
+						<tr>
+							<td align="center"><b>Ekonomska klasa:</b></td>
+							<td align="center">&nbsp</td>
+						</tr>
+						<tr>
+							<td align="center">Broj redova:</td>
+							<td align="center"><input type="text" id="brojRedEkonom"/></td>
+						</tr>
+						<tr>
+							<td align="center">Broj kolona:</td>
+							<td align="center"><input type="text" id="brojKolEkonom"/></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><button id="dodajAvio">Dodaj</button></td>
 						</tr>
 					</table>
 	</div>

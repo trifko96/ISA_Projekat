@@ -34,7 +34,7 @@ $(document).ready(function(){
 			$("#tabAvi").addClass('active');
 			$("#tabAer").removeClass('active');
 			$("#tabPro").removeClass('active');
-			$("#divAdmini").show();
+			$("#divAvion").show();
 		} else if (id === "tabPro"){
 			$("#tabKom").removeClass('active');
 			$("#tabLet").removeClass('active');

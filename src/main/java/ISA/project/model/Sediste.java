@@ -8,6 +8,7 @@ public class Sediste {
 	private int brKolone;
 	private boolean zauzeto;
 	private UUID id;
+	private AvionskaKarta karta;
 
 	public Sediste(int brReda, int brKolone) {
 		super();
@@ -45,5 +46,13 @@ public class Sediste {
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	public AvionskaKarta getKarta() {
+		return karta;
+	}
+
+	public void setKarta(AvionskaKarta karta) {
+		this.karta = karta;
 	}
 }

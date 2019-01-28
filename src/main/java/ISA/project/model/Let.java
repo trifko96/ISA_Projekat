@@ -9,26 +9,24 @@ public class Let {
 	private Date vremeSletanja;
 	private Aerodrom polaznaDestinacija;
 	private Aerodrom odredisnaDestinacija;
-	private double duzinaPutovanja;
+	private double vremePutovanja;
 	private ArrayList<Integer> ocene;
-	private String segment;
-	private int [][] sedista;
-	private int [][] karte;
-	private ArrayList<String> lokacijePresedanja;
-	private int brDestinacija;
-	private double cenaKarte;
+	private ArrayList<Aerodrom> lokacijePresedanja;
+	private int brPresedanja;
+	private double cenaKarteBiznisKlase;
+	private double cenaKarteEkonomskeKlase;
 	private ArrayList<RezervacijaKarata> listaRezervacija;
 	private AvioKompanija avioKompanija;
+	private Avion avion;
+	private int brProdatihKarata;
 	
 	
-	public Let(Date vremePoletanja, Date vremeSletanja, double duzinaPutovanja, String segment, int[][] sedista,
-			ArrayList<String> lokacijePresedanja) {
+	public Let(Date vremePoletanja, Date vremeSletanja, double vremePutovanja,
+			ArrayList<Aerodrom> lokacijePresedanja) {
 		super();
 		this.vremePoletanja = vremePoletanja;
 		this.vremeSletanja = vremeSletanja;
-		this.duzinaPutovanja = duzinaPutovanja;
-		this.segment = segment;
-		this.sedista = sedista;
+		this.vremePutovanja = vremePutovanja;
 		this.lokacijePresedanja = lokacijePresedanja;
 	}
 
@@ -48,12 +46,12 @@ public class Let {
 		this.vremeSletanja = vremeSletanja;
 	}
 
-	public double getDuzinaPutovanja() {
-		return duzinaPutovanja;
+	public double getVremePutovanja() {
+		return vremePutovanja;
 	}
 
-	public void setDuzinaPutovanja(double duzinaPutovanja) {
-		this.duzinaPutovanja = duzinaPutovanja;
+	public void setVremePutovanja(double vremePutovanja) {
+		this.vremePutovanja = vremePutovanja;
 	}
 
 	public ArrayList<Integer> getOcene() {
@@ -64,52 +62,28 @@ public class Let {
 		this.ocene = ocene;
 	}
 
-	public String getSegment() {
-		return segment;
-	}
-
-	public void setSegment(String segment) {
-		this.segment = segment;
-	}
-
-	public int[][] getSedista() {
-		return sedista;
-	}
-
-	public void setSedista(int[][] sedista) {
-		this.sedista = sedista;
-	}
-
-	public int[][] getKarte() {
-		return karte;
-	}
-
-	public void setKarte(int[][] karte) {
-		this.karte = karte;
-	}
-
-	public ArrayList<String> getLokacijePresedanja() {
+	public ArrayList<Aerodrom> getLokacijePresedanja() {
 		return lokacijePresedanja;
 	}
 
-	public void setLokacijePresedanja(ArrayList<String> lokacijePresedanja) {
+	public void setLokacijePresedanja(ArrayList<Aerodrom> lokacijePresedanja) {
 		this.lokacijePresedanja = lokacijePresedanja;
 	}
 	
-	public double getCenaKarte() {
-		return cenaKarte;
+	public double getCenaKarteBiznisKlase() {
+		return cenaKarteBiznisKlase;
 	}
 
-	public int getBrDestinacija() {
-		return brDestinacija;
+	public int getBrPresedanja() {
+		return brPresedanja;
 	}
 
-	public void setBrDestinacija(int brDestinacija) {
-		this.brDestinacija = brDestinacija;
+	public void setBrPresedanja(int brPresedanja) {
+		this.brPresedanja = brPresedanja;
 	}
 
-	public void setCenaKarte(double cenaKarte) {
-		this.cenaKarte = cenaKarte;
+	public void setCenaKarteBiznisKlase(double cenaKarte) {
+		this.cenaKarteBiznisKlase = cenaKarte;
 	}
 
 	public Aerodrom getPolaznaDestinacija() {
@@ -146,5 +120,29 @@ public class Let {
 
 	public void setAvioKompanija(AvioKompanija avioKompanija) {
 		this.avioKompanija = avioKompanija;
+	}
+
+	public double getCenaKarteEkonomskeKlase() {
+		return cenaKarteEkonomskeKlase;
+	}
+
+	public void setCenaKarteEkonomskeKlase(double cenaKarteEkonomskeKlase) {
+		this.cenaKarteEkonomskeKlase = cenaKarteEkonomskeKlase;
+	}
+
+	public Avion getAvion() {
+		return avion;
+	}
+
+	public void setAvion(Avion avion) {
+		this.avion = avion;
+	}
+
+	public int getBrProdatihKarata() {
+		return brProdatihKarata;
+	}
+
+	public void setBrProdatihKarata(int brProdatihKarata) {
+		this.brProdatihKarata = brProdatihKarata;
 	}
 }
