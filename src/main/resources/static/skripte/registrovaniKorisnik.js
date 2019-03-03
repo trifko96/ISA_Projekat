@@ -6,7 +6,6 @@ $(document).ready(function(){
             $(this).hide();
         });
 		
-		
 		var id = $(this).attr("id");
 		if(id === "tabIst"){
 			$("#tabIst").addClass('active');
