@@ -13,6 +13,7 @@ public class Hotel {
 	private int brojSlobodnihSoba;
 	private ArrayList<Soba> cenovnik;
 	private ArrayList<RezervacijaSmestaja> listaRezervacija;
+	private Korisnik administrator;
 
 	public Hotel(String ime, String adresa, String opis, ArrayList<Soba> sobe) {
 		super();
@@ -92,5 +93,13 @@ public class Hotel {
 
 	public void setListaRezervacija(ArrayList<RezervacijaSmestaja> listaRezervacija) {
 		this.listaRezervacija = listaRezervacija;
+	}
+
+	public Korisnik getAdministrator() {
+		return administrator;
+	}
+
+	public void setAdministrator(Korisnik administrator) {
+		this.administrator = administrator;
 	}
 }
