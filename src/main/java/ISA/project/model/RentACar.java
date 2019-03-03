@@ -15,7 +15,6 @@ public class RentACar {
 	private ArrayList<RezervacijaVozila> listaRezervacija;
 	private Korisnik administrator;
 	
-	
 	public RentACar(String naziv, String adresa, String opis, ArrayList<Vozilo> spisakVozila) {
 		super();
 		this.naziv = naziv;
