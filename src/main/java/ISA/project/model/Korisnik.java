@@ -12,6 +12,9 @@ public class Korisnik {
 	private String brTelefona;
 	private UlogaKorisnika uloga;
 	private ArrayList<Korisnik> listaPrijatelja;
+	private AvioKompanija avioKompanija = null;
+	private Hotel hotel = null;
+	private RentACar rentACar = null;
 	
 	public Korisnik(String ime, String prezime, String email, String lozinka, String grad, String brTelefona) {
 		super();
@@ -85,6 +88,30 @@ public class Korisnik {
 
 	public void setListaPrijatelja(ArrayList<Korisnik> listaPrijatelja) {
 		this.listaPrijatelja = listaPrijatelja;
+	}
+
+	public AvioKompanija getAvioKompanija() {
+		return avioKompanija;
+	}
+
+	public void setAvioKompanija(AvioKompanija avioKompanija) {
+		this.avioKompanija = avioKompanija;
+	}
+
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
+	public RentACar getRentACar() {
+		return rentACar;
+	}
+
+	public void setRentACar(RentACar rentACar) {
+		this.rentACar = rentACar;
 	}
 	
 	
