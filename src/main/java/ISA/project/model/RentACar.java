@@ -13,6 +13,8 @@ public class RentACar {
 	private ArrayList<Integer> ocene;
 	private double prihod;
 	private ArrayList<RezervacijaVozila> listaRezervacija;
+	private Korisnik administrator;
+	
 	
 	public RentACar(String naziv, String adresa, String opis, ArrayList<Vozilo> spisakVozila) {
 		super();
@@ -92,6 +94,14 @@ public class RentACar {
 
 	public void setListaRezervacija(ArrayList<RezervacijaVozila> listaRezervacija) {
 		this.listaRezervacija = listaRezervacija;
+	}
+
+	public Korisnik getAdministrator() {
+		return administrator;
+	}
+
+	public void setAdministrator(Korisnik administrator) {
+		this.administrator = administrator;
 	}
 
 	
