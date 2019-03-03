@@ -15,7 +15,6 @@ public class AvioKompanija {
 	private String infoPrtljag;
 	private Korisnik administrator;
 	
-	
 	public AvioKompanija(String naziv, String adresa, String opis, ArrayList<Aerodrom> destinacije, ArrayList<Let> letovi,
 			String infoPrtljag) {
 		super();
