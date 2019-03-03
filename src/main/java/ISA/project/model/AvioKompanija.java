@@ -13,6 +13,8 @@ public class AvioKompanija {
 	private ArrayList<Integer> ocene;
 	private double prihod;
 	private String infoPrtljag;
+	private Korisnik administrator;
+	
 	
 	public AvioKompanija(String naziv, String adresa, String opis, ArrayList<Aerodrom> destinacije, ArrayList<Let> letovi,
 			String infoPrtljag) {
@@ -95,6 +97,14 @@ public class AvioKompanija {
 
 	public void setKartePopust(ArrayList<Let> kartePopust) {
 		this.kartePopust = kartePopust;
+	}
+
+	public Korisnik getAdministrator() {
+		return administrator;
+	}
+
+	public void setAdministrator(Korisnik administrator) {
+		this.administrator = administrator;
 	}
 	
 	
