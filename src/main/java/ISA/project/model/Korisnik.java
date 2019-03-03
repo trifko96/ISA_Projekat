@@ -16,7 +16,6 @@ public class Korisnik {
 	private Hotel hotel = null;
 	private RentACar rentACar = null;
 	
-	
 	public Korisnik(String ime, String prezime, String email, String lozinka, String grad, String brTelefona) {
 		super();
 		this.ime = ime;
