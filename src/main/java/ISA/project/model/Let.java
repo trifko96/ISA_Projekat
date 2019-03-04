@@ -2,24 +2,48 @@ package ISA.project.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.*;
+
+@Entity
 public class Let {
 
+	@Id
+	@GeneratedValue
+	private long idLeta;
 	private Date vremePoletanja;
 	private Date vremeSletanja;
+	
+	@OneToOne
+	@JoinColumn(name = "polaznaDestinacijaId")
 	private Aerodrom polaznaDestinacija;
+	
+	@OneToOne
+	@JoinColumn(name = "odredisnaDestinacijaId")
 	private Aerodrom odredisnaDestinacija;
+	
 	private double vremePutovanja;
 	private ArrayList<Integer> ocene;
-	private ArrayList<Aerodrom> lokacijePresedanja;
+	
+	//private List<Aerodrom> lokacijePresedanja = new ArrayList<>();
 	private int brPresedanja;
 	private double cenaKarteBiznisKlase;
 	private double cenaKarteEkonomskeKlase;
 	private ArrayList<RezervacijaKarata> listaRezervacija;
-	private AvioKompanija avioKompanija;
+	
+	@OneToOne
+	@JoinColumn(name="idAviona")
 	private Avion avion;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="idAvioKompanije", referencedColumnName="kompanijaId")
+	private AvioKompanija avioKompanija;
+	
 	private int brProdatihKarata;
 	
+	@OneToMany(targetEntity=AvionskaKarta.class,mappedBy="let", cascade = CascadeType.ALL)
+	private List<AvionskaKarta> karte = new ArrayList<>();
 	
 	
 	public Let(Date vremePoletanja, Date vremeSletanja, double vremePutovanja,
@@ -28,7 +52,15 @@ public class Let {
 		this.vremePoletanja = vremePoletanja;
 		this.vremeSletanja = vremeSletanja;
 		this.vremePutovanja = vremePutovanja;
-		this.lokacijePresedanja = lokacijePresedanja;
+		//this.lokacijePresedanja = lokacijePresedanja;
+	}
+
+	public long getIdLeta() {
+		return idLeta;
+	}
+
+	public void setIdLeta(long idLeta) {
+		this.idLeta = idLeta;
 	}
 
 	public Date getVremePoletanja() {
@@ -63,13 +95,13 @@ public class Let {
 		this.ocene = ocene;
 	}
 
-	public ArrayList<Aerodrom> getLokacijePresedanja() {
+	/*public List<Aerodrom> getLokacijePresedanja() {
 		return lokacijePresedanja;
 	}
 
-	public void setLokacijePresedanja(ArrayList<Aerodrom> lokacijePresedanja) {
+	public void setLokacijePresedanja(List<Aerodrom> lokacijePresedanja) {
 		this.lokacijePresedanja = lokacijePresedanja;
-	}
+	}*/
 	
 	public double getCenaKarteBiznisKlase() {
 		return cenaKarteBiznisKlase;
@@ -115,14 +147,6 @@ public class Let {
 		return (this.vremeSletanja.getTime() - this.vremePoletanja.getTime());
 	}
 
-	public AvioKompanija getAvioKompanija() {
-		return avioKompanija;
-	}
-
-	public void setAvioKompanija(AvioKompanija avioKompanija) {
-		this.avioKompanija = avioKompanija;
-	}
-
 	public double getCenaKarteEkonomskeKlase() {
 		return cenaKarteEkonomskeKlase;
 	}
@@ -145,5 +169,21 @@ public class Let {
 
 	public void setBrProdatihKarata(int brProdatihKarata) {
 		this.brProdatihKarata = brProdatihKarata;
+	}
+
+	public List<AvionskaKarta> getKarte() {
+		return karte;
+	}
+
+	public void setKarte(List<AvionskaKarta> karte) {
+		this.karte = karte;
+	}
+
+	public AvioKompanija getAvioKompanija() {
+		return avioKompanija;
+	}
+
+	public void setAvioKompanija(AvioKompanija avioKompanija) {
+		this.avioKompanija = avioKompanija;
 	}
 }

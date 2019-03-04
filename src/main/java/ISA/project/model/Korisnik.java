@@ -2,8 +2,14 @@ package ISA.project.model;
 
 import java.util.ArrayList;
 
+import javax.persistence.*;
+
+@Entity
 public class Korisnik {
 
+	@Id
+	@GeneratedValue
+	private long id;
 	private String ime;
 	private String prezime;
 	private String email;
@@ -11,10 +17,14 @@ public class Korisnik {
 	private String grad;
 	private String brTelefona;
 	private UlogaKorisnika uloga;
-	private ArrayList<Korisnik> listaPrijatelja;
+	//private ArrayList<Korisnik> listaPrijatelja;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="avioKompanijaId", referencedColumnName="kompanijaId")
 	private AvioKompanija avioKompanija = null;
-	private Hotel hotel = null;
-	private RentACar rentACar = null;
+	
+	//private Hotel hotel = null;
+	//private RentACar rentACar = null;
 	
 	public Korisnik(String ime, String prezime, String email, String lozinka, String grad, String brTelefona) {
 		super();
@@ -24,6 +34,14 @@ public class Korisnik {
 		this.lozinka = lozinka;
 		this.grad = grad;
 		this.brTelefona = brTelefona;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getIme() {
@@ -82,13 +100,13 @@ public class Korisnik {
 		this.uloga = uloga;
 	}
 
-	public ArrayList<Korisnik> getListaPrijatelja() {
+	/*public ArrayList<Korisnik> getListaPrijatelja() {
 		return listaPrijatelja;
 	}
 
 	public void setListaPrijatelja(ArrayList<Korisnik> listaPrijatelja) {
 		this.listaPrijatelja = listaPrijatelja;
-	}
+	}*/
 
 	public AvioKompanija getAvioKompanija() {
 		return avioKompanija;
@@ -98,7 +116,7 @@ public class Korisnik {
 		this.avioKompanija = avioKompanija;
 	}
 
-	public Hotel getHotel() {
+	/*public Hotel getHotel() {
 		return hotel;
 	}
 
@@ -112,7 +130,7 @@ public class Korisnik {
 
 	public void setRentACar(RentACar rentACar) {
 		this.rentACar = rentACar;
-	}
+	}*/
 	
 	
 }

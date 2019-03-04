@@ -1,30 +1,65 @@
 package ISA.project.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.*;
+
+
+
+@Entity
 public class AvioKompanija {
 
+	@Id
+	@GeneratedValue
+	private long kompanijaId;
+	
 	private String naziv;
+	
 	private String adresa;
+	
 	private String opis;
-	private ArrayList<Aerodrom> destinacije;
-	private ArrayList<Let> letovi;
-	private ArrayList<Let> kartePopust;
+	
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "AERODROMI_KOMPANIJE", 
+			joinColumns= {@JoinColumn(name="kompanijaId")},
+			inverseJoinColumns= {@JoinColumn(name="aerodromId")}
+	)
+	private List<Aerodrom> aerodromi = new ArrayList<>();
+	
+	@OneToMany(targetEntity=Let.class,mappedBy="avioKompanija", cascade = CascadeType.ALL)
+	private List<Let> letovi = new ArrayList<>();
+	
 	private ArrayList<Integer> ocene;
+	
 	private double prihod;
+	
 	private String infoPrtljag;
-	private Korisnik administrator;
+	
+	@OneToMany(targetEntity=Korisnik.class, mappedBy="avioKompanija", cascade = CascadeType.ALL)
+	private List<Korisnik> administratori = new ArrayList<>();
+	
+	@OneToMany(targetEntity=Avion.class, mappedBy="avioKompanija", cascade = CascadeType.ALL)
+	private List<Avion> avioni = new ArrayList<>();
 	
 	
-	public AvioKompanija(String naziv, String adresa, String opis, ArrayList<Aerodrom> destinacije, ArrayList<Let> letovi,
+	public AvioKompanija(String naziv, String adresa, String opis, ArrayList<Aerodrom> aerodromi, ArrayList<Let> letovi,
 			String infoPrtljag) {
 		super();
 		this.naziv = naziv;
 		this.adresa = adresa;
 		this.opis = opis;
-		this.destinacije = destinacije;
+		this.aerodromi = aerodromi;
 		this.letovi = letovi;
 		this.infoPrtljag = infoPrtljag;
+	}
+	
+	public long getId() {
+		return kompanijaId;
+	}
+
+	public void setId(long id) {
+		this.kompanijaId = id;
 	}
 
 	public String getNaziv() {
@@ -51,15 +86,15 @@ public class AvioKompanija {
 		this.opis = opis;
 	}
 
-	public ArrayList<Aerodrom> getDestinacije() {
-		return destinacije;
+	public List<Aerodrom> getDestinacije() {
+		return aerodromi;
 	}
 
-	public void setDestinacije(ArrayList<Aerodrom> destinacije) {
-		this.destinacije = destinacije;
+	public void setDestinacije(ArrayList<Aerodrom> aerodromi) {
+		this.aerodromi = aerodromi;
 	}
 
-	public ArrayList<Let> getLetovi() {
+	public List<Let> getLetovi() {
 		return letovi;
 	}
 
@@ -90,21 +125,21 @@ public class AvioKompanija {
 	public void setInfoPrtljag(String infoPrtljag) {
 		this.infoPrtljag = infoPrtljag;
 	}
-	
-	public ArrayList<Let> getKartePopust() {
-		return kartePopust;
+
+	public List<Korisnik> getAdministrator() {
+		return administratori;
 	}
 
-	public void setKartePopust(ArrayList<Let> kartePopust) {
-		this.kartePopust = kartePopust;
+	public void setAdministrator(List<Korisnik> administrator) {
+		this.administratori = administrator;
 	}
 
-	public Korisnik getAdministrator() {
-		return administrator;
+	public List<Avion> getAvioni() {
+		return avioni;
 	}
 
-	public void setAdministrator(Korisnik administrator) {
-		this.administrator = administrator;
+	public void setAvioni(ArrayList<Avion> avioni) {
+		this.avioni = avioni;
 	}
 	
 	

@@ -1,14 +1,23 @@
 package ISA.project.model;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
+import javax.persistence.*;
+
+@Entity
 public class Aerodrom {
 
-	private UUID id;
+	@Id
+	@GeneratedValue
+	private long aerodromId;
+	
 	private String ime;
+	
 	private String grad;
-	private ArrayList<AvioKompanija> avioKompanije;
+	
+	@ManyToMany(mappedBy="aerodromi", fetch=FetchType.LAZY, cascade = CascadeType.PERSIST)
+	private List<AvioKompanija> avioKompanije = new ArrayList<>();
 	
 	public Aerodrom(String ime, String grad, ArrayList<AvioKompanija> avioKompanije) {
 		super();
@@ -17,12 +26,12 @@ public class Aerodrom {
 		this.avioKompanije = avioKompanije;
 	}
 
-	public UUID getId() {
-		return id;
+	public long getId() {
+		return aerodromId;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setId(long id) {
+		this.aerodromId = id;
 	}
 
 	public String getIme() {
@@ -41,7 +50,7 @@ public class Aerodrom {
 		this.grad = grad;
 	}
 
-	public ArrayList<AvioKompanija> getAvioKompanije() {
+	public List<AvioKompanija> getAvioKompanije() {
 		return avioKompanije;
 	}
 

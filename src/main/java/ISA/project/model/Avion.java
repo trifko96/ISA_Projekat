@@ -1,19 +1,40 @@
 package ISA.project.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.*;
+
+@Entity
 public class Avion {
 
+	@Id
+	@GeneratedValue
+	private long idAviona;
+	
 	private String ime;
-	private Segment biznisKlasa;
-	private Segment ekonomskaKlasa;
+	
+	@OneToMany(targetEntity=Segment.class,mappedBy="avion", cascade = CascadeType.ALL)
+	private List<Segment> klase = new ArrayList<>();
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="idAvioKompanije", referencedColumnName="kompanijaId")
 	private AvioKompanija avioKompanija;
 	
 	
-	public Avion(String ime, Segment biznisKlasa, Segment ekonomskaKlasa, AvioKompanija avioKompanija) {
+	public Avion(String ime, List<Segment> klase, AvioKompanija avioKompanija) {
 		super();
 		this.ime = ime;
-		this.biznisKlasa = biznisKlasa;
-		this.ekonomskaKlasa = ekonomskaKlasa;
+		this.klase = klase;
 		this.avioKompanija = avioKompanija;
+	}
+
+	public long getId() {
+		return idAviona;
+	}
+
+	public void setId(long id) {
+		this.idAviona = id;
 	}
 
 	public String getIme() {
@@ -32,20 +53,12 @@ public class Avion {
 		this.avioKompanija = avioKompanija;
 	}
 
-	public Segment getBiznisKlasa() {
-		return biznisKlasa;
+	public List<Segment> getKlasa() {
+		return klase;
 	}
 
-	public void setBiznisKlasa(Segment biznisKlasa) {
-		this.biznisKlasa = biznisKlasa;
-	}
-
-	public Segment getEkonomskaKlasa() {
-		return ekonomskaKlasa;
-	}
-
-	public void setEkonomskaKlasa(Segment ekonomskaKlasa) {
-		this.ekonomskaKlasa = ekonomskaKlasa;
+	public void setKlasa(List<Segment> klase) {
+		this.klase = klase;
 	}
 	
 	

@@ -1,10 +1,23 @@
 package ISA.project.model;
 
+import javax.persistence.*;
+
+@Entity
 public class AvionskaKarta {
 	
+	@Id
+	@GeneratedValue
+	private long idKarte;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="idLeta", referencedColumnName="idLeta")
 	private Let let;
+	
 	private double cena;
 	private double popust;
+	
+	@OneToOne
+	@JoinColumn(name="idSedista")
 	private Sediste sediste;
 	
 	public AvionskaKarta(Let let, double cena, Sediste sediste) {
@@ -12,6 +25,14 @@ public class AvionskaKarta {
 		this.let = let;
 		this.cena = cena;
 		this.sediste = sediste;
+	}
+
+	public long getIdKarte() {
+		return idKarte;
+	}
+
+	public void setIdKarte(long idKarte) {
+		this.idKarte = idKarte;
 	}
 
 	public Let getLet() {

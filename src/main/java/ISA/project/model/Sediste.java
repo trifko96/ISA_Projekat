@@ -1,14 +1,24 @@
 package ISA.project.model;
 
-import java.util.UUID;
+import javax.persistence.*;
 
+@Entity
 public class Sediste {
 
+	@Id
+	@GeneratedValue
+	private long idSedista;
 	private int brReda;
 	private int brKolone;
 	private boolean zauzeto;
-	private UUID id;
+	
+	@OneToOne(mappedBy="sediste")
+	@JoinColumn(name="idKarte")
 	private AvionskaKarta karta;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="segmentId", referencedColumnName="idSegmenta")
+	private Segment segment;
 
 	
 	public Sediste(int brReda, int brKolone) {
@@ -41,12 +51,12 @@ public class Sediste {
 		this.zauzeto = zauzeto;
 	}
 	
-	public UUID getId() {
-		return id;
+	public long getId() {
+		return idSedista;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setId(long id) {
+		this.idSedista = id;
 	}
 
 	public AvionskaKarta getKarta() {
@@ -55,5 +65,13 @@ public class Sediste {
 
 	public void setKarta(AvionskaKarta karta) {
 		this.karta = karta;
+	}
+
+	public Segment getSegment() {
+		return segment;
+	}
+
+	public void setSegment(Segment segment) {
+		this.segment = segment;
 	}
 }
