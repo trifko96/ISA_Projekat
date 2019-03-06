@@ -1,6 +1,5 @@
 package ISA.project.model;
 
-import java.util.ArrayList;
 
 import javax.persistence.*;
 
@@ -24,7 +23,10 @@ public class Korisnik {
 	private AvioKompanija avioKompanija = null;
 	
 	//private Hotel hotel = null;
-	//private RentACar rentACar = null;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="IdRentACar", referencedColumnName="rentACarId")
+	private RentACar rentACar = null;
 	
 	public Korisnik(String ime, String prezime, String email, String lozinka, String grad, String brTelefona) {
 		super();
@@ -122,7 +124,7 @@ public class Korisnik {
 
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
-	}
+	}*/
 
 	public RentACar getRentACar() {
 		return rentACar;
@@ -130,7 +132,7 @@ public class Korisnik {
 
 	public void setRentACar(RentACar rentACar) {
 		this.rentACar = rentACar;
-	}*/
+	}
 	
 	
 }

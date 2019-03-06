@@ -1,12 +1,17 @@
 package ISA.project.model;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
+import javax.persistence.*;
+
+@Entity
 public class Vozilo {
 	
+	@Id
+	@GeneratedValue
+	private long voziloId;
+	
 	private double cena;
-	private UUID id;
 	private String naziv;
 	private String marka;
 	private String model;
@@ -15,6 +20,10 @@ public class Vozilo {
 	private String tip;
 	private ArrayList<Integer> ocena;
 	private boolean rezervisano;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="rentACarId", referencedColumnName="rentACarId")
+	private RentACar rentACar;
 	
 	
 	public Vozilo(double cena, String naziv, String marka, String model, String godinaProizvodnje, int brSedista,
@@ -39,17 +48,7 @@ public class Vozilo {
 		this.cena = cena;
 	}
 
-
-	public UUID getId() {
-		return id;
-	}
-
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-
+	
 	public String getNaziv() {
 		return naziv;
 	}
@@ -127,6 +126,16 @@ public class Vozilo {
 
 	public void setRezervisano(boolean rezervisano) {
 		this.rezervisano = rezervisano;
+	}
+
+
+	public RentACar getRentACar() {
+		return rentACar;
+	}
+
+
+	public void setRentACar(RentACar rentACar) {
+		this.rentACar = rentACar;
 	}
 	
 	

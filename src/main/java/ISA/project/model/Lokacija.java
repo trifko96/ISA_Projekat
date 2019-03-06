@@ -1,12 +1,19 @@
 package ISA.project.model;
 
-import java.util.UUID;
+import javax.persistence.*;
 
+@Entity
 public class Lokacija {
 	
+	@Id
+	@GeneratedValue
+	private long lokacijaId;
+	
 	private String adresa;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="IdRentACar", referencedColumnName="rentACarId")
 	private RentACar rentACar;
-	private UUID id;
 
 	
 	public Lokacija(String adresa, RentACar rentACar) {
@@ -36,14 +43,16 @@ public class Lokacija {
 	}
 
 
-	public UUID getId() {
-		return id;
+	public long getLokacijaId() {
+		return lokacijaId;
 	}
 
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setLokacijaId(long lokacijaId) {
+		this.lokacijaId = lokacijaId;
 	}
+
+
 
 	
 }

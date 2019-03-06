@@ -2,17 +2,32 @@ package ISA.project.model;
 
 import java.util.ArrayList;
 
+import javax.persistence.*;
+
+@Entity
 public class RentACar {
+	
+	@Id
+	@GeneratedValue
+	private long rentACarId;
 	
 	private String naziv;
 	private String adresa;
 	private String opis;
+	
+	@OneToMany(targetEntity=Vozilo.class, mappedBy="rentACar", cascade = CascadeType.ALL)
 	private ArrayList<Vozilo> spisakVozila;
+	
+	@OneToMany(targetEntity=Lokacija.class, mappedBy="rentACar", cascade = CascadeType.ALL)
 	private ArrayList<Lokacija> lokacije;
+	
 	private ArrayList<Vozilo> cenovnik;
+	
 	private ArrayList<Integer> ocene;
 	private double prihod;
 	private ArrayList<RezervacijaVozila> listaRezervacija;
+	
+	@OneToMany(targetEntity=Korisnik.class, mappedBy="rentACar", cascade = CascadeType.ALL)
 	private Korisnik administrator;
 	
 	public RentACar(String naziv, String adresa, String opis, ArrayList<Vozilo> spisakVozila) {
