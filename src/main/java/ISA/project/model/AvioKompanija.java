@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class AvioKompanija {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long kompanijaId;
 	
 	private String naziv;

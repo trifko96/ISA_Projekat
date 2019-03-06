@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Korisnik {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	private String ime;
