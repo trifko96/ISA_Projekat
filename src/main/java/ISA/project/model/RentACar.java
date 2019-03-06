@@ -22,14 +22,14 @@ public class RentACar {
 	@OneToMany(targetEntity=Lokacija.class, mappedBy="rentACar", cascade = CascadeType.ALL)
 	private List<Lokacija> lokacije = new ArrayList<>();
 	
-	private List<Vozilo> cenovnik = new ArrayList<>();
+	//private List<Vozilo> cenovnik = new ArrayList<>();
 	
 	private ArrayList<Integer> ocene;
 	private double prihod;
 	private ArrayList<RezervacijaVozila> listaRezervacija;
 	
 	@OneToMany(targetEntity=Korisnik.class, mappedBy="rentACar", cascade = CascadeType.ALL)
-	private Korisnik administrator;
+	private List<Korisnik> administratori = new ArrayList<>();
 	
 	public RentACar(String naziv, String adresa, String opis, ArrayList<Vozilo> spisakVozila) {
 		super();
@@ -71,13 +71,13 @@ public class RentACar {
 		this.spisakVozila = spisakVozila;
 	}
 
-	public List<Vozilo> getCenovnik() {
+	/*public List<Vozilo> getCenovnik() {
 		return cenovnik;
 	}
 
 	public void setCenovnik(ArrayList<Vozilo> cenovnik) {
 		this.cenovnik = cenovnik;
-	}
+	}*/
 
 	public List<Lokacija> getLokacije() {
 		return lokacije;
@@ -111,13 +111,23 @@ public class RentACar {
 		this.listaRezervacija = listaRezervacija;
 	}
 
-	public Korisnik getAdministrator() {
-		return administrator;
+	public long getRentACarId() {
+		return rentACarId;
 	}
 
-	public void setAdministrator(Korisnik administrator) {
-		this.administrator = administrator;
+	public void setRentACarId(long rentACarId) {
+		this.rentACarId = rentACarId;
 	}
+
+	public List<Korisnik> getAdministratori() {
+		return administratori;
+	}
+
+	public void setAdministratori(List<Korisnik> administratori) {
+		this.administratori = administratori;
+	}
+
+	
 
 	
 	
