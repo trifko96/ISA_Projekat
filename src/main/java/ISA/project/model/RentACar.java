@@ -31,6 +31,10 @@ public class RentACar {
 	@OneToMany(targetEntity=Korisnik.class, mappedBy="rentACar", cascade = CascadeType.ALL)
 	private List<Korisnik> administratori = new ArrayList<>();
 	
+	public RentACar() {
+		
+	}
+	
 	public RentACar(String naziv, String adresa, String opis, ArrayList<Vozilo> spisakVozila) {
 		super();
 		this.naziv = naziv;

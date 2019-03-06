@@ -25,6 +25,9 @@ public class Vozilo {
 	@JoinColumn(name="rentACarId", referencedColumnName="rentACarId")
 	private RentACar rentACar;
 	
+	public Vozilo() {
+		
+	}
 	
 	public Vozilo(double cena, String naziv, String marka, String model, String godinaProizvodnje, int brSedista,
 			String tip) {

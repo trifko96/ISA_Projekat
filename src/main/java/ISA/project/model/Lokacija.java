@@ -15,6 +15,9 @@ public class Lokacija {
 	@JoinColumn(name="IdRentACar", referencedColumnName="rentACarId")
 	private RentACar rentACar;
 
+	public Lokacija() {
+		
+	}
 	
 	public Lokacija(String adresa, RentACar rentACar) {
 		super();
