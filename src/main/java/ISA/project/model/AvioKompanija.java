@@ -30,11 +30,13 @@ public class AvioKompanija {
 	@OneToMany(targetEntity=Let.class,mappedBy="avioKompanija", cascade = CascadeType.ALL)
 	private List<Let> letovi = new ArrayList<>();
 	
-	private ArrayList<Integer> ocene;
-	
 	private double prihod;
 	
 	private String infoPrtljag;
+	
+	private double ocene;
+	
+	private double brojOcena;
 	
 	@OneToMany(targetEntity=Korisnik.class, mappedBy="avioKompanija", cascade = CascadeType.ALL)
 	private List<Korisnik> administratori = new ArrayList<>();
@@ -105,14 +107,6 @@ public class AvioKompanija {
 		this.letovi = letovi;
 	}
 
-	public ArrayList<Integer> getOcene() {
-		return ocene;
-	}
-
-	public void setOcene(ArrayList<Integer> ocene) {
-		this.ocene = ocene;
-	}
-
 	public double getPrihod() {
 		return prihod;
 	}
@@ -143,6 +137,22 @@ public class AvioKompanija {
 
 	public void setAvioni(ArrayList<Avion> avioni) {
 		this.avioni = avioni;
+	}
+
+	public double getOcene() {
+		return ocene;
+	}
+
+	public void setOcene(double ocene) {
+		this.ocene = ocene;
+	}
+
+	public double getBrojOcena() {
+		return brojOcena;
+	}
+
+	public void setBrojOcena(double brojOcena) {
+		this.brojOcena = brojOcena;
 	}
 	
 	

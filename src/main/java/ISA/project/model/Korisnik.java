@@ -20,7 +20,7 @@ public class Korisnik {
 	private String grad;
 	private String brTelefona;
 	private UlogaKorisnika uloga;
-	//private ArrayList<Korisnik> listaPrijatelja;
+	
 	
 	@OneToMany(targetEntity=RezervacijaKarata.class,mappedBy="korisnik", cascade = CascadeType.ALL)
 	private List<RezervacijaKarata> listaRezervacija = new ArrayList<>();
@@ -112,14 +112,6 @@ public class Korisnik {
 	public void setUloga(UlogaKorisnika uloga) {
 		this.uloga = uloga;
 	}
-
-	/*public ArrayList<Korisnik> getListaPrijatelja() {
-		return listaPrijatelja;
-	}
-
-	public void setListaPrijatelja(ArrayList<Korisnik> listaPrijatelja) {
-		this.listaPrijatelja = listaPrijatelja;
-	}*/
 
 	public AvioKompanija getAvioKompanija() {
 		return avioKompanija;

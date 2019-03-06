@@ -24,9 +24,9 @@ public class Let {
 	private Aerodrom odredisnaDestinacija;
 	
 	private double vremePutovanja;
-	private ArrayList<Integer> ocene;
+	private double ocene;
+	private double brojOcena;
 	
-	//private List<Aerodrom> lokacijePresedanja = new ArrayList<>();
 	private int brPresedanja;
 	private double cenaKarteBiznisKlase;
 	private double cenaKarteEkonomskeKlase;
@@ -47,6 +47,9 @@ public class Let {
 	@OneToMany(targetEntity=AvionskaKarta.class,mappedBy="let", cascade = CascadeType.ALL)
 	private List<AvionskaKarta> karte = new ArrayList<>();
 	
+	@OneToMany(targetEntity=LokacijePresedanja.class,mappedBy="let",cascade=CascadeType.ALL)
+	private List<LokacijePresedanja> lokacijePresedanja = new ArrayList<>();
+	
 	public Let() {
 		
 	}
@@ -57,7 +60,6 @@ public class Let {
 		this.vremePoletanja = vremePoletanja;
 		this.vremeSletanja = vremeSletanja;
 		this.vremePutovanja = vremePutovanja;
-		//this.lokacijePresedanja = lokacijePresedanja;
 	}
 
 	public long getIdLeta() {
@@ -92,21 +94,13 @@ public class Let {
 		this.vremePutovanja = vremePutovanja;
 	}
 
-	public ArrayList<Integer> getOcene() {
+	public double getOcene() {
 		return ocene;
 	}
 
-	public void setOcene(ArrayList<Integer> ocene) {
+	public void setOcene(double ocene) {
 		this.ocene = ocene;
 	}
-
-	/*public List<Aerodrom> getLokacijePresedanja() {
-		return lokacijePresedanja;
-	}
-
-	public void setLokacijePresedanja(List<Aerodrom> lokacijePresedanja) {
-		this.lokacijePresedanja = lokacijePresedanja;
-	}*/
 	
 	public double getCenaKarteBiznisKlase() {
 		return cenaKarteBiznisKlase;
@@ -190,5 +184,13 @@ public class Let {
 
 	public void setAvioKompanija(AvioKompanija avioKompanija) {
 		this.avioKompanija = avioKompanija;
+	}
+
+	public double getBrojOcena() {
+		return brojOcena;
+	}
+
+	public void setBrojOcena(double brojOcena) {
+		this.brojOcena = brojOcena;
 	}
 }
