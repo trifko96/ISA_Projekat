@@ -19,6 +19,10 @@ public class Aerodrom {
 	@ManyToMany(mappedBy="aerodromi", fetch=FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<AvioKompanija> avioKompanije = new ArrayList<>();
 	
+	public Aerodrom() {
+	
+	}
+	
 	public Aerodrom(String ime, String grad, ArrayList<AvioKompanija> avioKompanije) {
 		super();
 		this.ime = ime;

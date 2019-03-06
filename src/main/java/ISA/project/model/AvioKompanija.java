@@ -42,6 +42,9 @@ public class AvioKompanija {
 	@OneToMany(targetEntity=Avion.class, mappedBy="avioKompanija", cascade = CascadeType.ALL)
 	private List<Avion> avioni = new ArrayList<>();
 	
+	public AvioKompanija() {
+		
+	}
 	
 	public AvioKompanija(String naziv, String adresa, String opis, ArrayList<Aerodrom> aerodromi, ArrayList<Let> letovi,
 			String infoPrtljag) {

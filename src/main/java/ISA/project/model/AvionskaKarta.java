@@ -20,6 +20,10 @@ public class AvionskaKarta {
 	@JoinColumn(name="idSedista")
 	private Sediste sediste;
 	
+	public AvionskaKarta() {
+		
+	}
+	
 	public AvionskaKarta(Let let, double cena, Sediste sediste) {
 		super();
 		this.let = let;

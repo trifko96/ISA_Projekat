@@ -21,6 +21,9 @@ public class Avion {
 	@JoinColumn(name="idAvioKompanije", referencedColumnName="kompanijaId")
 	private AvioKompanija avioKompanija;
 	
+	public Avion() {
+		
+	}
 	
 	public Avion(String ime, List<Segment> klase, AvioKompanija avioKompanija) {
 		super();

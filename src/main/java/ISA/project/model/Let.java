@@ -47,6 +47,9 @@ public class Let {
 	@OneToMany(targetEntity=AvionskaKarta.class,mappedBy="let", cascade = CascadeType.ALL)
 	private List<AvionskaKarta> karte = new ArrayList<>();
 	
+	public Let() {
+		
+	}
 	
 	public Let(Date vremePoletanja, Date vremeSletanja, double vremePutovanja,
 			ArrayList<Aerodrom> lokacijePresedanja) {

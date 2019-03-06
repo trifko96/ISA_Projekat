@@ -19,7 +19,14 @@ public class Sediste {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="segmentId", referencedColumnName="idSegmenta")
 	private Segment segment;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="rezervacijaId", referencedColumnName="id")
+	private RezervacijaKarata rezervisanOd;
 
+	public Sediste() {
+		
+	}
 	
 	public Sediste(int brReda, int brKolone) {
 		super();
@@ -74,4 +81,12 @@ public class Sediste {
 	public void setSegment(Segment segment) {
 		this.segment = segment;
 	}
+
+	/*public RezervacijaKarata getRezervisanOd() {
+		return rezervisanOd;
+	}
+
+	public void setRezervisanOd(RezervacijaKarata rezervisanOd) {
+		this.rezervisanOd = rezervisanOd;
+	}*/
 }

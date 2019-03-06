@@ -1,11 +1,9 @@
 package ISA.project.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class RezervacijaKarata {
@@ -14,17 +12,27 @@ public class RezervacijaKarata {
 	@GeneratedValue
 	private long id;
 	
-	private ArrayList<Korisnik> listaKorisnika;
-	private ArrayList<Sediste> listaSedista;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="korisnikId", referencedColumnName="id")
+	private Korisnik korisnik;
+	
+	private ArrayList<Long> listaKorisnika;
+	
+	@OneToMany(targetEntity=Sediste.class,mappedBy="rezervisanOd", cascade = CascadeType.ALL)
+	private List<Sediste> listaSedista = new ArrayList<>();
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="idLeta", referencedColumnName="idLeta")
 	private Let let;
 	
-	public RezervacijaKarata(ArrayList<Korisnik> listaKorisnika, ArrayList<Sediste> listaSedista, Let let) {
+	public RezervacijaKarata() {
+		
+	}
+	
+	public RezervacijaKarata(ArrayList<Long> listaKorisnika, ArrayList<Sediste> listaSedista, Let let) {
 		super();
 		this.listaKorisnika = listaKorisnika;
-		this.listaSedista = listaSedista;
+		//this.listaSedista = listaSedista;
 		this.let = let;
 	}
 
@@ -36,15 +44,15 @@ public class RezervacijaKarata {
 		this.id = id;
 	}
 
-	public ArrayList<Korisnik> getListaKorisnika() {
+	public ArrayList<Long> getListaKorisnika() {
 		return listaKorisnika;
 	}
 
-	public void setListaKorisnika(ArrayList<Korisnik> listaKorisnika) {
+	public void setListaKorisnika(ArrayList<Long> listaKorisnika) {
 		this.listaKorisnika = listaKorisnika;
 	}
 
-	public ArrayList<Sediste> getListaSedista() {
+	public List<Sediste> getListaSedista() {
 		return listaSedista;
 	}
 
@@ -58,6 +66,14 @@ public class RezervacijaKarata {
 
 	public void setLet(Let let) {
 		this.let = let;
+	}
+
+	public Korisnik getKorisnik() {
+		return korisnik;
+	}
+
+	public void setKorisnik(Korisnik korisnik) {
+		this.korisnik = korisnik;
 	}
 	
 	

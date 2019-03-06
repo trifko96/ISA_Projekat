@@ -22,6 +22,9 @@ public class Segment {
 	@JoinColumn(name="avionId", referencedColumnName="idAviona")
 	private Avion avion;
 	
+	public Segment() {
+		
+	}
 	
 	public Segment(TipKlase tip, int brojRedova, int brojKolona) {
 		super();
