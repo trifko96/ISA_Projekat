@@ -1,6 +1,7 @@
 package ISA.project.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -16,12 +17,12 @@ public class RentACar {
 	private String opis;
 	
 	@OneToMany(targetEntity=Vozilo.class, mappedBy="rentACar", cascade = CascadeType.ALL)
-	private ArrayList<Vozilo> spisakVozila;
+	private List<Vozilo> spisakVozila = new ArrayList<>();
 	
 	@OneToMany(targetEntity=Lokacija.class, mappedBy="rentACar", cascade = CascadeType.ALL)
-	private ArrayList<Lokacija> lokacije;
+	private List<Lokacija> lokacije = new ArrayList<>();
 	
-	private ArrayList<Vozilo> cenovnik;
+	private List<Vozilo> cenovnik = new ArrayList<>();
 	
 	private ArrayList<Integer> ocene;
 	private double prihod;
@@ -62,15 +63,15 @@ public class RentACar {
 		this.opis = opis;
 	}
 
-	public ArrayList<Vozilo> getSpisakVozila() {
+	public List<Vozilo> getSpisakVozila() {
 		return spisakVozila;
 	}
 
-	public void setSpisakVozila(ArrayList<Vozilo> spisakVozila) {
+	public void setSpisakVozila(List<Vozilo> spisakVozila) {
 		this.spisakVozila = spisakVozila;
 	}
 
-	public ArrayList<Vozilo> getCenovnik() {
+	public List<Vozilo> getCenovnik() {
 		return cenovnik;
 	}
 
@@ -78,11 +79,11 @@ public class RentACar {
 		this.cenovnik = cenovnik;
 	}
 
-	public ArrayList<Lokacija> getLokacije() {
+	public List<Lokacija> getLokacije() {
 		return lokacije;
 	}
 
-	public void setLokacije(ArrayList<Lokacija> lokacije) {
+	public void setLokacije(List<Lokacija> lokacije) {
 		this.lokacije = lokacije;
 	}
 
