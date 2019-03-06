@@ -30,7 +30,9 @@ public class Let {
 	private int brPresedanja;
 	private double cenaKarteBiznisKlase;
 	private double cenaKarteEkonomskeKlase;
-	private ArrayList<RezervacijaKarata> listaRezervacija;
+	
+	@OneToMany(targetEntity=RezervacijaKarata.class,mappedBy="let", cascade = CascadeType.ALL)
+	private List<RezervacijaKarata> listaRezervacija = new ArrayList<>();
 	
 	@OneToOne
 	@JoinColumn(name="idAviona")
@@ -135,7 +137,7 @@ public class Let {
 		this.odredisnaDestinacija = odredisnaDestinacija;
 	}
 
-	public ArrayList<RezervacijaKarata> getListaRezervacija() {
+	public List<RezervacijaKarata> getListaRezervacija() {
 		return listaRezervacija;
 	}
 

@@ -1,13 +1,24 @@
 package ISA.project.model;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
+import javax.persistence.*;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class RezervacijaKarata {
 
-	private UUID id;
+	@Id
+	@GeneratedValue
+	private long id;
+	
 	private ArrayList<Korisnik> listaKorisnika;
 	private ArrayList<Sediste> listaSedista;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="idLeta", referencedColumnName="idLeta")
 	private Let let;
 	
 	public RezervacijaKarata(ArrayList<Korisnik> listaKorisnika, ArrayList<Sediste> listaSedista, Let let) {
@@ -17,11 +28,11 @@ public class RezervacijaKarata {
 		this.let = let;
 	}
 
-	public UUID getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
