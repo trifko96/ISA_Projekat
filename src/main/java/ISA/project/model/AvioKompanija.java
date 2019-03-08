@@ -34,7 +34,7 @@ public class AvioKompanija {
 	
 	private String infoPrtljag;
 	
-	private double ocene;
+	private double ocena;
 	
 	private double brojOcena;
 	
@@ -140,11 +140,11 @@ public class AvioKompanija {
 	}
 
 	public double getOcene() {
-		return ocene;
+		return ocena;
 	}
 
 	public void setOcene(double ocene) {
-		this.ocene = ocene;
+		this.ocena = ocene;
 	}
 
 	public double getBrojOcena() {
