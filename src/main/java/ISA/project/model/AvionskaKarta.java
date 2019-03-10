@@ -20,6 +20,10 @@ public class AvionskaKarta {
 	@JoinColumn(name="idSedista")
 	private Sediste sediste;
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="idKorisnika", referencedColumnName="id")
+	private Korisnik korisnik;
+	
 	public AvionskaKarta() {
 		
 	}
@@ -69,6 +73,14 @@ public class AvionskaKarta {
 
 	public void setSediste(Sediste sediste) {
 		this.sediste = sediste;
+	}
+
+	public Korisnik getKorisnik() {
+		return korisnik;
+	}
+
+	public void setKorisnik(Korisnik korisnik) {
+		this.korisnik = korisnik;
 	}
 	
 	

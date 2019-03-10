@@ -16,8 +16,6 @@ public class RezervacijaKarata {
 	@JoinColumn(name="korisnikId", referencedColumnName="id")
 	private Korisnik korisnik;
 	
-	private ArrayList<Long> listaKorisnika;
-	
 	@OneToMany(targetEntity=Sediste.class,mappedBy="rezervisanOd", cascade = CascadeType.ALL)
 	private List<Sediste> listaSedista = new ArrayList<>();
 	
@@ -31,8 +29,7 @@ public class RezervacijaKarata {
 	
 	public RezervacijaKarata(ArrayList<Long> listaKorisnika, ArrayList<Sediste> listaSedista, Let let) {
 		super();
-		this.listaKorisnika = listaKorisnika;
-		//this.listaSedista = listaSedista;
+		this.listaSedista = listaSedista;
 		this.let = let;
 	}
 
@@ -42,14 +39,6 @@ public class RezervacijaKarata {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public ArrayList<Long> getListaKorisnika() {
-		return listaKorisnika;
-	}
-
-	public void setListaKorisnika(ArrayList<Long> listaKorisnika) {
-		this.listaKorisnika = listaKorisnika;
 	}
 
 	public List<Sediste> getListaSedista() {
