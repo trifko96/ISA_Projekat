@@ -51,5 +51,30 @@ $(document).ready(function(){
 	$("small").each(function(index, el){
 		$(this).hide();
 	});
+	
+	function unesiKompaniju(data){
+		var zbir = data.ocena;
+		var brojac = data.brojOcena;
+		var prosek;
+		if(brojac != 0)
+			prosek = zbir / brojac;
+		else
+			prosek = "Nema ocena!";
+		var pom = '<tr><td>'+ data.naziv +'</td>' +
+				'<td>'+ data.adresa + '</td>' + 
+				'<td>'+ data.opis + '</td>' +
+				'<td>'+ prosek + '</td>' +
+				'<td><button class="btn-link">Izmeni</button></td></tr>';
+		("#tabelaNovihKompanija").append(pom);
+	}
+	
+	$.ajax({
+		url: '/AvioKompanija/vratiKompaniju'+ idKomp,
+		type: 'GET',
+		contentType: 'application/json',
+		success: function(data){
+			unesiKompaniju(data);
+		}
+	});
 
 });
