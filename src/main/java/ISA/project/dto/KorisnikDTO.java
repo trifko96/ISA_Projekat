@@ -17,6 +17,10 @@ public class KorisnikDTO {
 	private long hotel;
 	private long rentACar;
 	
+	public KorisnikDTO() {
+		
+	}
+	
 	public KorisnikDTO(Korisnik korisnik) {
 		this.id = korisnik.getId();
 		this.ime = korisnik.getIme();
