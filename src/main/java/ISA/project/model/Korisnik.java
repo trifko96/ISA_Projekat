@@ -20,6 +20,7 @@ public class Korisnik {
 	private String grad;
 	private String brTelefona;
 	private UlogaKorisnika uloga;
+	private Boolean verifikovan;
 	
 	
 	@OneToMany(targetEntity=RezervacijaKarata.class,mappedBy="korisnik", cascade = CascadeType.ALL)
@@ -156,5 +157,12 @@ public class Korisnik {
 		this.karte = karte;
 	}
 	
-	
+	public Boolean getVerifikovan() {
+		return verifikovan;
+	}
+
+	public void setVerifikovan(Boolean verifikovan) {
+		this.verifikovan = verifikovan;
+	}
+
 }

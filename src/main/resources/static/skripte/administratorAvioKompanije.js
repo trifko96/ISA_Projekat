@@ -64,17 +64,28 @@ $(document).ready(function(){
 				'<td>'+ data.adresa + '</td>' + 
 				'<td>'+ data.opis + '</td>' +
 				'<td>'+ prosek + '</td>' +
-				'<td><button class="btn-link">Izmeni</button></td></tr>';
-		("#tabelaNovihKompanija").append(pom);
+				'<td><button class="btn btn-link">Izmeni</button></td></tr>';
+		$("#tabelaNovihKompanija").append(pom);
 	}
 	
 	$.ajax({
-		url: '/AvioKompanija/vratiKompaniju'+ idKomp,
-		type: 'GET',
+		type: "GET",
+		url: '/AvioKompanija/vratiKompaniju',
 		contentType: 'application/json',
 		success: function(data){
 			unesiKompaniju(data);
 		}
+	});
+	
+	$("#tabOdjava").click(function(event){
+		$.ajax({
+			type: "POST",
+			url: '/Korisnik/odjava',
+			contentType: 'application/json',
+			success: function(data){
+				window.location.href = "/html/neregistrovaniKorisnik.html";
+			},
+		});
 	});
 
 });

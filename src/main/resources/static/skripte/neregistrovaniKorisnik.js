@@ -57,6 +57,16 @@ $(document).ready(function(){
 		return mail.test(email);
 	}
 	
+	function ocistiFormu(){
+		$("#ime").val("");
+		$("#prezime").val("");
+		$("#telefon").val("");
+		$("#email").val("");
+		$("#pass").val("");
+		$("#passPon").val("");
+		$("#grad").val("");
+	}
+	
 	$("#butReg").click(function(event){
 		event.preventDefault();
 		var lozinka = $("#pass");
@@ -133,7 +143,18 @@ $(document).ready(function(){
 				contentType: 'application/json',
 				success: function(data) {
 					if(data == "ok"){
-						window.location.href = "html/registrovani.html";
+						//window.location.href = "/html/registrovaniKorisnik.html";
+						$("#poruka").show().delay(4000).fadeOut();
+						$.ajax({
+							type: "GET",
+							url: '/Korisnik/verifikacija/'+email.val(),
+							contentType: 'application/json',
+							success: function(data){
+								if(data == "success"){
+									ocistiFormu();
+								}
+							},
+						});
 					} else if (data == "greskaKorIme"){
 						$("#greskaKorIme").show().delay(4000).fadeOut();
 					} else if (data == "greska"){
@@ -143,6 +164,59 @@ $(document).ready(function(){
 			});
 		}
 		
+	});
+	
+	
+	$("#butLog").click(function(event){
+		event.preventDefault();
+		
+		var email = $("#emailLog");
+		var lozinka = $("#loz");
+		
+		if(!lozinka.val().trim() || !email.val().trim()){
+			
+			if(!lozinka.val().trim()) {
+				lozinka.addClass('bg-danger');
+			}
+			else {
+				lozinka.removeClass('bg-danger');
+			}
+			
+			if(!email.val().trim())
+				email.addClass('bg-danger');
+			else
+				email.removeClass('bg-danger');
+			
+		} else {
+			
+			var korisnik = new Object();
+			korisnik.email = email.val();
+			korisnik.lozinka = lozinka.val();
+			$.ajax({
+				type: "POST",
+				url: '/Korisnik/logovanje',
+				data: JSON.stringify(korisnik),
+				contentType: 'application/json',
+				success: function(data) {
+					if(data == "obican"){
+						window.location.href = "/html/registrovaniKorisnik.html";
+					} else if (data == "greska"){
+						$("#greskaLog").show().delay(4000).fadeOut();
+					} else if (data == "avio"){
+						window.location.href = "/html/administratorAvioKompanije.html";
+					} else if (data == "hotel"){
+						window.location.href = "/html/administratorHotela.html";
+					} else if (data == "rent"){
+						window.location.href = "/html/administratorRentACar.html";
+					} else if (data == "sistem"){
+						window.location.href = "/html/administratorSistema.html";
+					} else if (data == "greska1"){
+						$("#greskaVer").show().delay(4000).fadeOut();
+					}
+				},
+			});
+			
+		}
 	});
 	
 	
