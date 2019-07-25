@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Online rezervacija letova</title>
+	<script type="text/javascript" src="../skripte/jquery.min.js"></script>
+	<script type="text/javascript" src="../skripte/registrovaniKorisnik.js"></script>
+	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
+	<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+	<style>
+	
+		
+		
+		ul {
+    		list-style-type: none;
+    		margin: 0;
+    		padding: 0;
+    		overflow: hidden;
+    		
+		}
+
+		li {
+    		float: left;
+		}
+
+		li a {
+		    display: block;
+    		color: black;
+    		text-align: center;
+    		padding: 14px 16px;
+    		text-decoration: none;
+		}
+
+		li a:hover {
+    		background-color: #5bc0de;
+		}
+		
+		li a:hover:not(.active) {
+    		background-color: #5bc0de;
+		}
+		
+		.active {
+    		background-color: #ffffff;
+		}
+		
+		.scroll {
+			overflow-y: auto;
+		}
+	
+	</style>
+</head>
+<body>
+
+	<nav class="navbar bg-info">
+		  <a class="navbar-brand text-white" href="">Online rezervacija letova</a>
+		  <ul>
+  			<li><a class="active navbar-link" id="tabIst" href="#">Istorija rezervacija</a></li>
+  			<li><a class="navbar-link" id="tabRez" href="#">Obavljanje rezervacija</a></li>
+  			<li><a class="navbar-link" id="tabPro" href="#">Profil</a></li>
+  			<li><a class="navbar-link" id="tabZah" href="#">Zahtevi za prijateljstvo</a></li>
+  			<li><a class="navbar-link" id="tabOdjava" href="#">Odjavi se</a></li>
+		</ul>
+	</nav>
+	
+	<div class="container-fluid" id="divKompanija">
+	<div class="row">
+	<div class="col scroll" id="divKom">
+		<h2>Avio kompanije:</h2>
+		<table id="tabelaKompanija" class="table">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Naziv</th>
+					<th style="text-align: center;">Adresa</th>
+					<th style="text-align: center;">Promotivni opis</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihKompanija">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="w-100"></div>
+	
+	<div class="col" id="divDodKom">
+		<h3>Dodaj novu aviokompaniju:</h3>
+					<table class="table" id="dodajKompaniju">
+						<tr>
+							<td align="center">Naziv:</td>
+							<td align="center"><input type="text" id="nazivKompanije"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Adresa:</td>
+							<td align="center"><input type="text" id="adresaKompanije"/></td>
+						</tr>
+						<tr>
+							<td align="center">Opis:</td>
+							<td align="center"><input type="text" id="opisKompanije"/></td>
+						</tr>
+						<tr>
+							<td align="center">Administrator:</td>
+							<td align="center">
+							<select id="comboAdminKom">
+								
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><button id="dodajKom">Dodaj</button></td>
+						</tr>
+					</table>
+	</div>
+	</div>
+	</div>
+	
+	
+	<div class="container-fluid" id="divHotel">
+		<div class="row">
+			<div class="col scroll" id="divHoteli">
+				<h2>Hoteli:</h2>
+				<table id="tabelaHotela" class="table" >
+					<thead class="thead-light">
+						<tr>
+							<th style="text-align: center;">Naziv</th>
+							<th style="text-align: center;">Adresa</th>
+							<th style="text-align: center;">Promotivni opis</th>
+						</tr>
+					</thead>
+					<tbody id="tabelaNovihHotela">
+				
+					</tbody>
+				</table>
+			</div>
+			<div class="w-100"></div>
+	
+			<div class="col" id="divDodHot">
+				<h3>Dodaj novi hotel:</h3>
+					<table class="table" id="dodajHotel">
+						<tr>
+							<td align="center">Naziv:</td>
+							<td align="center"><input type="text" id="nazivHotela"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Adresa:</td>
+							<td align="center"><input type="text" id="adresaHotela"/></td>
+						</tr>
+						<tr>
+							<td align="center">Opis:</td>
+							<td align="center"><input type="text" id="opisHotela"/></td>
+						</tr>
+						<tr>
+							<td align="center">Administrator:</td>
+							<td align="center">
+							<select id="comboAdminHot">
+								
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><button id="dodajHot">Dodaj</button></td>
+						</tr>
+					</table>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid" id="divProfil">
+	<div class="row">
+	<div class="col-8 scroll" id="divProf">
+		<h2>Moji podaci:</h2>
+		<table id="tabelaPodataka" class="table">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Ime</th>
+					<th style="text-align: center;">Prezime</th>
+					<th style="text-align: center;">E-mail</th>
+					<th style="text-align: center;">Lozinka</th>
+					<th style="text-align: center;">Grad</th>
+					<th style="text-align: center;">Broj telefona</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihPodataka">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="col-4" id="divIzmPod">
+		<h3>Izmeni podatke:</h3>
+					<table class="table" id="izmeniPodatke">
+						<tr>
+							<td align="center">Ime:</td>
+							<td align="center"><input type="text" id="novoIme"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Prezime:</td>
+							<td align="center"><input type="text" id="novoPrezime"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">E-mail:</td>
+							<td align="center"><input type="text" id="noviMail"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Lozinka:</td>
+							<td align="center"><input type="password" id="novaLozinka"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Grad:</td>
+							<td align="center"><input type="text" id="noviGrad"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">Broj telefona:</td>
+							<td align="center"><input type="text" id="noviTel"/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><button id="izmPodatke">Izmeni</button></td>
+						</tr>
+					</table>
+	</div>
+	<div class="w-100"></div>
+	<div class="col scroll" id="divPrijat">
+		<h3>Moji prijatelji:</h3>
+		<table class="table" id="tabelaPrijatelja">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Ime</th>
+					<th style="text-align: center;">Prezime</th>
+					<th style="text-align: center;">E-mail</th>
+					<th style="text-align: center;">Grad</th>
+					<th style="text-align: center;">Broj telefona</th>
+					<th>&nbsp</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihPrijatelja">
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="w-100"></div>
+	<div class="col scroll" id="divKoris">
+		<h3>Pronadji prijatelja:</h3>
+		<table class="table" id="tabelaKorisnika">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Ime</th>
+					<th style="text-align: center;">Prezime</th>
+					<th style="text-align: center;">E-mail</th>
+					<th style="text-align: center;">Grad</th>
+					<th style="text-align: center;">Broj telefona</th>
+					<th>&nbsp</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihKorisnika">
+				
+			</tbody>
+		</table>
+	</div>
+	</div>
+	</div>
+	
+	<div class="container-fluid" id="divPozivnice">
+	<div class="row">
+	<div class="col scroll" id="divPoz">
+		<h2>Zahtevi:</h2>
+		<table id="tabelaPozivnica" class="table">
+			<thead class="thead-light">
+				<tr>
+					<th style="text-align: center;">Ime</th>
+					<th style="text-align: center;">Prezime</th>
+					<th style="text-align: center;">Broj telefona</th>
+					<th>&nbsp</th>
+					<th>&nbsp</th>
+				</tr>
+			</thead>
+			<tbody id="tabelaNovihPozivnica">
+				
+			</tbody>
+		</table>
+	</div>
+	</div>
+	</div>
+	
+</body>
+</html>
