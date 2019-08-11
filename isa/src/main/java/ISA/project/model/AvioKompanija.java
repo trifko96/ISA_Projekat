@@ -18,6 +18,10 @@ public class AvioKompanija {
 	
 	private String adresa;
 	
+	private double koordinata1;
+	
+	private double koordinata2;
+	
 	private String opis;
 	
 	@ManyToMany(cascade = CascadeType.PERSIST)
@@ -154,6 +158,32 @@ public class AvioKompanija {
 	public void setBrojOcena(double brojOcena) {
 		this.brojOcena = brojOcena;
 	}
+
+	public double getKoordinata1() {
+		return koordinata1;
+	}
+
+	public void setKoordinata1(double koordinata1) {
+		this.koordinata1 = koordinata1;
+	}
+
+	public double getKoordinata2() {
+		return koordinata2;
+	}
+
+	public void setKoordinata2(double koordinata2) {
+		this.koordinata2 = koordinata2;
+	}
 	
+	public void dodajAerodrom(Aerodrom a) {
+		aerodromi.add(a);
+	}
 	
+	public void obrisiAerodrom(Aerodrom a) {
+		aerodromi.remove(a);
+	}
+	
+	public void dodajAvion(Avion a) {
+		avioni.add(a);
+	}
 }

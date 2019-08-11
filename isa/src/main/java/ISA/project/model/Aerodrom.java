@@ -62,6 +62,12 @@ public class Aerodrom {
 		this.avioKompanije = avioKompanije;
 	}
 	
+	public void dodajKompaniju(AvioKompanija a) {
+		this.avioKompanije.add(a);
+	}
 	
+	public void obrisiKompaniju(AvioKompanija a) {
+		this.avioKompanije.remove(a);
+	}
 	
 }

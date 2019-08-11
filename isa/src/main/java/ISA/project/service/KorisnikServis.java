@@ -55,6 +55,22 @@ public class KorisnikServis {
         return povratna;
 	}
 	
+	public void sacuvaj(Korisnik k) {
+		repozitorijum.save(k);
+	}
+	
+	public String promeniLozinku(KorisnikDTO kdto){
+		String pomLozinka = "";
+		try {
+			pomLozinka = enkriptuj(kdto.getLozinka());
+			System.out.println("Lozinka je " + pomLozinka);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pomLozinka;
+	}
+	
 	public String logovanje(KorisnikDTO korisnik) {
 		Korisnik pom = repozitorijum.vratiKorisnikaPoEmailu(korisnik.getEmail());
 		if(pom != null) {
@@ -74,6 +90,8 @@ public class KorisnikServis {
 				} else {
 					if(pom.getUloga().equals(UlogaKorisnika.OBICAN_KORISNIK))
 						return "obican";
+					else if(pom.getUloga().equals(UlogaKorisnika.ADMINISTRATOR_AVIOKOMPANIJE) && !pom.getPrvoLogovanje())
+						return "prvo";
 					else if(pom.getUloga().equals(UlogaKorisnika.ADMINISTRATOR_AVIOKOMPANIJE))
 						return "avio";
 					else if(pom.getUloga().equals(UlogaKorisnika.ADMINISTRATOR_HOTELA))
@@ -98,6 +116,10 @@ public class KorisnikServis {
 	public Korisnik vratiKorisnikaMail(String m) {
 		Korisnik k1 = repozitorijum.vratiKorisnikaPoEmailu(m);
 		return k1;
+	}
+	
+	public Korisnik vratiKorisnikaId(KorisnikDTO k) {
+		return repozitorijum.vratiKorisnikaPoId(k.getId());
 	}
 	
 	public String aktivacija(String mail) {

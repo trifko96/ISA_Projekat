@@ -13,4 +13,10 @@ public interface AvioKompanijaRepozitorijum extends JpaRepository<AvioKompanija,
 	
 	@Query("select kompanija from AvioKompanija kompanija where kompanija.kompanijaId = ?1")
 	public AvioKompanija vratiAvioKompanijuPoId(long id);
+	
+	@Query("select kompanija from AvioKompanija kompanija where kompanija.kompanijaId != ?1")
+	public List<AvioKompanija> vratiAvioKompanije(long id);
+	
+	@Query("select avioKompanija from Korisnik korisnik where korisnik.id = ?1")
+	public AvioKompanija vratiKompanijuPoKorisniku(long id);
 }

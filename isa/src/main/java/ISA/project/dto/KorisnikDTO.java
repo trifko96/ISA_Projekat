@@ -12,10 +12,12 @@ public class KorisnikDTO {
 	private String lozinka;
 	private String grad;
 	private String brTelefona;
+	private String poruka;
 	private UlogaKorisnika uloga;
 	private long avioKompanija;
 	private long hotel;
 	private long rentACar;
+	
 	
 	public KorisnikDTO() {
 		
@@ -122,6 +124,14 @@ public class KorisnikDTO {
 
 	public void setRentACar(long rentACar) {
 		this.rentACar = rentACar;
+	}
+
+	public String getPoruka() {
+		return poruka;
+	}
+
+	public void setPoruka(String poruka) {
+		this.poruka = poruka;
 	}
 	
 	

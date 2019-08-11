@@ -7,11 +7,17 @@ public class AvioKompanijaDTO {
 	private long id;
 	private String naziv;
 	private String adresa;
+	private double koordinata1;
+	private double koordinata2;
 	private String opis;
 	private double prihod;
 	private String infoPrtljag;
 	private double ocena;
 	private double brojOcena;
+	
+	public AvioKompanijaDTO() {
+		
+	}
 	
 	public AvioKompanijaDTO(AvioKompanija avioKompanija) {
 		this.id = avioKompanija.getId();
@@ -22,6 +28,8 @@ public class AvioKompanijaDTO {
 		this.infoPrtljag = avioKompanija.getInfoPrtljag();
 		this.ocena = avioKompanija.getOcene();
 		this.brojOcena = avioKompanija.getBrojOcena();
+		this.koordinata1 = avioKompanija.getKoordinata1();
+		this.koordinata2 = avioKompanija.getKoordinata2();
 	}
 
 	public long getId() {
@@ -88,7 +96,21 @@ public class AvioKompanijaDTO {
 		this.brojOcena = brojOcena;
 	}
 	
-	
+	public double getKoordinata1() {
+		return koordinata1;
+	}
+
+	public void setKoordinata1(double koordinata1) {
+		this.koordinata1 = koordinata1;
+	}
+
+	public double getKoordinata2() {
+		return koordinata2;
+	}
+
+	public void setKoordinata2(double koordinata2) {
+		this.koordinata2 = koordinata2;
+	}
 	
 	
 }

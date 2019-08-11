@@ -11,4 +11,7 @@ public interface KorisnikRepozitorijum extends JpaRepository<Korisnik, Long> {
 	
 	@Query("select korisnik from Korisnik korisnik where korisnik.email = ?1")
 	public Korisnik vratiKorisnikaPoEmailu(String email);
+	
+	@Query("select korisnik from Korisnik korisnik where korisnik.id = ?1")
+	public Korisnik vratiKorisnikaPoId(long id);
 }

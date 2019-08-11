@@ -21,6 +21,8 @@ public class Avion {
 	@JoinColumn(name="idAvioKompanije", referencedColumnName="kompanijaId")
 	private AvioKompanija avioKompanija;
 	
+	private boolean slobodan;
+	
 	public Avion() {
 		
 	}
@@ -62,6 +64,14 @@ public class Avion {
 
 	public void setKlasa(List<Segment> klase) {
 		this.klase = klase;
+	}
+
+	public boolean isSlobodan() {
+		return slobodan;
+	}
+
+	public void setSlobodan(boolean slobodan) {
+		this.slobodan = slobodan;
 	}
 	
 	

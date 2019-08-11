@@ -11,6 +11,7 @@ public class Sediste {
 	private int brReda;
 	private int brKolone;
 	private boolean zauzeto;
+	private StatusSedista status;
 	
 	@OneToOne(mappedBy="sediste")
 	@JoinColumn(name="idKarte")
@@ -23,15 +24,23 @@ public class Sediste {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="rezervacijaId", referencedColumnName="id")
 	private RezervacijaKarata rezervisanOd;
+	
+	private int natpis;
+	
+	private boolean granica;
 
 	public Sediste() {
 		
 	}
 	
-	public Sediste(int brReda, int brKolone) {
+	public Sediste(int brReda, int brKolone, Segment segment, int natpis, StatusSedista status, boolean granica) {
 		super();
 		this.brReda = brReda;
 		this.brKolone = brKolone;
+		this.segment = segment;
+		this.natpis = natpis;
+		this.status = status;
+		this.granica = granica;
 	}
 
 	public int getBrReda() {
@@ -89,4 +98,28 @@ public class Sediste {
 	public void setRezervisanOd(RezervacijaKarata rezervisanOd) {
 		this.rezervisanOd = rezervisanOd;
 	}*/
+	
+	public int getNatpis() {
+		return natpis;
+	}
+
+	public void setNatpis(int natpis) {
+		this.natpis = natpis;
+	}
+
+	public StatusSedista getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusSedista status) {
+		this.status = status;
+	}
+
+	public boolean isGranica() {
+		return granica;
+	}
+
+	public void setGranica(boolean granica) {
+		this.granica = granica;
+	}
 }

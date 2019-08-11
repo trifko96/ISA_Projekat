@@ -21,7 +21,7 @@ public class Korisnik {
 	private String brTelefona;
 	private UlogaKorisnika uloga;
 	private Boolean verifikovan;
-	
+	private Boolean prvoLogovanje;
 	
 	@OneToMany(targetEntity=RezervacijaKarata.class,mappedBy="korisnik", cascade = CascadeType.ALL)
 	private List<RezervacijaKarata> listaRezervacija = new ArrayList<>();
@@ -163,6 +163,14 @@ public class Korisnik {
 
 	public void setVerifikovan(Boolean verifikovan) {
 		this.verifikovan = verifikovan;
+	}
+
+	public Boolean getPrvoLogovanje() {
+		return prvoLogovanje;
+	}
+
+	public void setPrvoLogovanje(Boolean prvoLogovanje) {
+		this.prvoLogovanje = prvoLogovanje;
 	}
 
 }

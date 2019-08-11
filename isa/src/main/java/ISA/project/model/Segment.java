@@ -82,5 +82,22 @@ public class Segment {
 		this.avion = avion;
 	}
 	
+	public void izgenerisiSedista() {
+		int brojac = 1;
+		for(int i = 1; i <= brojRedova; i++) {
+			for(int j = 1;j <= brojKolona; j++) {
+				if(j == brojKolona) {
+					listaSedista.add(new Sediste(i, j, this, brojac, StatusSedista.SLOBODNO, true));
+					brojac++;
+				} else {
+					listaSedista.add(new Sediste(i, j, this, brojac, StatusSedista.SLOBODNO, false));
+					brojac++;
+				}
+			}
+		}
+	}
 	
+	public void dodajSediste(Sediste s) {
+		listaSedista.add(s);
+	}
 }

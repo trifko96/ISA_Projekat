@@ -8,6 +8,10 @@ public class AerodromDTO {
 	private String ime;
 	private String grad;
 	
+	public AerodromDTO() {
+		
+	}
+	
 	public AerodromDTO(Aerodrom aerodrom) {
 		this.id = aerodrom.getId();
 		this.ime = aerodrom.getIme();
