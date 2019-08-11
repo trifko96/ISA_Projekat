@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-7" style="max-height: 320px; overflow-y:  scroll;">
+        <br>
+        <h4>Podaci o avio kompaniji:</h4>            
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Naziv</th>
+              <th>Adresa</th>
+              <th>Promotivni opis</th>
+              <th>Prosecna ocena</th>
+              <th>Dozvoljena tezina prtljaga (kg)</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{avioKompanija.naziv}}</td>
+              <td>{{avioKompanija.adresa}}</td>
+              <td>{{avioKompanija.opis}}</td>
+              <td>{{prosecnaOcena}}</td>
+              <td>{{avioKompanija.infoPrtljag}}</td>
+              <td><button class="btn btn-link" (click) = "onClick()">Izmeni</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-5">
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Naziv:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="nazivKom">
+              </div>
+          </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Adresa:</label>
+          <div class="col-10 form-group">
+              <div id="map" class="map"></div>
+              <input type="text" class="form-control my-input mt-3" id="adresaKom" [value]="pomAdresa" disabled>
+          </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Opis:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="opisKom">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Dozvoljena tezina prtljaga (kg):</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="prtljagKom">
+              </div>
+          </div>
+          <div class="form-group row">
+              <div class="col-sm-10 text-center">
+                <p class="text-danger">{{poruka}}</p>
+                <button class="btn btn-dark" (click)="Izmena()">Sacuvaj</button>
+              </div>
+            </div>
+      </div>
+    </div>
+</div>

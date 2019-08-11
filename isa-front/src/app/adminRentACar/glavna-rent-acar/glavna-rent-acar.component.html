@@ -1,0 +1,10 @@
+<ul class="nav nav-tabs bg-dark navbar-right">
+    <li class="nav-item" *ngFor="let link of navLinks">
+      <a class="nav-link" [routerLink]="link.path" >{{link.label}}</a>
+    </li>
+    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
+      <button class="btn btn-outline-light" (click)="logout()">Odjava</button></li>
+ </ul>
+   
+<router-outlet></router-outlet>

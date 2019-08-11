@@ -1,0 +1,162 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 scroll">
+            <h2>Avioni:</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">Naziv</th>
+                        <th style="text-align: center;">Prva klasa</th>
+                        <th style="text-align: center;">Biznis klasa</th>
+                        <th style="text-align: center;">Ekonomska klasa</th>
+                        <th style="text-align: center;"><button class="btn btn-link" (click) = "dodajAvion()">Dodaj avion</button></th>
+                    </tr>
+                </thead>
+                <tbody *ngFor = "let a of avioni">
+                    <tr>
+                        <td>{{a.ime}}</td>
+                        <td><button class="btn btn-link" (click) = izmeniPrvuKlasu(a)>Izmeni</button></td>
+                        <td><button class="btn btn-link" (click) = izmeniBiznisKlasu(a)>Izmeni</button></td>
+                        <td><button class="btn btn-link" (click) = izmeniEkonomskuKlasu(a)>Izmeni</button></td>
+                        <td><button class="btn btn-link" (click) = izmeniAvion(a)>Izmeni avion</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6" *ngIf = "prikazFormeZaDodavanjeAviona">
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Ime:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="imeAvio" [(ngModel)] = "avion.ime" [ngModelOptions] = "{standalone:true}">
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"><b>Prva klasa:</b></label>
+                        <div class="col-sm-10">
+                          &nbsp;
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Broj redova:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="brRedPrva" [(ngModel)] = "brRedPrva" [ngModelOptions] = "{standalone:true}">
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Broj kolona:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="brKolPrva" [(ngModel)] = "brKolPrva" [ngModelOptions] = "{standalone:true}">
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"><b>Biznis klasa:</b></label>
+                        <div class="col-sm-10">
+                          &nbsp;
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Broj redova:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="brRedBiznis" [(ngModel)] = "brRedBiznis" [ngModelOptions] = "{standalone:true}">
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Broj kolona:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="brKolBiznis" [(ngModel)] = "brKolBiznis" [ngModelOptions] = "{standalone:true}">
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"><b>Ekonomska klasa:</b></label>
+                        <div class="col-sm-10">
+                          &nbsp;
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Broj redova:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="brRedEkonomska" [(ngModel)] = "brRedEkonomska" [ngModelOptions] = "{standalone:true}">
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Broj kolona:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="brKolEkonomska" [(ngModel)] = "brKolEkonomska" [ngModelOptions] = "{standalone:true}">
+                        </div>
+                </div>
+                <p class="text-danger">{{poruka}}</p>
+                <div class="form-group row">
+                        <div class="col-sm-10 text-center">
+                            <button class="btn btn-dark" (click)="dodaj()">Dodaj</button>
+                        </div>
+                </div>
+        </div>
+        <div class="col-6" *ngIf = "prikazFormeZaIzmenuAviona">
+                <h4>Izmeni avion:</h4>
+                <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Ime:</label>
+                        <div class="col-sm-10">
+                                <input type="text" class="form-control" id="trenutnoIme" [(ngModel)] = "trenutnoIme" [ngModelOptions] = "{standalone:true}">
+                        </div>
+                </div>
+                <p class="text-danger">{{porukaZaIzmenu}}</p>
+                <div class="form-group row">
+                        <div class="col-sm-10 text-center">
+                                <button class="btn btn-dark" (click)="promena()">Izmeni</button>
+                        </div>
+                </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-2" *ngIf = "prikazIzmeneKlase">
+                <h4>Status sedista:</h4>
+                <button class="btn btn-secondary" ></button>&nbsp;slobodno<br><br>
+                <button class="btn btn-dark" ></button>&nbsp;obrisano<br><br>
+                <button class="btn btn-danger" ></button>&nbsp;rezervisano<br><br>
+                <button class="btn btn-primary" ></button>&nbsp;brza rezervacija
+        </div>
+        <div class="col-1" *ngIf="prikazIzmeneKlase"><br><br><br><br><br><br><br><br><br><br><br><br>
+                <button class="btn btn-dark" (click) = "zatvori()">Zatvori</button>
+        </div>
+        <div class="col-1" *ngIf="prikazIzmeneKlase"></div>
+        <div class="col-5" *ngIf="prikazIzmeneKlase" >
+                <h4>Konfiguracija sedista:</h4>
+                <br>
+                <ng-container *ngFor = "let s of sedistaZaIzmenu">
+                        <div class="btn-group">
+                                <div *ngIf="s.status == 'SLOBODNO'">
+                                        <button class="btn btn-secondary" (click)="izmeniSediste(s)"></button>&nbsp;
+                                </div>
+                                <div *ngIf="s.status == 'OBRISANO'">
+                                        <button class="btn btn-dark" (click)="izmeniSediste(s)"></button>&nbsp;
+                                </div>
+                                <div *ngIf="s.status == 'REZERVISANO'">
+                                        <button class="btn btn-danger" disabled></button>&nbsp;
+                                </div>
+                                <div *ngIf="s.status == 'BRZA_REZERVACIJA'">
+                                        <button class="btn btn-primary" (click)="izmeniSediste(s)"></button>&nbsp;
+                                </div>
+                        </div>
+                        <div *ngIf="s.granica">
+                                <br>
+                        </div>
+                </ng-container><br>
+                <button class="btn btn-link" (click) = "dodajSediste()">Dodaj sediste</button><br><br>
+                
+        </div>
+        <div class="col-3" *ngIf="prikazIzmeneSedista">
+                <h4>Izmenite status:</h4>
+                <br> 
+                <select [(ngModel)]="selektovanaOpcija">
+                        <option *ngFor="let o of opcije">
+                                {{o.name}}
+                        </option>
+                </select>
+                <br><br>
+                <div class="form-group row">
+                        <div class="col-sm-10 text-center">
+                                <button class="btn btn-dark" (click)="potvrdi()">Potvrdi</button>
+                        </div>
+                </div>
+        </div>
+    </div>
+</div>

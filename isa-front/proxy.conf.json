@@ -1,0 +1,19 @@
+{
+    "/api/*" : {
+        "target" :
+        "http://localhost:11000",
+        "secure" : false,
+        "pathRewrite" : {"^/api" : ""},
+        "changeOrigin" : true,
+        "logLevel": "debug"
+    },
+
+    "/map/*" : {
+        "target" :
+        "http://nominatim.openstreetmap.org/",
+        "secure" : false,
+        "pathRewrite" : {"^/map" : ""},
+        "changeOrigin" : true,
+        "logLevel": "debug"
+    }
+}
