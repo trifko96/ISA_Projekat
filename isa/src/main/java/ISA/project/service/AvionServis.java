@@ -46,6 +46,33 @@ public class AvionServis {
 		return avioniDTO;
 	}
 	
+	public List<AvionDTO> vratiAvioneZaLet(AvioKompanija a){
+		List<Avion> avioni = repozitorijum.vratiAvione(a.getId());
+		List<Avion> avioniPom = new ArrayList<>();
+		for(Avion avionPom : avioni) {
+			if(avionPom.isSlobodan()) {
+				avioniPom.add(avionPom);
+			}
+		}
+		List<AvionDTO> avioniDTO = new ArrayList<>();
+		for(Avion av : avioniPom) {
+			List<SegmentDTO> klase = new ArrayList<>();
+			for(Segment seg : av.getKlasa()) {
+				List<SedisteDTO> lista = new ArrayList<>();
+				for(Sediste s : seg.getListaSedista()) {
+					lista.add(new SedisteDTO(s));
+				}
+				SegmentDTO sd = new SegmentDTO(seg);
+				sd.setListaSedista(lista);
+				klase.add(sd);
+			}
+			AvionDTO ad = new AvionDTO(av);
+			ad.setKlase(klase);
+			avioniDTO.add(ad);
+		}
+		return avioniDTO;
+	}
+	
 	public AvionDTO vratiAvion(SedisteDTO s) {
 		Sediste sediste = sedisteRepo.vratiSediste(s.getId());
 		Avion a = repozitorijum.vratiAvion(sediste.getSegment().getAvion().getId());

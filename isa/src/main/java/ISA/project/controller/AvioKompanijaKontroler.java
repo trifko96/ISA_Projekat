@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ISA.project.dto.AvioKompanijaDTO;
+import ISA.project.dto.DatumskiOpsegDTO;
+import ISA.project.dto.PrihodDTO;
+import ISA.project.dto.StatistikaDTO;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
 import ISA.project.service.AvioKompanijaServis;
@@ -55,5 +58,37 @@ public class AvioKompanijaKontroler {
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@RequestMapping(value="/vratiPrihod", method = RequestMethod.POST)
+	public ResponseEntity<PrihodDTO> vratiPrihod(@RequestBody DatumskiOpsegDTO datumDTO, @Context HttpServletRequest request){
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		AvioKompanija a = k.getAvioKompanija();
+		PrihodDTO prihod = servis.vratiPrihod(datumDTO, a);
+		return new ResponseEntity<>(prihod, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/vratiStatistikuPoDanu", method = RequestMethod.GET)
+	public ResponseEntity<StatistikaDTO> vratiStatistikuPoDanu(@Context HttpServletRequest request){
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		AvioKompanija a = k.getAvioKompanija();
+		StatistikaDTO stat = servis.vratiStatistikuPoDanu(a);
+		return new ResponseEntity<>(stat, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/vratiStatistikuPoNedelji", method = RequestMethod.GET)
+	public ResponseEntity<StatistikaDTO> vratiStatistikuPoNedelji(@Context HttpServletRequest request){
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		AvioKompanija a = k.getAvioKompanija();
+		StatistikaDTO stat = servis.vratiStatistikuPoNedelji(a);
+		return new ResponseEntity<>(stat, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/vratiStatistikuPoGodini", method = RequestMethod.GET)
+	public ResponseEntity<StatistikaDTO> vratiStatistikuPoGodini(@Context HttpServletRequest request){
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		AvioKompanija a = k.getAvioKompanija();
+		StatistikaDTO stat = servis.vratiStatistikuPoGodini(a);
+		return new ResponseEntity<>(stat, HttpStatus.OK);
 	}
 }

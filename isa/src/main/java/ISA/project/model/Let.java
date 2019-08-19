@@ -14,6 +14,8 @@ public class Let {
 	private long idLeta;
 	private Date vremePoletanja;
 	private Date vremeSletanja;
+	private Date vremePolaskaNazad;
+	private Date vremeDolaskaNazad;
 	
 	@OneToOne
 	@JoinColumn(name = "polaznaDestinacijaId")
@@ -30,6 +32,9 @@ public class Let {
 	private int brPresedanja;
 	private double cenaKarteBiznisKlase;
 	private double cenaKarteEkonomskeKlase;
+	private double cenaPrveKlase;
+	private double popust;
+	private String tip;
 	
 	@OneToMany(targetEntity=RezervacijaKarata.class,mappedBy="let", cascade = CascadeType.ALL)
 	private List<RezervacijaKarata> listaRezervacija = new ArrayList<>();
@@ -51,7 +56,9 @@ public class Let {
 	private List<LokacijePresedanja> lokacijePresedanja = new ArrayList<>();
 	
 	public Let() {
-		
+		this.ocene = 0;
+		this.brojOcena = 0;
+		this.brProdatihKarata = 0;
 	}
 	
 	public Let(Date vremePoletanja, Date vremeSletanja, double vremePutovanja,
@@ -86,6 +93,22 @@ public class Let {
 		this.vremeSletanja = vremeSletanja;
 	}
 
+	public Date getVremePolaskaNazad() {
+		return vremePolaskaNazad;
+	}
+
+	public void setVremePolaskaNazad(Date vremePolaskaNazad) {
+		this.vremePolaskaNazad = vremePolaskaNazad;
+	}
+
+	public Date getVremeDolaskaNazad() {
+		return vremeDolaskaNazad;
+	}
+
+	public void setVremeDolaskaNazad(Date vremeDolaskaNazad) {
+		this.vremeDolaskaNazad = vremeDolaskaNazad;
+	}
+
 	public double getVremePutovanja() {
 		return vremePutovanja;
 	}
@@ -116,6 +139,14 @@ public class Let {
 
 	public void setCenaKarteBiznisKlase(double cenaKarte) {
 		this.cenaKarteBiznisKlase = cenaKarte;
+	}
+
+	public String getTip() {
+		return tip;
+	}
+
+	public void setTip(String tip) {
+		this.tip = tip;
 	}
 
 	public Aerodrom getPolaznaDestinacija() {
@@ -192,5 +223,57 @@ public class Let {
 
 	public void setBrojOcena(double brojOcena) {
 		this.brojOcena = brojOcena;
+	}
+
+	public double getCenaPrveKlase() {
+		return cenaPrveKlase;
+	}
+
+	public void setCenaPrveKlase(double cenaPrveKlase) {
+		this.cenaPrveKlase = cenaPrveKlase;
+	}
+
+	public double getPopust() {
+		return popust;
+	}
+
+	public void setPopust(double popust) {
+		this.popust = popust;
+	}
+	
+	public void oceni(double ocena) {
+		this.ocene += ocena;
+	}
+	
+	public void povecajBrojOcena() {
+		this.brojOcena++;
+	}
+
+	public List<LokacijePresedanja> getLokacijePresedanja() {
+		return lokacijePresedanja;
+	}
+
+	public void setLokacijePresedanja(List<LokacijePresedanja> lokacijePresedanja) {
+		this.lokacijePresedanja = lokacijePresedanja;
+	}
+	
+	public void generisiKarte() {
+		double cena;
+		for(Segment s : avion.getKlasa()) {
+			if(s.getTip().equals(TipKlase.PRVA)) {
+				cena = cenaPrveKlase;
+			} else if(s.getTip().equals(TipKlase.BIZNIS)) {
+				cena = cenaKarteBiznisKlase;
+			} else {
+				cena = cenaKarteEkonomskeKlase;
+			}
+			
+			for(Sediste sed : s.getListaSedista()) {
+				if(sed.getStatus().equals(StatusSedista.BRZA_REZERVACIJA)) {
+					cena = cena - (cena*popust / 100);
+				}
+				karte.add(new AvionskaKarta(this, cena, sed));
+			}
+		}
 	}
 }

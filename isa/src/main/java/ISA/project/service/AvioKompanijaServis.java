@@ -1,20 +1,36 @@
 package ISA.project.service;
 
+import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ISA.project.dto.AvioKompanijaDTO;
+import ISA.project.dto.DatumskiOpsegDTO;
+import ISA.project.dto.PrihodDTO;
+import ISA.project.dto.StatistikaDTO;
 import ISA.project.model.AvioKompanija;
+import ISA.project.model.AvionskaKarta;
 import ISA.project.model.Korisnik;
+import ISA.project.model.Let;
+import ISA.project.model.StatusSedista;
 import ISA.project.repository.AvioKompanijaRepozitorijum;
+import ISA.project.repository.AvionskaKartaRepozitorijum;
+import ISA.project.repository.LetRepozitorijum;
 
 @Service
 public class AvioKompanijaServis {
 
 	@Autowired
 	AvioKompanijaRepozitorijum repozitorijum;
+	
+	@Autowired
+	LetRepozitorijum letRepo;
+	
+	@Autowired
+	AvionskaKartaRepozitorijum kartaRepo;
 	
 	public AvioKompanijaDTO nadjiKompaniju(long id) {
 		
@@ -55,5 +71,60 @@ public class AvioKompanijaServis {
 	public AvioKompanija nadjiKompanijuPoKorisniku(Korisnik k) {
 		AvioKompanija a1 = repozitorijum.vratiKompanijuPoKorisniku(k.getId());
 		return a1;
+	}
+	
+	public PrihodDTO vratiPrihod(DatumskiOpsegDTO d, AvioKompanija a) {
+		List<Let> letovi = letRepo.vratiLetove(a.getId());
+		double prihod = 0;
+		for(Let l : letovi) {
+			for(AvionskaKarta av : l.getKarte()) {
+				if(av.getSediste().getStatus().equals(StatusSedista.REZERVISANO)) {
+					if(!(av.getDatum().before(d.getDatum1())) && !(av.getDatum().after(d.getDatum2()))) {
+						prihod += av.getCena();
+					}
+				}
+			}
+		}
+		PrihodDTO prihodDto = new PrihodDTO(prihod, "EUR");
+		return prihodDto;
+	}
+	
+	public StatistikaDTO vratiStatistikuPoDanu(AvioKompanija a) {
+		List<Object[]> stat = kartaRepo.vratiStatistikuPoDanu(a.getId());
+		StatistikaDTO statDTO = new StatistikaDTO();
+		
+		for(Object[] s : stat) {
+			Date dan = (Date) s[0];
+			long brojKarata = (long) s[1];
+			
+			statDTO.dodajLabelu(dan.toString());
+			statDTO.dodajVrednost(brojKarata);
+		}
+		
+		return statDTO;
+	}
+	
+	public StatistikaDTO vratiStatistikuPoNedelji(AvioKompanija a) {
+		List<Object[]> stat = kartaRepo.vratiStatistikuPoNedelji(a.getId());
+		StatistikaDTO statDTO = new StatistikaDTO();
+	
+		for(Object[] s : stat) {
+			statDTO.dodajLabelu((String)s[0]);
+			statDTO.dodajVrednost(((BigInteger)s[1]).longValue());
+		}
+		
+		return statDTO;
+	}
+	
+	public StatistikaDTO vratiStatistikuPoGodini(AvioKompanija a) {
+		List<Object[]> stat = kartaRepo.vratiStatistikuPoGodini(a.getId());
+		StatistikaDTO statDTO = new StatistikaDTO();
+	
+		for(Object[] s : stat) {
+			statDTO.dodajLabelu((String)s[0]);
+			statDTO.dodajVrednost(((BigInteger)s[1]).longValue());
+		}
+		
+		return statDTO;
 	}
 }

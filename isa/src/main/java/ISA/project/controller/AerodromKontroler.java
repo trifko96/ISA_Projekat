@@ -70,7 +70,6 @@ public class AerodromKontroler {
 		return new ResponseEntity<>(slobodni, HttpStatus.OK);
 	}
 	
-	//kada se dodaju letovi, ovde napraviti uslov za brisanje aerodroma
 	@RequestMapping(value="/obrisiAerodrom", method = RequestMethod.POST)
 	public ResponseEntity<List<AerodromDTO>> obrisiAerodrom(@RequestBody AerodromDTO adto, @Context HttpServletRequest request){
 		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");

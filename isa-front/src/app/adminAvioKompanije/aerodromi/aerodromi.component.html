@@ -1,6 +1,7 @@
 <div class="container-fluid">
         <div class="row">
-          <div class="col-6" style="max-height: 320px; overflow-y:  scroll;">
+          <div class="col-6">
+          <div style="max-height: 320px; overflow-y:  scroll;">
             <br>
             <h4>Destinacije saobracanja:</h4>            
             <table class="table">
@@ -21,8 +22,9 @@
                 </tr>
               </tbody>
             </table>
-            <p class="text-danger">{{porukaBrisanje}}</p>
           </div>
+          <p class="text-danger">{{porukaBrisanje}}</p>
+        </div>
           <div class="col-6" *ngIf = "prikazFormeZaDodavanjeNovog">
                 <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Ime:</label>

@@ -30,6 +30,7 @@ import { AvioKompanijeComponent } from './adminSistema/avio-kompanije/avio-kompa
 import { HoteliComponent } from './adminSistema/hoteli/hoteli.component';
 import { RentACarComponent } from './adminSistema/rent-acar/rent-acar.component';
 import { PromenaLozinkeComponent } from './adminAvioKompanije/promena-lozinke/promena-lozinke.component';
+import { StatistikaComponent } from './adminAvioKompanije/statistika/statistika.component';
 
 const routes: Route[] = [
   {path: '', redirectTo: '/glavnaNeregistrovani/prijava', pathMatch: 'full'},
@@ -63,6 +64,7 @@ const routes: Route[] = [
       {path: 'avioni', component: AvioniComponent},
       {path: 'letovi', component: LetoviComponent},
       {path: 'profil', component: ProfilComponent},
+      {path: 'statistika', component: StatistikaComponent},
       {path: '**', redirectTo: 'avioKompanija', pathMatch: 'full'},
     ]
   },

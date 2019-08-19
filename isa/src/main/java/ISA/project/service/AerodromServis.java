@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import ISA.project.dto.AerodromDTO;
 import ISA.project.model.Aerodrom;
 import ISA.project.model.AvioKompanija;
+import ISA.project.model.Let;
+import ISA.project.model.LokacijePresedanja;
 import ISA.project.repository.AerodromRepozitorijum;
 import ISA.project.repository.AvioKompanijaRepozitorijum;
+import ISA.project.repository.LetRepozitorijum;
 
 @Service
 public class AerodromServis {
@@ -20,6 +23,9 @@ public class AerodromServis {
 	
 	@Autowired
 	AvioKompanijaRepozitorijum avioRepozitorijum;
+	
+	@Autowired
+	LetRepozitorijum letRepo;
 	
 	public Aerodrom vratiAerodromPoImenu(AerodromDTO adto) {
 		Aerodrom a = repozitorijum.vratiAerodromPoImenu(adto.getIme());
@@ -88,7 +94,20 @@ public class AerodromServis {
 	
 	public String obrisiAerodrom(AerodromDTO a, AvioKompanija avio){
 		Aerodrom aero = repozitorijum.vratiAerodromPoImenu(a.getIme());
-		
+		List<Let> letovi = letRepo.findAll();
+		for(Let l : letovi) {
+			if(l.getPolaznaDestinacija().getIme().equals(aero.getIme())) {
+				return "greska";
+			} else if(l.getOdredisnaDestinacija().getIme().equals(aero.getIme())) {
+				return "greska";
+			}
+		}
+		List<LokacijePresedanja> lokacije = new ArrayList<>();
+		for(LokacijePresedanja l : lokacije) {
+			if(l.getAerodrom().getIme().equals(aero.getIme())) {
+				return "greska";
+			}
+		}
 		aero.obrisiKompaniju(avio);
 		avio.obrisiAerodrom(aero);
 		

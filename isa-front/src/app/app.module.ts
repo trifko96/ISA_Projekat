@@ -36,6 +36,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PromenaLozinkeComponent } from './adminAvioKompanije/promena-lozinke/promena-lozinke.component';
 import { aerodromServis } from './service/aerodromServis';
+import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { StatistikaComponent } from './adminAvioKompanije/statistika/statistika.component';
 
 @NgModule({
   declarations: [
@@ -69,13 +74,15 @@ import { aerodromServis } from './service/aerodromServis';
     RezervisanjeComponent,
     ProfilKorisnikaComponent,
     ZahteviComponent,
-    PromenaLozinkeComponent
+    PromenaLozinkeComponent,
+    StatistikaComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [
     aerodromServis,

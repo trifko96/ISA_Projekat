@@ -1,0 +1,44 @@
+<div class="container-fluid">
+	<div class="row">
+        <div class="col-5">
+            <br>
+            <h4>Odaberite datumski opseg za prikaz prihoda:</h4>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <input type="text" readonly=true class="form-control" 
+                        bsDaterangepicker [(ngModel)]="datumi" [ngModelOptions]="{standalone: true}" [bsConfig]="{ isAnimated: true, adaptivePosition: true, dateInputFormat: 'yyyy-MM-dd' }">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 text-center">
+                    <button class="btn btn-dark" (click)="posalji()">Posalji</button>
+                </div>
+            </div>
+            <div *ngIf="prikaz">
+                <div class="form-group row">
+                    <div class="col-sm-10 text-center">
+                        <p>Prihod:  {{trenutniPrihod}} {{trenutnaValuta}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10 text-center">
+                        <button class="btn btn-dark" (click)="ok()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6">
+            <h4>Statistika broja prodatih karata:</h4><br>
+            <div *ngIf="!prikazGrafika">
+                <button class="btn btn-link" (click)="prikaziDnevnu()">Dnevna</button>
+                <button class="btn btn-link" (click)="prikaziNedeljnu()">Nedeljna</button>
+                <button class="btn btn-link" (click)="prikaziGodisnju()">Godisnja</button>
+            </div>
+            <div *ngIf="prikazGrafika">
+                <canvas id="chart">{{ chart }}</canvas>
+                <button class="btn btn-dark" (click) = "zatvori()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

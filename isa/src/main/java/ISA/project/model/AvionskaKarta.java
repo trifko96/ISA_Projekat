@@ -1,5 +1,7 @@
 package ISA.project.model;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +17,7 @@ public class AvionskaKarta {
 	
 	private double cena;
 	private double popust;
+	private Date datum;
 	
 	@OneToOne
 	@JoinColumn(name="idSedista")
@@ -81,6 +84,14 @@ public class AvionskaKarta {
 
 	public void setKorisnik(Korisnik korisnik) {
 		this.korisnik = korisnik;
+	}
+
+	public Date getDatum() {
+		return datum;
+	}
+
+	public void setDatum(Date datum) {
+		this.datum = datum;
 	}
 	
 	

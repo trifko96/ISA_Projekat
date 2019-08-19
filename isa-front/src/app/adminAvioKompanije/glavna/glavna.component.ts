@@ -14,7 +14,8 @@ export class GlavnaComponent implements OnInit {
     {path: "aerodromi", label: "Aerodromi"},
     {path: "avioni", label: "Avioni"},
     {path: "letovi", label: "Letovi"},
-    {path: "profil", label: "Profil"}
+    {path: "profil", label: "Profil"},
+    {path: "statistika", label: "Statistika"}
   ]
 
   constructor(private korisnikServis : korisnikServis, private router : Router) { }

@@ -1,1 +1,201 @@
-<p>letovi works!</p>
+<div class="container-fluid">
+		<div class="row">
+			<div class="col" style="max-height: 320px; overflow-y:  scroll;">
+				<h2>Letovi:</h2>
+				<table class="table">
+					<thead>
+						<tr>
+                            <th style="text-align: center;">Tip</th>
+                            <th style="text-align: center;">Avion</th>
+							<th style="text-align: center;">Datum i vreme poletanja</th>
+                            <th style="text-align: center;">Datum i vreme sletanja</th>
+                            <th style="text-align: center;">Datum i vreme polaska nazad</th>
+							<th style="text-align: center;">Datum i vreme dolaska nazad</th>
+							<th style="text-align: center;">Mesto poletanja</th>
+							<th style="text-align: center;">Mesto sletanja</th>
+							<th style="text-align: center;">Lokacije presedanja</th>
+                            <th style="text-align: center;">Prosecna ocena</th>
+                            <th style="text-align: center;">Cena prve klase (EUR)</th>
+							<th style="text-align: center;">Cena biznis klase (EUR)</th>
+                            <th style="text-align: center;">Cena ekonomske klase (EUR)</th>
+                            <th style="text-align: center;"><button class="btn btn-link" (click) = "dodaj()">Dodaj novi</button></th>
+						</tr>
+					</thead>
+					<tbody *ngFor = "let l of letovi">
+                        <tr>
+                            <td>{{l.tip}}</td>
+                            <td>{{l.avion.ime}}</td>
+                            <td>{{l.datumPoletanja.slice(0,10)}} {{l.datumPoletanja.slice(11,19)}}</td>
+                            <td>{{l.datumSletanja.slice(0,10)}} {{l.datumSletanja.slice(11,19)}}</td>
+                            <td *ngIf="l.tip == 'ROUND_TRIP'">{{l.datumPolaskaNazad.slice(0,10)}} {{l.datumPolaskaNazad.slice(11,19)}}</td>
+                            <td *ngIf="l.tip == 'ONE_WAY'">/</td>
+                            <td *ngIf="l.tip == 'ROUND_TRIP'">{{l.datumDolaskaNazad.slice(0,10)}} {{l.datumDolaskaNazad.slice(11,19)}}</td>
+                            <td *ngIf="l.tip == 'ONE_WAY'">/</td>
+                            <td>{{l.polaznaDestinacija.ime}} {{l.polaznaDestinacija.grad}}</td>
+                            <td>{{l.odredisnaDestinacija.ime}} {{l.odredisnaDestinacija.grad}}</td>
+                            <td><button class="btn btn-link" (click)="prikaziLokacije(l)">Prikazi</button></td>
+                            <td>{{l.ocena}}</td>
+                            <td>{{l.cenaPrveKlase}}</td>
+                            <td>{{l.cenaKarteBiznisKlase}}</td>
+                            <td>{{l.cenaKarteEkonomskeKlase}}</td>
+                            <td><button class="btn btn-link" (click) = "prikazKarata(l)">Karte - brza rezervacija</button></td>
+                        </tr>
+					</tbody>
+				</table>
+			</div>
+            <div class="w-100"></div>
+            <div class="col-6" *ngIf = "prikazFormeZaDodavanje"> 
+                <br><br>
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label">Tip:</label>
+                    <div class="col-sm-7">
+                        <select [(ngModel)]="selektovanaOpcija" id="tipLeta">
+                            <option *ngFor="let o of opcije">
+                                {{o.name}}
+                            </option>
+                        </select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-dark" (click) = "dalje()">Dalje</button>
+                    </div>
+                </div>
+                <div *ngIf="prikazDalje">
+                    <div class="form-group row">
+                        <label class="col-sm-5 col-form-label">Avion:</label>
+                        <div class="col-sm-7">
+                            <select [(ngModel)]="selektovaniAvion" id="avionLet">
+                                <option *ngFor="let a of avioni" [value]="a.ime">
+                                    {{a.ime}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Vreme poletanja:</label>
+                            <div class="col-sm-7">
+                                <input type="datetime-local" class="form-control" id="vremePol" [(ngModel)]="noviLet.datumPoletanja" [ngModelOptions] = "{standalone:true}">
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Vreme sletanja:</label>
+                            <div class="col-sm-7">
+                                <input type="datetime-local" class="form-control" id="vremeSle" [(ngModel)]="noviLet.datumSletanja" [ngModelOptions] = "{standalone:true}">
+                            </div>
+                    </div>
+                    <div class="form-group row" *ngIf = "noviLet.tip == 'ROUND_TRIP'">
+                            <label class="col-sm-5 col-form-label">Vreme poletanja nazad:</label>
+                            <div class="col-sm-7">
+                                <input type="datetime-local" class="form-control" id="vremePolNaz" [(ngModel)]="noviLet.datumPolaskaNazad" [ngModelOptions] = "{standalone:true}">
+                            </div>
+                    </div>
+                    <div class="form-group row" *ngIf = "noviLet.tip == 'ROUND_TRIP'">
+                            <label class="col-sm-5 col-form-label">Vreme sletanja nazad:</label>
+                            <div class="col-sm-7">
+                                <input type="datetime-local" class="form-control" id="vremeSleNaz" [(ngModel)]="noviLet.datumDolaskaNazad" [ngModelOptions] = "{standalone:true}">
+                            </div>
+                    </div>
+                    <p class="text-danger">{{poruka}}</p>
+                    <div class="form-group row">
+                        <label class="col-sm-5 col-form-label">Mesto poletanja:</label>
+                        <div class="col-sm-7">
+                            <select [(ngModel)]="selektovanoMestoPoletanja" id="mestoPol">
+                                <option *ngFor="let a of mojiAerodromi" [value]="a.ime">
+                                    {{a.ime}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5 col-form-label">Mesto sletanja:</label>
+                        <div class="col-sm-7">
+                            <select [(ngModel)]="selektovanoMestoSletanja" id="mestoSle">
+                                <option *ngFor="let a of mojiAerodromi" [value]="a.ime">
+                                    {{a.ime}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="text-danger">{{porukaAero}}</p>
+                    <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Cena prve klase (EUR):</label>
+                            <div class="col-sm-7">
+                            <input type="number" class="form-control" id="cenaPrve" [(ngModel)]="noviLet.cenaPrveKlase" [ngModelOptions] = "{standalone:true}">
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Cena biznis klase (EUR):</label>
+                            <div class="col-sm-7">
+                            <input type="number" class="form-control" id="cenaBiznis" [(ngModel)]="noviLet.cenaKarteBiznisKlase" [ngModelOptions] = "{standalone:true}">
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Cena ekonomske klase (EUR):</label>
+                            <div class="col-sm-7">
+                            <input type="number" class="form-control" id="cenaEkonomske" [(ngModel)]="noviLet.cenaKarteEkonomskeKlase" [ngModelOptions] = "{standalone:true}">
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Popust na brzu rezervaciju (procenat):</label>
+                            <div class="col-sm-7">
+                            <input type="number" class="form-control" id="popust" [(ngModel)]="noviLet.popust" [ngModelOptions] = "{standalone:true}">
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5 col-form-label">Odaberite lokacije presedanja:</label>
+                        <div class="col-4 form-group">
+                            <div class="list-group w-100" style="max-height: 191px; overflow-y:  scroll;">
+                                <div *ngFor="let l of lokacijeAerodromi"class="list-group-item" style="display: block">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" [(ngModel)]="l.isChecked" [ngModelOptions]="{standalone: true}">
+                                        <label class="form-check-label">{{l.ime}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-danger">{{porukaLokacije}}</p>
+                    <div class="form-group row">
+                        <div class="col-sm-10 text-center">
+                            <button class="btn btn-dark" (click)="dodavanjeLeta()">Dodaj</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6" *ngIf="prikazLokacija">
+                <br><br>
+                    <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
+                        <div *ngFor="let lok of lokacijeZaPrikaz" class="list-group-item" style="display: block">
+                            <div class="row">
+                                <div class="col-6 pt-2">
+                                  <p class="font-italic">{{lok.aerodrom.ime}}  {{lok.aerodrom.grad}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-dark" (click)="zatvori()">Zatvori</button>
+                    </div>
+            </div>
+
+            <div class="col-6" *ngIf="prikazBrzihKarata">
+                <br><br>
+                <h4>Spisak karata za brzu rezervaciju:</h4>
+                <br>
+                <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
+                    <div *ngFor="let karta of avioKarte" class="list-group-item" style="display: block">
+                        <div class="row">
+                            <div class="col-6 pt-2">
+                                <p class="font-italic">{{karta.klasa}} KLASA,</p>
+                            </div>
+                            <div class="col-3">
+                                <p class="font-italic">Sediste {{karta.brSedista}},</p>
+                            </div>
+                            <div class="col-3">
+                                <p class="font-italic">{{karta.cena}} EUR</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-row-reverse">
+                    <button class="btn btn-dark mt-3" (click)="ok()">OK</button>
+                </div>
+            </div>
+            
+        </div>
+</div>

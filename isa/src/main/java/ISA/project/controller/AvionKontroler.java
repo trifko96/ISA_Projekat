@@ -37,6 +37,13 @@ public class AvionKontroler {
 		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/vratiAvioneZaLet", method = RequestMethod.GET)
+	public ResponseEntity<List<AvionDTO>> vratiAvioneZaLet(@Context HttpServletRequest request){
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		AvioKompanija avio = avioServis.nadjiKompanijuPoKorisniku(k);
+		List<AvionDTO> lista = servis.vratiAvioneZaLet(avio);
+		return new ResponseEntity<>(lista, HttpStatus.OK);
+	}
 	
 	@RequestMapping(value="/dodajAvion", method = RequestMethod.POST)
 	public ResponseEntity<List<AvionDTO>> dodajAvion(@RequestBody AvionDTO adto, @Context HttpServletRequest request){
