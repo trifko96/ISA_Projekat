@@ -4,9 +4,15 @@
             <br>
             <h4>Odaberite datumski opseg za prikaz prihoda:</h4>
             <div class="form-group row">
-                <div class="col-sm-12">
-                    <input type="text" readonly=true class="form-control" 
-                        bsDaterangepicker [(ngModel)]="datumi" [ngModelOptions]="{standalone: true}" [bsConfig]="{ isAnimated: true, adaptivePosition: true, dateInputFormat: 'yyyy-MM-dd' }">
+                <label class="col-sm-5 col-form-label">Pocetni datum:</label>
+                <div class="col-sm-7">
+                    <input type="date" class="form-control" [(ngModel)]="datum1" [ngModelOptions] = "{standalone:true}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label">Krajnji datum:</label>
+                <div class="col-sm-7">
+                    <input type="date" class="form-control" [(ngModel)]="datum2" [ngModelOptions] = "{standalone:true}">
                 </div>
             </div>
             <div class="form-group row">
@@ -30,15 +36,12 @@
         <div class="col-1"></div>
         <div class="col-6">
             <h4>Statistika broja prodatih karata:</h4><br>
-            <div *ngIf="!prikazGrafika">
+            <div>
                 <button class="btn btn-link" (click)="prikaziDnevnu()">Dnevna</button>
                 <button class="btn btn-link" (click)="prikaziNedeljnu()">Nedeljna</button>
                 <button class="btn btn-link" (click)="prikaziGodisnju()">Godisnja</button>
-            </div>
-            <div *ngIf="prikazGrafika">
-                <canvas id="chart">{{ chart }}</canvas>
-                <button class="btn btn-dark" (click) = "zatvori()">OK</button>
-            </div>
+            </div><br><br>
+            <canvas id="chart">{{ chart }}</canvas>
         </div>
     </div>
 </div>

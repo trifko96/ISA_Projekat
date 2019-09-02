@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ISA.project.dto.FilterLetDTO;
 import ISA.project.dto.LetDTO;
+import ISA.project.dto.PretragaLetDTO;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
 import ISA.project.service.AvioKompanijaServis;
@@ -46,4 +48,21 @@ public class LetKontroler {
 		return new ResponseEntity<>(letovi, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/vratiSveLetove", method = RequestMethod.GET)
+	public ResponseEntity<List<LetDTO>> vratiSveLetove(){
+		List<LetDTO> letovi = servis.vratiSveLetove();
+		return new ResponseEntity<>(letovi, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/pretraziLet", method = RequestMethod.POST)
+	public ResponseEntity<List<LetDTO>> pretraziLet(@RequestBody PretragaLetDTO let){
+		List<LetDTO> letovi = servis.pretraziLet(let);
+		return new ResponseEntity<>(letovi, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/filtrirajLet", method = RequestMethod.POST)
+	public ResponseEntity<List<LetDTO>> filtrirajLet(@RequestBody FilterLetDTO let){
+		List<LetDTO> letovi = servis.filtrirajLet(let);
+		return new ResponseEntity<>(letovi, HttpStatus.OK);
+	}
 }

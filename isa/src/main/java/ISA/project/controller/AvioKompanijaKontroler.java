@@ -1,5 +1,6 @@
 package ISA.project.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,5 +91,12 @@ public class AvioKompanijaKontroler {
 		AvioKompanija a = k.getAvioKompanija();
 		StatistikaDTO stat = servis.vratiStatistikuPoGodini(a);
 		return new ResponseEntity<>(stat, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/vratiSveKompanije", method = RequestMethod.GET)
+	public ResponseEntity<List<AvioKompanijaDTO>> vratiSveKompanije(){
+		List<AvioKompanijaDTO> listaDTO = new ArrayList<>();
+		listaDTO = servis.vratiSveKompanije();
+		return new ResponseEntity<>(listaDTO, HttpStatus.OK);
 	}
 }

@@ -39,4 +39,12 @@ export class avionServis {
     vratiKarte(l : Let){
         return this.http.post<AvionskaKarta[]>("api/Sediste/vratiBrzeKarte", l);
     }
+
+    vratiSveBrzeKarte(){
+        return this.http.get<AvionskaKarta[]>("api/Sediste/vratiSveBrzeKarte");
+    }
+
+    brzoRezervisi(k : AvionskaKarta){
+        return this.http.post<AvionskaKarta[]>("api/Sediste/brzoRezervisi",k);
+    }
 }

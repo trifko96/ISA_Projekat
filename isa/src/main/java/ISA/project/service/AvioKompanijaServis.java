@@ -1,9 +1,11 @@
 package ISA.project.service;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +81,7 @@ public class AvioKompanijaServis {
 		for(Let l : letovi) {
 			for(AvionskaKarta av : l.getKarte()) {
 				if(av.getSediste().getStatus().equals(StatusSedista.REZERVISANO)) {
-					if(!(av.getDatum().before(d.getDatum1())) && !(av.getDatum().after(d.getDatum2()))) {
+					if((!(av.getDatum().before(d.getDatum1())) && !(av.getDatum().after(d.getDatum2()))) || (DateUtils.isSameDay(av.getDatum(), d.getDatum1())) || (DateUtils.isSameDay(av.getDatum(), d.getDatum2()))) {
 						prihod += av.getCena();
 					}
 				}
@@ -126,5 +128,16 @@ public class AvioKompanijaServis {
 		}
 		
 		return statDTO;
+	}
+	
+	public List<AvioKompanijaDTO> vratiSveKompanije(){
+		List<AvioKompanija> lista = new ArrayList<>();
+		lista = repozitorijum.findAll();
+		List<AvioKompanijaDTO> listaDTO = new ArrayList<>();
+		for(AvioKompanija a : lista) {
+			listaDTO.add(new AvioKompanijaDTO(a));
+		}
+		
+		return listaDTO;
 	}
 }

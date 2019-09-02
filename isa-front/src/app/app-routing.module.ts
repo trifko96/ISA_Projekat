@@ -31,6 +31,8 @@ import { HoteliComponent } from './adminSistema/hoteli/hoteli.component';
 import { RentACarComponent } from './adminSistema/rent-acar/rent-acar.component';
 import { PromenaLozinkeComponent } from './adminAvioKompanije/promena-lozinke/promena-lozinke.component';
 import { StatistikaComponent } from './adminAvioKompanije/statistika/statistika.component';
+import { RezervisanjeHotelaComponent } from './registrovaniKorisnik/rezervisanje-hotela/rezervisanje-hotela.component';
+import { RezervisanjeVozilaComponent } from './registrovaniKorisnik/rezervisanje-vozila/rezervisanje-vozila.component';
 
 const routes: Route[] = [
   {path: '', redirectTo: '/glavnaNeregistrovani/prijava', pathMatch: 'full'},
@@ -52,6 +54,8 @@ const routes: Route[] = [
       {path: 'profil', component: ProfilKorisnikaComponent},
       {path: 'istorijaRezervacija', component: IstorijaRezervacijaComponent},
       {path: 'rezervisanje', component: RezervisanjeComponent},
+      {path: 'rezervisanjeHotela', component: RezervisanjeHotelaComponent},
+      {path: 'rezervisanjeVozila', component: RezervisanjeVozilaComponent},
       {path: 'zahtevi', component: ZahteviComponent},
       {path: '**', redirectTo: 'profil', pathMatch: 'full'},
     ]

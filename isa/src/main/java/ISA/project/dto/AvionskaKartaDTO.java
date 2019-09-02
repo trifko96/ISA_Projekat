@@ -8,6 +8,7 @@ public class AvionskaKartaDTO {
 	private double cena;
 	private int brSedista;
 	private String klasa;
+	private LetZaKarteDTO let;
 	
 	public AvionskaKartaDTO() {
 		
@@ -50,6 +51,14 @@ public class AvionskaKartaDTO {
 
 	public void setKlasa(String klasa) {
 		this.klasa = klasa;
+	}
+
+	public LetZaKarteDTO getLet() {
+		return let;
+	}
+
+	public void setLet(LetZaKarteDTO let) {
+		this.let = let;
 	}
 	
 	

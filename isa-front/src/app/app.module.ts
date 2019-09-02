@@ -41,6 +41,8 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { StatistikaComponent } from './adminAvioKompanije/statistika/statistika.component';
+import { RezervisanjeHotelaComponent } from './registrovaniKorisnik/rezervisanje-hotela/rezervisanje-hotela.component';
+import { RezervisanjeVozilaComponent } from './registrovaniKorisnik/rezervisanje-vozila/rezervisanje-vozila.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,9 @@ import { StatistikaComponent } from './adminAvioKompanije/statistika/statistika.
     ProfilKorisnikaComponent,
     ZahteviComponent,
     PromenaLozinkeComponent,
-    StatistikaComponent
+    StatistikaComponent,
+    RezervisanjeHotelaComponent,
+    RezervisanjeVozilaComponent
   ],
   imports: [
     BrowserModule,

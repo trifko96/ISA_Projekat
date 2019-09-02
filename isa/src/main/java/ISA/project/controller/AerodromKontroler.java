@@ -81,4 +81,10 @@ public class AerodromKontroler {
 		else
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	@RequestMapping(value="/vratiSveAerodrome", method = RequestMethod.GET)
+	public ResponseEntity<List<AerodromDTO>> vratiSveAerodrome(){
+		List<AerodromDTO> aerodromi = servis.vratiSveAerodrome();
+		return new ResponseEntity<>(aerodromi, HttpStatus.OK);
+	}
 }

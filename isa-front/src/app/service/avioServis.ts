@@ -35,4 +35,8 @@ export class avioServis {
     vratiStatistikuPoGodini(){
         return this.http.get<Statistika>("api/AvioKompanija/vratiStatistikuPoGodini");
     }
+
+    vratiSveKompanije(){
+        return this.http.get<AvioKompanija[]>("api/AvioKompanija/vratiSveKompanije");
+    }
 }

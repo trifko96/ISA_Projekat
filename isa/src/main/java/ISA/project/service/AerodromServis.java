@@ -119,4 +119,13 @@ public class AerodromServis {
 		return "ok";
 		
 	}
+	
+	public List<AerodromDTO> vratiSveAerodrome(){
+		List<Aerodrom> lista = repozitorijum.findAll();
+		List<AerodromDTO> listaDTO = new ArrayList<>();
+		for(Aerodrom a : lista) {
+			listaDTO.add(new AerodromDTO(a));
+		}
+		return listaDTO;
+	}
 }

@@ -11,7 +11,8 @@ import { Chart } from 'chart.js';
 })
 export class StatistikaComponent implements OnInit {
 
-  datumi : Date[] = [];
+  datum1 : Date = new Date();
+  datum2 : Date = new Date();
   prihod : Prihod = new Prihod();
   trenutniPrihod : number;
   trenutnaValuta : string = "";
@@ -26,14 +27,16 @@ export class StatistikaComponent implements OnInit {
   }
 
   posalji() {
-    this.datumskiOpseg.datum1 = this.datumi[0];
-    this.datumskiOpseg.datum2 = this.datumi[1];
+    this.datumskiOpseg.datum1 = this.datum1;
+    this.datumskiOpseg.datum2 = this.datum2;
     this.avioServis.vratiPrihod(this.datumskiOpseg).subscribe(
       data => {
         this.prihod = data;
         this.trenutniPrihod = this.prihod.iznos;
         this.trenutnaValuta = this.prihod.valuta;
         this.prikaz = true;
+        this.datum1 = new Date();
+        this.datum2 = new Date();
       }
     )
   }
@@ -42,15 +45,9 @@ export class StatistikaComponent implements OnInit {
     this.prikaz = false;
   }
 
-  zatvori() {
-    this.prikazGrafika = false;
-  }
 
   prikaziDnevnu() {
     var ctx = <HTMLCanvasElement> document.getElementById("chart");
-    if(ctx === null){
-      var ctx = <HTMLCanvasElement> document.getElementById("chart");
-    }
     var c1 = ctx.getContext('2d');
     this.avioServis.vratiStatistikuPoDanu().subscribe(
       res => {
@@ -86,9 +83,11 @@ export class StatistikaComponent implements OnInit {
   }
 
   prikaziNedeljnu() {
+    var ctx = <HTMLCanvasElement> document.getElementById("chart");
+    var c1 = ctx.getContext('2d');
     this.avioServis.vratiStatistikuPoNedelji().subscribe(
       res => {
-        this.chart = new Chart('canvas', {
+        this.chart = new Chart(c1, {
           type: 'line',
           data: {
             labels: res.labele,
@@ -120,9 +119,11 @@ export class StatistikaComponent implements OnInit {
   }
 
   prikaziGodisnju() {
+    var ctx = <HTMLCanvasElement> document.getElementById("chart");
+    var c1 = ctx.getContext('2d');
     this.avioServis.vratiStatistikuPoGodini().subscribe(
       res => {
-        this.chart = new Chart('canvas', {
+        this.chart = new Chart(c1, {
           type: 'line',
           data: {
             labels: res.labele,

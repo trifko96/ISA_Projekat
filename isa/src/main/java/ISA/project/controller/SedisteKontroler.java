@@ -2,6 +2,11 @@ package ISA.project.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +20,10 @@ import ISA.project.dto.AvionskaKartaDTO;
 import ISA.project.dto.LetDTO;
 import ISA.project.dto.SedisteDTO;
 import ISA.project.model.Avion;
+import ISA.project.model.Korisnik;
 import ISA.project.model.Segment;
 import ISA.project.service.AvionServis;
+import ISA.project.service.EmailServis;
 import ISA.project.service.SedisteServis;
 
 @RestController
@@ -28,6 +35,11 @@ public class SedisteKontroler {
 	
 	@Autowired
 	AvionServis avioServis;
+	
+	@Autowired
+	EmailServis eservis;
+	
+	private Logger logger = LoggerFactory.getLogger(SedisteKontroler.class);
 	
 	@RequestMapping(value = "/izmeniSediste", method = RequestMethod.POST)
 	public ResponseEntity<AvionDTO> izmeniSediste(@RequestBody SedisteDTO s){
@@ -47,6 +59,25 @@ public class SedisteKontroler {
 	public ResponseEntity<List<AvionskaKartaDTO>> vratiBrzeKarte(@RequestBody LetDTO l){
 		List<AvionskaKartaDTO> avioKarte = servis.vratiBrzeKarte(l);
 		return new ResponseEntity<>(avioKarte, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/vratiSveBrzeKarte", method = RequestMethod.GET)
+	public ResponseEntity<List<AvionskaKartaDTO>> vratiSveBrzeKarte(){
+		List<AvionskaKartaDTO> lista = servis.vratiSveBrzeKarte();
+		return new ResponseEntity<>(lista, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/brzoRezervisi", method = RequestMethod.POST)
+	public ResponseEntity<List<AvionskaKartaDTO>> brzoRezervisi(@Context HttpServletRequest request, @RequestBody AvionskaKartaDTO a){
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		servis.brzoRezervisi(a, k);
+		List<AvionskaKartaDTO> lista = servis.vratiSveBrzeKarte();
+		try {
+			eservis.obavestenjeORezervaciji(k, a);
+		}catch( Exception e ){
+			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+		}
+		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 	
 }

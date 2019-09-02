@@ -9,4 +9,5 @@ export class AvioKompanija{
     infoPrtljag : string = "";
     ocena : number;
     brojOcena : number = 0;
+    prosecnaOcena : number = 0;
 }
