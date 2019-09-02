@@ -28,4 +28,8 @@ export class aerodromServis {
     obrisi(a : Aerodrom){
         return this.http.post<Aerodrom[]>("api/Aerodrom/obrisiAerodrom",a);
     }
+
+    vratiSveAerodrome(){
+        return this.http.get<Aerodrom[]>("api/Aerodrom/vratiSveAerodrome");
+    }
 }
