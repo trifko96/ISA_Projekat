@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Korisnik } from 'src/app/model/Korisnik';
 import { zahteviServis } from 'src/app/service/zahteviServis';
+import { Router } from '@angular/router';
+import { korisnikServis } from 'src/app/service/korisnikServis';
 
 @Component({
   selector: 'app-zahtevi',
@@ -15,7 +17,20 @@ export class ZahteviComponent implements OnInit {
   ime : string = "";
   prikaz : boolean = false;
 
-  constructor(private zahteviServis : zahteviServis) { 
+  constructor(private zahteviServis : zahteviServis, private korisnikServis : korisnikServis, private router : Router) { 
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
+      data => {
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+          this.router.navigate(["glavnaRentACar/infoStranica"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "ADMINISTRATOR_AVIOKOMPANIJE"){
+          this.router.navigate(["glavna/avioKompanija"]);
+        }
+      }
+    )
     this.zahteviServis.vratiMojePrijatelje().subscribe(
       data => {
         this.prijatelji = data;

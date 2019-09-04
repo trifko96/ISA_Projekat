@@ -3,6 +3,8 @@ import { avioServis } from 'src/app/service/avioServis';
 import { Prihod } from 'src/app/model/Prihod';
 import { DatumskiOpseg } from 'src/app/model/DatumskiOpseg';
 import { Chart } from 'chart.js';
+import { korisnikServis } from 'src/app/service/korisnikServis';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-statistika',
@@ -21,7 +23,21 @@ export class StatistikaComponent implements OnInit {
   prikazGrafika : boolean = false;
   chart = [];
 
-  constructor(private avioServis : avioServis) { }
+  constructor(private avioServis : avioServis, private korisnikServis : korisnikServis, private router : Router) { 
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
+      data => {
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+          this.router.navigate(["glavnaRentACar/infoStranica"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "OBICAN_KORISNIK"){
+          this.router.navigate(["glavnaRegistrovani/profil"]);
+        }
+      }
+    )
+  }
 
   ngOnInit() {
   }
@@ -52,13 +68,15 @@ export class StatistikaComponent implements OnInit {
     this.avioServis.vratiStatistikuPoDanu().subscribe(
       res => {
         this.chart = new Chart(c1, {
-          type: 'line',
+          type: 'bar',
           data: {
             labels: res.labele,
             datasets: [
               {
                 data: res.vrednosti,
+                label: 'prodate karte',
                 borderColor: '#3cba9f',
+                borderWidth: 1,
                 fill : false
               }
             ]
@@ -88,13 +106,15 @@ export class StatistikaComponent implements OnInit {
     this.avioServis.vratiStatistikuPoNedelji().subscribe(
       res => {
         this.chart = new Chart(c1, {
-          type: 'line',
+          type: 'bar',
           data: {
             labels: res.labele,
             datasets: [
               {
                 data: res.vrednosti,
+                label: 'prodate karte',
                 borderColor: '#3cba9f',
+                borderWidth: 1,
                 fill : false
               }
             ]
@@ -124,13 +144,15 @@ export class StatistikaComponent implements OnInit {
     this.avioServis.vratiStatistikuPoGodini().subscribe(
       res => {
         this.chart = new Chart(c1, {
-          type: 'line',
+          type: 'bar',
           data: {
             labels: res.labele,
             datasets: [
               {
                 data: res.vrednosti,
+                label: 'prodate karte',
                 borderColor: '#3cba9f',
+                borderWidth: 1,
                 fill : false
               }
             ]

@@ -4,6 +4,8 @@ import { avionServis } from 'src/app/service/avionServis';
 import { Segment } from 'src/app/model/Segment';
 import * as $ from 'jquery';
 import { Sediste } from 'src/app/model/Sediste';
+import { korisnikServis } from 'src/app/service/korisnikServis';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-avioni',
@@ -45,8 +47,20 @@ export class AvioniComponent implements OnInit {
     {name: "BRZA_REZERVACIJA", value: "BRZA_REZERVACIJA"}
   ]
 
-  constructor(private avionServis : avionServis) {
-
+  constructor(private avionServis : avionServis, private korisnikServis : korisnikServis, private router : Router) {
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
+      data => {
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+          this.router.navigate(["glavnaRentACar/infoStranica"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "OBICAN_KORISNIK"){
+          this.router.navigate(["glavnaRegistrovani/profil"]);
+        }
+      }
+    )
       this.avionServis.vratiAvione().subscribe(
         data => {
           this.avioni = data;

@@ -4,6 +4,8 @@ import { avioServis } from 'src/app/service/avioServis';
 import { HttpClient } from '@angular/common/http';
 declare var ol: any;
 import * as $ from 'jquery';
+import { korisnikServis } from 'src/app/service/korisnikServis';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-avio-kompanija',
@@ -23,8 +25,20 @@ export class AvioKompanijaComponent implements OnInit {
   poruka : string = "";
 
 
-  constructor(private avioServis : avioServis, private http : HttpClient) { 
-
+  constructor(private avioServis : avioServis, private http : HttpClient, private korisnikServis : korisnikServis, private router : Router) { 
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
+      data => {
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+          this.router.navigate(["glavnaRentACar/infoStranica"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "OBICAN_KORISNIK"){
+          this.router.navigate(["glavnaRegistrovani/profil"]);
+        }
+      }
+    )
     this.avioServis.vratiKompaniju().subscribe(
       data => {
         this.avioKompanija = data;

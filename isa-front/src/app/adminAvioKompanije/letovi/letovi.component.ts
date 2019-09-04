@@ -8,6 +8,8 @@ import * as $ from 'jquery';
 import { LokacijePresedanja } from 'src/app/model/LokacijePresedanja';
 import { letServis } from 'src/app/service/letServis';
 import { AvionskaKarta } from 'src/app/model/AvionskaKarta';
+import { korisnikServis } from 'src/app/service/korisnikServis';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-letovi',
@@ -40,7 +42,20 @@ export class LetoviComponent implements OnInit {
   avioKarte : AvionskaKarta[] = [];
   prikazBrzihKarata : boolean = false;
 
-  constructor(private avionServis : avionServis, private aeroServis : aerodromServis, private letServis : letServis) {
+  constructor(private avionServis : avionServis, private aeroServis : aerodromServis, private letServis : letServis, private korisnikServis : korisnikServis, private router : Router) {
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
+      data => {
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+          this.router.navigate(["glavnaRentACar/infoStranica"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "OBICAN_KORISNIK"){
+          this.router.navigate(["glavnaRegistrovani/profil"]);
+        }
+      }
+    )
 
     this.avionServis.vratiAvioneZaLet().subscribe(
       data => {

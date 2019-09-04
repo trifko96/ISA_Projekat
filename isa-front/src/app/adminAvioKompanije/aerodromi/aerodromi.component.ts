@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Aerodrom } from 'src/app/model/Aerodrom';
 import { aerodromServis } from 'src/app/service/aerodromServis';
 import * as $ from 'jquery';
+import { korisnikServis } from 'src/app/service/korisnikServis';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-aerodromi',
@@ -20,8 +22,20 @@ export class AerodromiComponent implements OnInit {
   imaPostojecih : boolean = true;
   porukaBrisanje = "";
 
-  constructor(private aerodromServis : aerodromServis) {
-
+  constructor(private aerodromServis : aerodromServis, private korisnikServis : korisnikServis, private router : Router) {
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
+      data => {
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+          this.router.navigate(["glavnaRentACar/infoStranica"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "OBICAN_KORISNIK"){
+          this.router.navigate(["glavnaRegistrovani/profil"]);
+        }
+      }
+    )
     this.aerodromServis.vratiAerodrome().subscribe(
       data => {
         this.aerodromi = data;

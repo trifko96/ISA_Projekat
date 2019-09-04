@@ -1,5 +1,5 @@
 export class Sediste{
-    idSedista : number;
+    id : number;
     brReda : number;
     brKolone : number;
     zauzeto : boolean = false;
