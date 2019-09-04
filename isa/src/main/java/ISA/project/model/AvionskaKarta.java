@@ -15,6 +15,10 @@ public class AvionskaKarta {
 	@JoinColumn(name="idLeta", referencedColumnName="idLeta")
 	private Let let;
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="idRezervacije", referencedColumnName="id")
+	private Rezervacija rezervacija;
+	
 	private double cena;
 	private double popust;
 	private Date datum;
@@ -23,9 +27,14 @@ public class AvionskaKarta {
 	@JoinColumn(name="idSedista")
 	private Sediste sediste;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	/*@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="idKorisnika", referencedColumnName="id")
-	private Korisnik korisnik;
+	private Korisnik korisnik;*/
+	private String imePutnika;
+	private String prezimePutnika;
+	private String emailPutnika;
+	private String brTelefonaPutnika;
+	private String brojPasosaPutnika;
 	
 	public AvionskaKarta() {
 		
@@ -78,13 +87,13 @@ public class AvionskaKarta {
 		this.sediste = sediste;
 	}
 
-	public Korisnik getKorisnik() {
+	/*public Korisnik getKorisnik() {
 		return korisnik;
 	}
 
 	public void setKorisnik(Korisnik korisnik) {
 		this.korisnik = korisnik;
-	}
+	}*/
 
 	public Date getDatum() {
 		return datum;
@@ -92,6 +101,54 @@ public class AvionskaKarta {
 
 	public void setDatum(Date datum) {
 		this.datum = datum;
+	}
+
+	public Rezervacija getRezervacija() {
+		return rezervacija;
+	}
+
+	public void setRezervacija(Rezervacija rezervacija) {
+		this.rezervacija = rezervacija;
+	}
+
+	public String getImePutnika() {
+		return imePutnika;
+	}
+
+	public void setImePutnika(String imePutnika) {
+		this.imePutnika = imePutnika;
+	}
+
+	public String getPrezimePutnika() {
+		return prezimePutnika;
+	}
+
+	public void setPrezimePutnika(String prezimePutnika) {
+		this.prezimePutnika = prezimePutnika;
+	}
+
+	public String getEmailPutnika() {
+		return emailPutnika;
+	}
+
+	public void setEmailPutnika(String emailPutnika) {
+		this.emailPutnika = emailPutnika;
+	}
+
+	public String getBrTelefonaPutnika() {
+		return brTelefonaPutnika;
+	}
+
+	public void setBrTelefonaPutnika(String brTelefonaPutnika) {
+		this.brTelefonaPutnika = brTelefonaPutnika;
+	}
+
+	public String getBrojPasosaPutnika() {
+		return brojPasosaPutnika;
+	}
+
+	public void setBrojPasosaPutnika(String brojPasosaPutnika) {
+		this.brojPasosaPutnika = brojPasosaPutnika;
 	}
 	
 	

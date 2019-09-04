@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-      <div class="col-5" style="max-height: 420px; overflow-y:  scroll;">
+      <div class="col-6" style="max-height: 420px; overflow-y:  scroll;">
         <br>
         <h4>Avio kompanije:</h4>            
         <table class="table">
@@ -25,7 +25,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col-7" style="max-height: 420px; overflow-y:  scroll;" *ngIf="prikazBrzihKarata">
+      <div class="col-6" style="max-height: 420px; overflow-y:  scroll;" *ngIf="prikazBrzihKarata">
         <br><br>
             <h4>Spisak karata za brzu rezervaciju:</h4>
             <br>
@@ -104,15 +104,25 @@
       <div class="col-3" *ngIf="!filtriranje && !rezervisanje">
           <h3>Pretrazi letove:</h3><br>
           <div class="form-group row">
+            <label class="col-sm-5 col-form-label">Tip:</label>
+            <div class="col-sm-7">
+                <select [(ngModel)]="selektovanaOpcija" id="tipLeta">
+                    <option *ngFor="let o of opcije">
+                        {{o.name}}
+                    </option>
+                </select>
+            </div>
+          </div>
+          <div class="form-group row">
                 <label class="col-sm-5 col-form-label">Vreme poletanja:</label>
                 <div class="col-sm-7">
                     <input type="date" class="form-control" id="vremePol" [(ngModel)]="pretragaLet.vremePoletanja" [ngModelOptions] = "{standalone:true}">
                 </div>
           </div>
-          <div class="form-group row">
-                <label class="col-sm-5 col-form-label">Vreme sletanja:</label>
+          <div class="form-group row" *ngIf="selektovanaOpcija == 'ROUND_TRIP'">
+                <label class="col-sm-5 col-form-label">Vreme povratka:</label>
                 <div class="col-sm-7">
-                    <input type="date" class="form-control" id="vremeSle" [(ngModel)]="pretragaLet.vremeSletanja" [ngModelOptions] = "{standalone:true}">
+                    <input type="date" class="form-control" id="vremeSle" [(ngModel)]="pretragaLet.vremePovratka" [ngModelOptions] = "{standalone:true}">
                 </div>
           </div>
           <div class="form-group row">
@@ -131,16 +141,6 @@
                 <select [(ngModel)]="selektovanoMestoSletanja" id="mestoSle">
                     <option *ngFor="let a of mojiAerodromi" [value]="a.grad">
                         {{a.grad}}
-                    </option>
-                </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-sm-5 col-form-label">Tip:</label>
-            <div class="col-sm-7">
-                <select [(ngModel)]="selektovanaOpcija" id="tipLeta">
-                    <option *ngFor="let o of opcije">
-                        {{o.name}}
                     </option>
                 </select>
             </div>
@@ -203,6 +203,145 @@
                 </div>
                 <button class="btn btn-dark" (click)="zatvaranje()">Zatvori</button>
             </div>
+    </div>
+    <div class="col-6" *ngIf="rezervisanje && !prikazSedista && !prikazPutnika && !prikazPoruke && !prikazPoruke1">
+        <h4>Izaberite klasu:</h4><br>
+            <div>
+                <button class="btn btn-link" (click)="prikaziPrvuKlasu()">Prva</button>
+                <button class="btn btn-link" (click)="prikaziBiznisKlasu()">Biznis</button>
+                <button class="btn btn-link" (click)="prikaziEkonomskuKlasu()">Ekonomska</button>
+            </div>
+    </div>
+    <div class="col-2" *ngIf = "rezervisanje && prikazSedista">
+        <h4>Status sedista:</h4>
+        <button class="btn btn-secondary" ></button>&nbsp;slobodno<br><br>
+        <button class="btn btn-dark" ></button>&nbsp;obrisano<br><br>
+        <button class="btn btn-danger" ></button>&nbsp;rezervisano<br><br>
+        <button class="btn btn-primary" ></button>&nbsp;brza rezervacija<br><br>
+        <button class="btn btn-warning" ></button>&nbsp;selektovano
+    </div>
+    <div class="col-1" *ngIf="rezervisanje && prikazSedista"><br><br><br><br><br><br><br><br><br><br><br><br>
+        <button class="btn btn-dark" (click) = "dalje()">Dalje</button>
+    </div>
+    <div class="col-1" *ngIf="rezervisanje && prikazSedista"></div>
+    <div class="col-5" *ngIf="rezervisanje && prikazSedista">
+        <h4>Odaberite sedista:</h4>
+        <br>
+        <ng-container *ngFor = "let s of sedistaZaIzmenu">
+                <div class="btn-group">
+                        <div *ngIf="s.status == 'SLOBODNO'">
+                                <button class="btn btn-secondary" (click)="selektuj(s)"></button>&nbsp;
+                        </div>
+                        <div *ngIf="s.status == 'OBRISANO'">
+                                <button class="btn btn-dark" disabled></button>&nbsp;
+                        </div>
+                        <div *ngIf="s.status == 'REZERVISANO'">
+                                <button class="btn btn-danger" disabled></button>&nbsp;
+                        </div>
+                        <div *ngIf="s.status == 'BRZA_REZERVACIJA'">
+                                <button class="btn btn-primary" disabled></button>&nbsp;
+                        </div>
+                        <div *ngIf="s.status == 'SELEKTOVANO'">
+                            <button class="btn btn-warning" (click)="odselektuj(s)"></button>&nbsp;
+                        </div>
+                </div>
+                <div *ngIf="s.granica">
+                        <br>
+                </div>
+        </ng-container><br>
+    </div>
+    <div class="col-8" *ngIf="rezervisanje && prikazPutnika">
+        <h4>Popunite podatke za putnike:</h4>
+        <div class="row" *ngFor="let k of rezervacija.karte">
+            <div class="col-6">
+                <div class="form-group row">
+                    <h4 class="col-sm-7 col-form-label">Sediste: {{k.brSedista}}</h4>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label">Ime:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="imePutnika" [(ngModel)]="k.ime" [ngModelOptions] = "{standalone:true}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label">Prezime:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="prezimePutnika" [(ngModel)]="k.prezime" [ngModelOptions] = "{standalone:true}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label">E-mail:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="emailPutnika" [(ngModel)]="k.email" [ngModelOptions] = "{standalone:true}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label">Broj telefona:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="telPutnika" [(ngModel)]="k.brTelefona" [ngModelOptions] = "{standalone:true}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label">Broj pasosa:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="pasosPutnika" [(ngModel)]="k.brPasosa" [ngModelOptions] = "{standalone:true}">
+                    </div>
+                </div><br>
+            </div>
+            <div class="col-6">
+                <br><br>
+                <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
+                    <div *ngFor="let kor of korisnici" class="list-group-item" style="display: block">
+                        <div class="row">
+                            <div class="col-6 pt-2">
+                                <p class="font-italic">{{kor.ime}}  {{kor.prezime}}</p>
+                            </div>
+                            <div class="col-6 pt-2">
+                                <button class="btn btn-link" (click)="pozovi(kor, k)">Pozovi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="text-danger">{{poruka1}}</p>
+        <div class="form-group row">
+            <div class="col-sm-12 text-center">
+                <button class="btn btn-dark" (click)="dalje1()">Dalje</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-6" *ngIf="rezervisanje && prikazPoruke">
+        <div class="form-group row">
+            <div class="col-sm-12 text-center">
+                <h4>Da li zelite da rezervisete smestaj ili vozilo?</h4>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-6 text-center">
+                <button class="btn btn-dark" (click)="da()">Da</button>
+            </div>
+            <div class="col-sm-6 text-center">
+                <button class="btn btn-dark" (click)="ne()">Ne</button>
+            </div>
+        </div>
+        <p class="text-danger">{{poruka}}</p>
+    </div>
+    <div class="col-6" *ngIf="rezervisanje && prikazPoruke1">
+        <div class="form-group row">
+            <div class="col-sm-12 text-center">
+                <h4>Odaberite tip rezervacije:</h4>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-6 text-center">
+                <button class="btn btn-link" (click)="smestaj()">Smestaj</button>
+            </div>
+            <div class="col-sm-6 text-center">
+                <button class="btn btn-link" (click)="vozilo()">Vozilo</button>
+            </div>
+        </div>
+        <p class="text-danger">{{poruka}}</p>
     </div>
     </div>
 </div>

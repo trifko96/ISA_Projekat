@@ -156,4 +156,19 @@ public class ZahteviZaPrijateljstvoServis {
 		return korDTO;
 		
 	}
+	
+	public List<KorisnikDTO> vratiPrijateljeZaLet(Korisnik k){
+		List<ZahteviZaPrijateljstvo> lista = repozitorijum.vratiMojePrijatelje(k.getId());
+		List<KorisnikDTO> korisnici = new ArrayList<>();
+		for(ZahteviZaPrijateljstvo z : lista) {
+			if(z.getPosiljalac().getId() == k.getId()) {
+				korisnici.add(new KorisnikDTO(z.getPrimalac()));
+			} else {
+				korisnici.add(new KorisnikDTO(z.getPosiljalac()));
+			}
+		}
+		korisnici.add(new KorisnikDTO(k));
+		
+		return korisnici;
+	}
 }

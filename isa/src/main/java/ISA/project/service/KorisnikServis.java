@@ -2,6 +2,7 @@ package ISA.project.service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -131,6 +132,10 @@ public class KorisnikServis {
     	repozitorijum.save(k);
 		
 		return "Verifikovali ste mail, mozete posetiti sajt.";
+	}
+	
+	public List<Korisnik> vratiKorisnike(){
+		return repozitorijum.findAll();
 	}
 
 }

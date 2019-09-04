@@ -40,4 +40,5 @@ export class korisnikServis {
     izmenaKorisnika(k : Korisnik){
         return this.http.post<Korisnik>("api/Korisnik/izmenaKorisnika",k);
     }
+
 }

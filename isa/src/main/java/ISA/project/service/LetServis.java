@@ -251,8 +251,12 @@ public class LetServis {
 		}
 		
 		for(Let l : letovi5) {
-			if(DateUtils.isSameDay(l.getVremeSletanja(), let.getVremeSletanja())) {
-				letovi6.add(l);
+			if(let.getTip().equals("ROUND_TRIP")) {
+				if(DateUtils.isSameDay(l.getVremePolaskaNazad(), let.getVremePovratka())) {
+					letovi6.add(l);
+				}
+			} else {
+				letovi6 = letovi5;
 			}
 		}
 	

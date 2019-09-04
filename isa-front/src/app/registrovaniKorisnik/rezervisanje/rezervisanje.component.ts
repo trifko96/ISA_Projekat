@@ -11,6 +11,15 @@ import { Let } from 'src/app/model/Let';
 import * as $ from 'jquery';
 import { aerodromServis } from 'src/app/service/aerodromServis';
 import { Aerodrom } from 'src/app/model/Aerodrom';
+import { Avion } from 'src/app/model/Avion';
+import { Sediste } from 'src/app/model/Sediste';
+import { Rezervacija } from 'src/app/model/Rezervacija';
+import { RezervacijaKarataDTO } from 'src/app/model/RezervacijaKarataDTO';
+import { Korisnik } from 'src/app/model/Korisnik';
+import { korisnikServis } from 'src/app/service/korisnikServis';
+import { zahteviServis } from 'src/app/service/zahteviServis';
+import { rezervacijaServis } from 'src/app/service/rezervacijaServis';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rezervisanje',
@@ -26,17 +35,27 @@ export class RezervisanjeComponent implements OnInit {
   rezervisanje : boolean = false;
   filtriranje : boolean = false;
   prikazLokacija : boolean = false;
+  prikazSedista : boolean = false;
+  prikazPutnika : boolean = false;
+  prikazPoruke : boolean = false;
+  prikazPoruke1 : boolean = false;
   pretragaLet : PretragaLet = new PretragaLet();
   mojiAerodromi : Aerodrom[] = [];
   selektovanoMestoPoletanja : string = "";
   selektovanoMestoSletanja : string = "";
   selektovanaKompanija : string = "";
-  selektovanaOpcija : string = "";
+  selektovanaOpcija : string = "ONE_WAY";
   selektovanaKlasa : string = "";
+  poruka : string = "";
+  poruka1 : string = "";
   lokacijeZaPrikaz : LokacijePresedanja[] = [];
+  rezervacija : Rezervacija = new Rezervacija();
+  korisnici : Korisnik[] = [];
   letovi : Let[] = [];
+  sedistaZaIzmenu : Sediste[] = [];
   cenaFilter : number = 0;
   filterLet : FilterLet = new FilterLet();
+  avion : Avion = new Avion();
   opcije = [
     {name: "ONE_WAY", value: "ONE_WAY"},
     {name: "ROUND_TRIP", value: "ROUND_TRIP"}
@@ -47,7 +66,21 @@ export class RezervisanjeComponent implements OnInit {
     {name: "EKONOMSKA", value: "EKONOMSKA"}
   ]
 
-  constructor(private avioServis : avioServis, private avionServis : avionServis, private letServis : letServis, private aeroServis : aerodromServis) { 
+  constructor(private avioServis : avioServis, private avionServis : avionServis, private letServis : letServis, private aeroServis : aerodromServis, private zahteviServis : zahteviServis, private rezervacijaServis : rezervacijaServis, private router : Router, private korisnikServis : korisnikServis) { 
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
+      data => {
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+          this.router.navigate(["glavnaRentACar/infoStranica"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "ADMINISTRATOR_AVIOKOMPANIJE"){
+          this.router.navigate(["glavna/avioKompanija"]);
+        }
+      }
+    )
+    
     this.avioServis.vratiSveKompanije().subscribe(
       data => {
         this.avioKompanije = data;
@@ -66,6 +99,12 @@ export class RezervisanjeComponent implements OnInit {
     this.aeroServis.vratiSveAerodrome().subscribe(
       data => {
         this.mojiAerodromi = data;
+      }
+    )
+
+    this.zahteviServis.vratiPrijateljeZaLet().subscribe(
+      data => {
+        this.korisnici = data;
       }
     )
 
@@ -203,6 +242,127 @@ export class RezervisanjeComponent implements OnInit {
 
   zatvaranje(){
     this.prikazLokacija = false;
+  }
+
+  rezervisi(l : Let){
+    this.rezervisanje = true;
+    this.avionServis.vratiAvion(l.id).subscribe(
+      data => {
+        this.avion = data;
+      }
+    )
+  }
+
+  prikaziPrvuKlasu(){
+    for(let k of this.avion.klase){
+      if(k.tip == "PRVA"){
+        this.sedistaZaIzmenu = k.listaSedista;
+      }
+    }
+    this.prikazSedista = true;
+  }
+
+  prikaziBiznisKlasu(){
+    for(let k of this.avion.klase){
+      if(k.tip == "BIZNIS"){
+        this.sedistaZaIzmenu = k.listaSedista;
+      }
+    }
+    this.prikazSedista = true;
+  }
+
+  prikaziEkonomskuKlasu(){
+    for(let k of this.avion.klase){
+      if(k.tip == "EKONOMSKA"){
+        this.sedistaZaIzmenu = k.listaSedista;
+      }
+    }
+    this.prikazSedista = true;
+  }
+
+  dalje(){
+    this.prikazSedista = false;
+    this.prikazPutnika = true;
+    for(let s of this.sedistaZaIzmenu){
+      if(s.status == "SELEKTOVANO"){
+        let karta : RezervacijaKarataDTO = new RezervacijaKarataDTO();
+        karta.idSedista = s.id;
+        karta.brSedista = s.natpis;
+        this.rezervacija.karte.push(karta);
+      }
+    }
+  }
+
+  selektuj(s : Sediste){
+    s.status = "SELEKTOVANO";
+  }
+
+  odselektuj(s : Sediste){
+    s.status = "SLOBODNO";
+  }
+
+
+  pozovi(k : Korisnik, karta : RezervacijaKarataDTO){
+    karta.ime = k.ime;
+    karta.prezime = k.prezime;
+    karta.email = k.email;
+    karta.brTelefona = k.brTelefona;
+  }
+
+  dalje1(){
+    let provera : boolean = false;
+    for(let r of this.rezervacija.karte){
+      if(r.brPasosa == ""){
+        provera = true;
+      }
+      if(r.brTelefona == ""){
+        provera = true;
+      }
+      if(r.email == ""){
+        provera = true;
+      }
+      if(r.ime == ""){
+        provera = true;
+      }
+      if(r.prezime == ""){
+        provera = true;
+      }
+    }
+    if(!provera){
+      this.prikazPoruke = true;
+      this.prikazPutnika = false;
+      this.poruka1 = "";
+    } else {
+      this.poruka1 = "Popunite sva polja!";
+    }
+  }
+
+  ne(){
+    this.poruka = "Uspesno ste rezervisali let!";
+    this.avionServis.rezervisi(this.rezervacija).subscribe(
+      data => {
+        this.poruka = "";
+        this.rezervisanje = false;
+        this.prikazPoruke = false;
+      }
+    )
+  }
+
+  da(){
+    this.prikazPoruke1 = true;
+    this.prikazPoruke = false;
+  }
+
+  smestaj(){
+    this.rezervacijaServis.rezervacija = this.rezervacija;
+    this.rezervisanje = false;
+    this.router.navigate(["glavnaRegistrovani/rezervisanjeHotela"]);
+  }
+
+  vozilo(){
+    this.rezervacijaServis.rezervacija = this.rezervacija;
+    this.rezervisanje = false;
+    this.router.navigate(["glavnaRegistrovani/rezervisanjeVozila"]);
   }
 
 }

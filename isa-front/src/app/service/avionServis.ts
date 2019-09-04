@@ -4,6 +4,7 @@ import { Avion } from '../model/Avion';
 import { Sediste } from '../model/Sediste';
 import { Let } from '../model/Let';
 import { AvionskaKarta } from '../model/AvionskaKarta';
+import { Rezervacija } from '../model/Rezervacija';
 
 @Injectable({
     providedIn : 'root',
@@ -46,5 +47,13 @@ export class avionServis {
 
     brzoRezervisi(k : AvionskaKarta){
         return this.http.post<AvionskaKarta[]>("api/Sediste/brzoRezervisi",k);
+    }
+
+    vratiAvion(id : number){
+        return this.http.get<Avion>("api/Avion/vratiAvion/"+id);
+    }
+
+    rezervisi(r : Rezervacija){
+        return this.http.post<Rezervacija>("api/Sediste/rezervisi",r);
     }
 }

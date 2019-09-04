@@ -11,17 +11,22 @@ import ISA.project.dto.AerodromDTO;
 import ISA.project.dto.AvionskaKartaDTO;
 import ISA.project.dto.LetDTO;
 import ISA.project.dto.LetZaKarteDTO;
+import ISA.project.dto.RezervacijaDTO;
+import ISA.project.dto.RezervacijaKarataDTO;
 import ISA.project.dto.SedisteDTO;
 import ISA.project.model.Avion;
 import ISA.project.model.AvionskaKarta;
 import ISA.project.model.Korisnik;
 import ISA.project.model.Let;
+import ISA.project.model.Rezervacija;
 import ISA.project.model.Sediste;
 import ISA.project.model.Segment;
 import ISA.project.model.StatusSedista;
 import ISA.project.model.TipKlase;
 import ISA.project.repository.AvionskaKartaRepozitorijum;
+import ISA.project.repository.KorisnikRepozitorijum;
 import ISA.project.repository.LetRepozitorijum;
+import ISA.project.repository.RezervacijaRepozitorijum;
 import ISA.project.repository.SedisteRepozitorijum;
 import ISA.project.repository.SegmentRepozitorijum;
 
@@ -40,12 +45,20 @@ public class SedisteServis {
 	@Autowired
 	AvionskaKartaRepozitorijum kartaRepo;
 	
+	@Autowired
+	RezervacijaRepozitorijum rezRepo;
+	
+	@Autowired
+	KorisnikRepozitorijum korisnikRepo;
+	
 	public void izmeniSediste(SedisteDTO s) {
 		Sediste sediste = repozitorijum.vratiSediste(s.getId());
 		sediste.setStatus(s.getStatus());
 		AvionskaKarta a = kartaRepo.vratiKartu(sediste.getId());
 		Let l = letRepozitorijum.vratiLetPoAvionu(sediste.getSegment().getAvion().getId());
-		a.setCena(a.getCena() - a.getCena()*l.getPopust() / 100);
+		if(a != null) {
+			a.setCena(a.getCena() - a.getCena()*l.getPopust() / 100);
+		}
 		repozitorijum.save(sediste);
 		kartaRepo.save(a);
 	}
@@ -111,11 +124,74 @@ public class SedisteServis {
 	
 	public void brzoRezervisi(AvionskaKartaDTO a, Korisnik k) {
 		AvionskaKarta karta = kartaRepo.vratiKartuPoId(a.getId());
-		karta.setKorisnik(k);
+		karta.setImePutnika(k.getIme());
+		karta.setPrezimePutnika(k.getPrezime());
+		karta.setBrTelefonaPutnika(k.getBrTelefona());
+		karta.setEmailPutnika(k.getEmail());
 		karta.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		Sediste s = karta.getSediste();
 		s.setStatus(StatusSedista.REZERVISANO);
 		repozitorijum.save(s);
 		kartaRepo.save(karta);
+	}
+	
+	public void rezervisi(RezervacijaDTO r, Korisnik k) {
+		Rezervacija rezervacija = new Rezervacija();
+		List<Korisnik> korisnici = korisnikRepo.findAll();
+		for(RezervacijaKarataDTO rdto : r.getKarte()) {
+			int tmp = 0;
+			AvionskaKarta a = kartaRepo.vratiKartu(rdto.getIdSedista());
+			a.setBrojPasosaPutnika(rdto.getBrPasosa());
+			a.setBrTelefonaPutnika(rdto.getBrTelefona());
+			a.setEmailPutnika(rdto.getEmail());
+			a.setImePutnika(rdto.getIme());
+			a.setPrezimePutnika(rdto.getPrezime());
+			a.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+			for(Korisnik kor : korisnici) {
+				if(kor.getEmail().equals(rdto.getEmail()) && !k.getEmail().equals(rdto.getEmail())) {
+					tmp++;
+				}
+			}
+			if(tmp == 0) {
+				Sediste s = repozitorijum.vratiSediste(rdto.getIdSedista());
+				s.setStatus(StatusSedista.REZERVISANO);
+				repozitorijum.save(s);
+			}
+			kartaRepo.save(a);
+			rezervacija.getKarte().add(a);
+		}
+		rezRepo.save(rezervacija);
+	}
+	
+	public Let vratiPodatkeOLetu(long id) {
+		Sediste s = repozitorijum.vratiSediste(id);
+		Avion a = s.getSegment().getAvion();
+		Let l = letRepozitorijum.vratiLetPoAvionu(a.getId());
+		return l;
+	}
+	
+	public Segment vratiPodatkeOKlasi(long id) {
+		Sediste s = repozitorijum.vratiSediste(id);
+		Segment pom = s.getSegment();
+		return pom;
+	}
+	
+	public void potvrdi(long id) {
+		Sediste s = repozitorijum.vratiSediste(id);
+		s.setStatus(StatusSedista.REZERVISANO);
+		repozitorijum.save(s);
+	}
+	
+	public void otkazi(long id) {
+		Sediste s = repozitorijum.vratiSediste(id);
+		AvionskaKarta a = kartaRepo.vratiKartu(id);
+		s.setStatus(StatusSedista.SLOBODNO);
+		a.setBrojPasosaPutnika("");
+		a.setBrTelefonaPutnika("");
+		a.setEmailPutnika("");
+		a.setImePutnika("");
+		a.setPrezimePutnika("");
+		repozitorijum.save(s);
+		kartaRepo.save(a);
 	}
 }
