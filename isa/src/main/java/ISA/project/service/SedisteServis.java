@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.test.annotation.Rollback;
 
 import ISA.project.dto.AerodromDTO;
 import ISA.project.dto.AvionskaKartaDTO;
@@ -135,7 +138,8 @@ public class SedisteServis {
 		kartaRepo.save(karta);
 	}
 	
-	public void rezervisi(RezervacijaDTO r, Korisnik k) {
+	@Transactional
+	synchronized public void rezervisi(RezervacijaDTO r, Korisnik k) {
 		Rezervacija rezervacija = new Rezervacija();
 		List<Korisnik> korisnici = korisnikRepo.findAll();
 		for(RezervacijaKarataDTO rdto : r.getKarte()) {

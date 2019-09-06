@@ -123,6 +123,10 @@ public class KorisnikServis {
 		return repozitorijum.vratiKorisnikaPoId(k.getId());
 	}
 	
+	public Korisnik vratiKorisnikaPoId(long id) {
+		return repozitorijum.vratiKorisnikaPoId(id);
+	}
+	
 	public String aktivacija(String mail) {
 		Korisnik k = repozitorijum.vratiKorisnikaPoEmailu(mail);
 		//slanje emaila

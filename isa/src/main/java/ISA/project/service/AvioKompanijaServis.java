@@ -112,7 +112,7 @@ public class AvioKompanijaServis {
 	
 		for(Object[] s : stat) {
 			statDTO.dodajLabelu((String)s[0]);
-			statDTO.dodajVrednost(((BigInteger)s[1]).longValue());
+			statDTO.dodajVrednost((Long) s[1]);
 		}
 		
 		return statDTO;
@@ -123,8 +123,8 @@ public class AvioKompanijaServis {
 		StatistikaDTO statDTO = new StatistikaDTO();
 	
 		for(Object[] s : stat) {
-			statDTO.dodajLabelu((String)s[0]);
-			statDTO.dodajVrednost(((BigInteger)s[1]).longValue());
+			statDTO.dodajLabelu(s[0].toString());
+			statDTO.dodajVrednost((Long) s[1]);
 		}
 		
 		return statDTO;
