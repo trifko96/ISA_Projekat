@@ -98,7 +98,7 @@
                         <div class="col-sm-7">
                             <select [(ngModel)]="selektovanoMestoPoletanja" id="mestoPol">
                                 <option *ngFor="let a of mojiAerodromi" [value]="a.ime">
-                                    {{a.ime}}
+                                    {{a.grad}}
                                 </option>
                             </select>
                         </div>
@@ -108,7 +108,7 @@
                         <div class="col-sm-7">
                             <select [(ngModel)]="selektovanoMestoSletanja" id="mestoSle">
                                 <option *ngFor="let a of mojiAerodromi" [value]="a.ime">
-                                    {{a.ime}}
+                                    {{a.grad}}
                                 </option>
                             </select>
                         </div>
@@ -145,7 +145,7 @@
                                 <div *ngFor="let l of lokacijeAerodromi"class="list-group-item" style="display: block">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" [(ngModel)]="l.isChecked" [ngModelOptions]="{standalone: true}">
-                                        <label class="form-check-label">{{l.ime}}</label>
+                                        <label class="form-check-label">{{l.grad}}</label>
                                     </div>
                                 </div>
                             </div>

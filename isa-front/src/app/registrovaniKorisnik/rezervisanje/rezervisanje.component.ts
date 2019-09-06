@@ -48,6 +48,7 @@ export class RezervisanjeComponent implements OnInit {
   selektovanaKlasa : string = "";
   poruka : string = "";
   poruka1 : string = "";
+  poruka2 : string = "";
   lokacijeZaPrikaz : LokacijePresedanja[] = [];
   rezervacija : Rezervacija = new Rezervacija();
   korisnici : Korisnik[] = [];
@@ -246,9 +247,15 @@ export class RezervisanjeComponent implements OnInit {
 
   rezervisi(l : Let){
     this.rezervisanje = true;
+    this.filtriranje = false;
     this.avionServis.vratiAvion(l.id).subscribe(
       data => {
         this.avion = data;
+      }
+    )
+    this.letServis.vratiSveLetove().subscribe(
+      data => {
+        this.letovi = data;
       }
     )
   }
@@ -281,8 +288,7 @@ export class RezervisanjeComponent implements OnInit {
   }
 
   dalje(){
-    this.prikazSedista = false;
-    this.prikazPutnika = true;
+    
     for(let s of this.sedistaZaIzmenu){
       if(s.status == "SELEKTOVANO"){
         let karta : RezervacijaKarataDTO = new RezervacijaKarataDTO();
@@ -290,6 +296,13 @@ export class RezervisanjeComponent implements OnInit {
         karta.brSedista = s.natpis;
         this.rezervacija.karte.push(karta);
       }
+    }
+    if(this.rezervacija.karte.length != 0){
+      this.prikazSedista = false;
+      this.prikazPutnika = true;
+      this.poruka2 = "";
+    } else {
+      this.poruka2 = "Morate odabrati sedista!";
     }
   }
 
