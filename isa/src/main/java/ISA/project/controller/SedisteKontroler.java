@@ -76,22 +76,28 @@ public class SedisteKontroler {
 		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/brzoRezervisi", method = RequestMethod.POST)
-	public ResponseEntity<List<AvionskaKartaDTO>> brzoRezervisi(@Context HttpServletRequest request, @RequestBody AvionskaKartaDTO a){
-		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
-		servis.brzoRezervisi(a, k);
-		List<AvionskaKartaDTO> lista = servis.vratiSveBrzeKarte();
-		try {
-			eservis.obavestenjeORezervaciji(k, a);
-		}catch( Exception e ){
-			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+	@RequestMapping(value="/brzoRezervisi/{id}", method = RequestMethod.POST)
+	public ResponseEntity<List<AvionskaKartaDTO>> brzoRezervisi(@PathVariable long id, @RequestBody AvionskaKartaDTO a){
+		//Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		Korisnik k = korisnikServis.vratiKorisnikaPoId(id);
+		String poruka = servis.brzoRezervisi(a, k);
+		if(poruka.equals("ok")) {
+			List<AvionskaKartaDTO> lista = servis.vratiSveBrzeKarte();
+			try {
+				eservis.obavestenjeORezervaciji(k, a);
+			}catch( Exception e ){
+				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+			}
+			return new ResponseEntity<>(lista, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/rezervisi", method = RequestMethod.POST)
-	public ResponseEntity<RezervacijaDTO> rezervisi(@Context HttpServletRequest request, @RequestBody RezervacijaDTO r){
-		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+	@RequestMapping(value="/rezervisi/{id}", method = RequestMethod.POST)
+	public ResponseEntity<RezervacijaDTO> rezervisi(@PathVariable long id, @RequestBody RezervacijaDTO r){
+		//Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		Korisnik k = korisnikServis.vratiKorisnikaPoId(id);
 		List<Korisnik> korisnici = korisnikServis.vratiKorisnike();
 		long idPom = 0;
 		double cena = 0;
@@ -108,30 +114,34 @@ public class SedisteKontroler {
 		} else {
 			cena = l.getCenaPrveKlase();
 		}
-		servis.rezervisi(r, k);
-		try {
-			eservis.rezervacijaInformacije(r, k, l, s);
-		}catch( Exception e ){
-			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
-		}
-		
-		for(RezervacijaKarataDTO rez : r.getKarte()) {
-			double pom = 0;
-			for(Korisnik kor : korisnici) {
-				if(rez.getEmail().equals(kor.getEmail())) {
-					pom++;
+		String poruka = servis.rezervisi(r, k);
+		if(poruka.equals("ok")) {
+			try {
+				eservis.rezervacijaInformacije(r, k, l, s);
+			}catch( Exception e ){
+				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+			}
+			
+			for(RezervacijaKarataDTO rez : r.getKarte()) {
+				double pom = 0;
+				for(Korisnik kor : korisnici) {
+					if(rez.getEmail().equals(kor.getEmail())) {
+						pom++;
+					}
+				}
+				if((pom != 0) && (!rez.getEmail().equals(k.getEmail()))) {
+					try {
+						eservis.pozivZaLet(l, cena, rez);
+					}catch( Exception e ){
+						logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+					}
 				}
 			}
-			if((pom != 0) && (!rez.getEmail().equals(k.getEmail()))) {
-				try {
-					eservis.pozivZaLet(l, cena, rez);
-				}catch( Exception e ){
-					logger.info("Greska prilikom slanja emaila: " + e.getMessage());
-				}
-			}
+			
+			return new ResponseEntity<>(r, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
-		return new ResponseEntity<>(r, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/potvrdi/{id}", method = RequestMethod.GET)

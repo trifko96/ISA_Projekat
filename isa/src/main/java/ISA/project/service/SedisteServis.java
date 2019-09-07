@@ -125,46 +125,64 @@ public class SedisteServis {
 		return brzeKarteDTO;
 	}
 	
-	public void brzoRezervisi(AvionskaKartaDTO a, Korisnik k) {
+	@Transactional
+	synchronized public String brzoRezervisi(AvionskaKartaDTO a, Korisnik k) {
 		AvionskaKarta karta = kartaRepo.vratiKartuPoId(a.getId());
-		karta.setImePutnika(k.getIme());
-		karta.setPrezimePutnika(k.getPrezime());
-		karta.setBrTelefonaPutnika(k.getBrTelefona());
-		karta.setEmailPutnika(k.getEmail());
-		karta.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-		Sediste s = karta.getSediste();
-		s.setStatus(StatusSedista.REZERVISANO);
-		repozitorijum.save(s);
-		kartaRepo.save(karta);
+		if(karta.getSediste().getStatus().equals(StatusSedista.REZERVISANO)) {
+			return "greska";
+		} else {
+			karta.setImePutnika(k.getIme());
+			karta.setPrezimePutnika(k.getPrezime());
+			karta.setBrTelefonaPutnika(k.getBrTelefona());
+			karta.setEmailPutnika(k.getEmail());
+			karta.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+			Sediste s = karta.getSediste();
+			s.setStatus(StatusSedista.REZERVISANO);
+			repozitorijum.save(s);
+			kartaRepo.save(karta);
+			return "ok";
+		}
 	}
 	
 	@Transactional
-	synchronized public void rezervisi(RezervacijaDTO r, Korisnik k) {
+	synchronized public String rezervisi(RezervacijaDTO r, Korisnik k) {
 		Rezervacija rezervacija = new Rezervacija();
 		List<Korisnik> korisnici = korisnikRepo.findAll();
+		int br = 0;
 		for(RezervacijaKarataDTO rdto : r.getKarte()) {
-			int tmp = 0;
-			AvionskaKarta a = kartaRepo.vratiKartu(rdto.getIdSedista());
-			a.setBrojPasosaPutnika(rdto.getBrPasosa());
-			a.setBrTelefonaPutnika(rdto.getBrTelefona());
-			a.setEmailPutnika(rdto.getEmail());
-			a.setImePutnika(rdto.getIme());
-			a.setPrezimePutnika(rdto.getPrezime());
-			a.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-			for(Korisnik kor : korisnici) {
-				if(kor.getEmail().equals(rdto.getEmail()) && !k.getEmail().equals(rdto.getEmail())) {
-					tmp++;
-				}
+			Sediste sed = repozitorijum.vratiSediste(rdto.getIdSedista());
+			if(sed.getStatus().equals(StatusSedista.REZERVISANO)) {
+				br++;
 			}
-			if(tmp == 0) {
-				Sediste s = repozitorijum.vratiSediste(rdto.getIdSedista());
-				s.setStatus(StatusSedista.REZERVISANO);
-				repozitorijum.save(s);
-			}
-			kartaRepo.save(a);
-			rezervacija.getKarte().add(a);
 		}
-		rezRepo.save(rezervacija);
+		if(br != 0) {
+			return "greska";
+		} else {
+			for(RezervacijaKarataDTO rdto : r.getKarte()) {
+				int tmp = 0;
+				AvionskaKarta a = kartaRepo.vratiKartu(rdto.getIdSedista());
+				a.setBrojPasosaPutnika(rdto.getBrPasosa());
+				a.setBrTelefonaPutnika(rdto.getBrTelefona());
+				a.setEmailPutnika(rdto.getEmail());
+				a.setImePutnika(rdto.getIme());
+				a.setPrezimePutnika(rdto.getPrezime());
+				a.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+				for(Korisnik kor : korisnici) {
+					if(kor.getEmail().equals(rdto.getEmail()) && !k.getEmail().equals(rdto.getEmail())) {
+						tmp++;
+					}
+				}
+				if(tmp == 0) {
+					Sediste s = repozitorijum.vratiSediste(rdto.getIdSedista());
+					s.setStatus(StatusSedista.REZERVISANO);
+					repozitorijum.save(s);
+				}
+				kartaRepo.save(a);
+				rezervacija.getKarte().add(a);
+			}
+			rezRepo.save(rezervacija);
+			return "ok";
+		}
 	}
 	
 	public Let vratiPodatkeOLetu(long id) {

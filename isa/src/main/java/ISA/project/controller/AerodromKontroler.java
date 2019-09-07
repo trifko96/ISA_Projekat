@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
 import ISA.project.service.AerodromServis;
 import ISA.project.service.AvioKompanijaServis;
+import ISA.project.service.KorisnikServis;
 
 @RestController
 @RequestMapping(value="/Aerodrom")
@@ -32,12 +34,16 @@ public class AerodromKontroler {
 	@Autowired
 	AvioKompanijaServis avioServis;
 	
-	@RequestMapping(value = "/dodajNovi", method = RequestMethod.POST)
-	public ResponseEntity<List<AerodromDTO>> dodajNovi(@RequestBody AerodromDTO adto, @Context HttpServletRequest request){
+	@Autowired
+	KorisnikServis korisnikServis;
+	
+	@RequestMapping(value = "/dodajNovi/{id}", method = RequestMethod.POST)
+	public ResponseEntity<List<AerodromDTO>> dodajNovi(@RequestBody AerodromDTO adto, @PathVariable long id){
 		Aerodrom a = servis.vratiAerodromPoImenu(adto);
 		if(a == null) {
-			Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+			//Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
 			//AvioKompanija avio = k.getAvioKompanija();
+			Korisnik k = korisnikServis.vratiKorisnikaPoId(id);
 			AvioKompanija avio = avioServis.nadjiKompanijuPoKorisniku(k);
 			List<AerodromDTO> pom = servis.dodajAerodrom(avio, adto);
 			return new ResponseEntity<>(pom, HttpStatus.OK);
@@ -46,33 +52,37 @@ public class AerodromKontroler {
 		}
 	}
 	
-	@RequestMapping(value = "/dodajPostojeci", method = RequestMethod.POST)
-	public ResponseEntity<List<AerodromDTO>> dodajPostojeci(@RequestBody List<AerodromDTO> aerodromi, @Context HttpServletRequest request){
-		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+	@RequestMapping(value = "/dodajPostojeci/{id}", method = RequestMethod.POST)
+	public ResponseEntity<List<AerodromDTO>> dodajPostojeci(@RequestBody List<AerodromDTO> aerodromi, @PathVariable long id){
+		//Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		Korisnik k = korisnikServis.vratiKorisnikaPoId(id);
 		AvioKompanija avio = avioServis.nadjiKompanijuPoKorisniku(k);
 		List<AerodromDTO> ret = servis.dodajPostojeci(avio, aerodromi);
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/vratiAerodrome", method = RequestMethod.GET)
-	public ResponseEntity<List<AerodromDTO>> vratiAerodrome(@Context HttpServletRequest request){
-		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+	@RequestMapping(value="/vratiAerodrome/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<AerodromDTO>> vratiAerodrome(@PathVariable long id){
+		//Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		Korisnik k = korisnikServis.vratiKorisnikaPoId(id);
 		AvioKompanija avio = k.getAvioKompanija();
 		List<AerodromDTO> pom = servis.vratiAerodrome(avio);
 		return new ResponseEntity<>(pom, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/vratiSlobodneAerodrome", method = RequestMethod.GET)
-	public ResponseEntity<List<AerodromDTO>> vratiSlobodneAerodrome(@Context HttpServletRequest request){
-		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+	@RequestMapping(value="/vratiSlobodneAerodrome/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<AerodromDTO>> vratiSlobodneAerodrome(@PathVariable long id){
+		//Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		Korisnik k = korisnikServis.vratiKorisnikaPoId(id);
 		AvioKompanija avio = k.getAvioKompanija();
 		List<AerodromDTO> slobodni = servis.vratiSlobodneAerodrome(avio);
 		return new ResponseEntity<>(slobodni, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/obrisiAerodrom", method = RequestMethod.POST)
-	public ResponseEntity<List<AerodromDTO>> obrisiAerodrom(@RequestBody AerodromDTO adto, @Context HttpServletRequest request){
-		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+	@RequestMapping(value="/obrisiAerodrom/{id}", method = RequestMethod.POST)
+	public ResponseEntity<List<AerodromDTO>> obrisiAerodrom(@RequestBody AerodromDTO adto, @PathVariable long id){
+		//Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		Korisnik k = korisnikServis.vratiKorisnikaPoId(id);
 		AvioKompanija avio = avioServis.nadjiKompanijuPoKorisniku(k);
 		String s = servis.obrisiAerodrom(adto, avio);
 		List<AerodromDTO> lista = servis.vratiAerodrome(avio);
