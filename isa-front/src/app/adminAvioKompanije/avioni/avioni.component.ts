@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class AvioniComponent implements OnInit {
 
   avioni : Avion[] = [];
+  idKorisnika : number;
   avion : Avion = new Avion();
   avionIzmena : Avion = new Avion();
   prikazFormeZaDodavanjeAviona : boolean = false;
@@ -59,13 +60,16 @@ export class AvioniComponent implements OnInit {
         } else if(data.provera == "OBICAN_KORISNIK"){
           this.router.navigate(["glavnaRegistrovani/profil"]);
         }
+        this.idKorisnika = data.id;
+
+        this.avionServis.vratiAvione(this.idKorisnika).subscribe(
+          data => {
+            this.avioni = data;
+          }
+        )
       }
     )
-      this.avionServis.vratiAvione().subscribe(
-        data => {
-          this.avioni = data;
-        }
-      )
+      
   }
 
   ngOnInit() {
@@ -146,7 +150,7 @@ export class AvioniComponent implements OnInit {
       this.avion.klase.push(this.prvaKlasa);
       this.avion.klase.push(this.biznisKlasa);
       this.avion.klase.push(this.ekonomskaKlasa);
-      this.avionServis.dodajAvion(this.avion).subscribe(
+      this.avionServis.dodajAvion(this.avion, this.idKorisnika).subscribe(
         data => {
           this.avioni = data;
           this.avion.ime = "";
@@ -253,7 +257,7 @@ export class AvioniComponent implements OnInit {
           }
         }
         this.prikazIzmeneSedista = false;
-        this.avionServis.vratiAvione().subscribe(
+        this.avionServis.vratiAvione(this.idKorisnika).subscribe(
           data => {
             this.avioni = data;
           }
@@ -294,7 +298,7 @@ export class AvioniComponent implements OnInit {
             this.sedistaZaIzmenu = k.listaSedista;
           }
         }
-        this.avionServis.vratiAvione().subscribe(
+        this.avionServis.vratiAvione(this.idKorisnika).subscribe(
           data => {
             this.avioni = data;
           }

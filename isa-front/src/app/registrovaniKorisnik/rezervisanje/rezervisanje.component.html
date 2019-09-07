@@ -57,6 +57,7 @@
                   </tr>
                 </tbody>
             </table>
+            <p class="text-align">{{greskaPriBrzojRezervaciji}}</p>
             <br>
             <button class="btn btn-dark" (click)="zatvori()">Zatvori</button>
       </div>
@@ -168,6 +169,7 @@
           </div>
       </div>
       <div class="col-3" *ngIf="filtriranje && !rezervisanje">
+        <h3>Filtriraj letove:</h3><br>
           <div class="form-group row">
             <label class="col-sm-5 col-form-label">Avio kompanija:</label>
             <div class="col-sm-7">

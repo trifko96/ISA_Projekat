@@ -41,6 +41,7 @@ export class LetoviComponent implements OnInit {
   porukaLokacije : string = "";
   avioKarte : AvionskaKarta[] = [];
   prikazBrzihKarata : boolean = false;
+  idKorisnika : number;
 
   constructor(private avionServis : avionServis, private aeroServis : aerodromServis, private letServis : letServis, private korisnikServis : korisnikServis, private router : Router) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
@@ -54,25 +55,26 @@ export class LetoviComponent implements OnInit {
         } else if(data.provera == "OBICAN_KORISNIK"){
           this.router.navigate(["glavnaRegistrovani/profil"]);
         }
-      }
-    )
+        this.idKorisnika = data.id;
 
-    this.avionServis.vratiAvioneZaLet().subscribe(
-      data => {
-        this.avioni = data;
-      }
-    )
+        this.avionServis.vratiAvioneZaLet(this.idKorisnika).subscribe(
+          data => {
+            this.avioni = data;
+          }
+        )
 
-    this.aeroServis.vratiAerodrome().subscribe(
-      data => {
-        this.mojiAerodromi = data;
-        this.lokacijeAerodromi = data;
-      }
-    )
+        this.letServis.vratiLetove(this.idKorisnika).subscribe(
+          data => {
+            this.letovi = data;
+          }
+        )
 
-    this.letServis.vratiLetove().subscribe(
-      data => {
-        this.letovi = data;
+        this.aeroServis.vratiAerodrome(this.idKorisnika).subscribe(
+          data => {
+            this.mojiAerodromi = data;
+            this.lokacijeAerodromi = data;
+          }
+        )
       }
     )
 
@@ -217,7 +219,7 @@ export class LetoviComponent implements OnInit {
       }
       this.noviLet.lokacije = this.izabraneLokacije;
       this.izabraneLokacije = [];
-      this.letServis.dodajNoviLet(this.noviLet).subscribe(
+      this.letServis.dodajNoviLet(this.noviLet, this.idKorisnika).subscribe(
         data => {
           this.letovi = data;
           this.prikazFormeZaDodavanje = false;
@@ -230,7 +232,7 @@ export class LetoviComponent implements OnInit {
           this.selektovaniAvion = "";
           this.selektovanoMestoPoletanja = "";
           this.selektovanoMestoSletanja = "";
-          this.avionServis.vratiAvioneZaLet().subscribe(
+          this.avionServis.vratiAvioneZaLet(this.idKorisnika).subscribe(
             data => {
               this.avioni = data;
             }

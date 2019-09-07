@@ -22,6 +22,7 @@ export class StatistikaComponent implements OnInit {
   datumskiOpseg : DatumskiOpseg = new DatumskiOpseg();
   prikazGrafika : boolean = false;
   chart = [];
+  idKorisnika : number;
 
   constructor(private avioServis : avioServis, private korisnikServis : korisnikServis, private router : Router) { 
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
@@ -35,6 +36,7 @@ export class StatistikaComponent implements OnInit {
         } else if(data.provera == "OBICAN_KORISNIK"){
           this.router.navigate(["glavnaRegistrovani/profil"]);
         }
+        this.idKorisnika = data.id;
       }
     )
   }
@@ -45,7 +47,7 @@ export class StatistikaComponent implements OnInit {
   posalji() {
     this.datumskiOpseg.datum1 = this.datum1;
     this.datumskiOpseg.datum2 = this.datum2;
-    this.avioServis.vratiPrihod(this.datumskiOpseg).subscribe(
+    this.avioServis.vratiPrihod(this.datumskiOpseg, this.idKorisnika).subscribe(
       data => {
         this.prihod = data;
         this.trenutniPrihod = this.prihod.iznos;
@@ -90,7 +92,10 @@ export class StatistikaComponent implements OnInit {
                 display: true
               }],
               yAxes: [{
-                display: true
+                display: true,
+                ticks: {
+                  beginAtZero:true
+                }
               }],
             }
           }
@@ -128,7 +133,10 @@ export class StatistikaComponent implements OnInit {
                 display: true
               }],
               yAxes: [{
-                display: true
+                display: true,
+                ticks: {
+                  beginAtZero:true
+                }
               }],
             }
           }
@@ -166,7 +174,10 @@ export class StatistikaComponent implements OnInit {
                 display: true
               }],
               yAxes: [{
-                display: true
+                display: true,
+                ticks: {
+                  beginAtZero:true
+                }
               }],
             }
           }

@@ -21,6 +21,7 @@ export class AerodromiComponent implements OnInit {
   aerodromiZaSlanje : Aerodrom[] = [];
   imaPostojecih : boolean = true;
   porukaBrisanje = "";
+  idKorisnika : number;
 
   constructor(private aerodromServis : aerodromServis, private korisnikServis : korisnikServis, private router : Router) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
@@ -34,19 +35,21 @@ export class AerodromiComponent implements OnInit {
         } else if(data.provera == "OBICAN_KORISNIK"){
           this.router.navigate(["glavnaRegistrovani/profil"]);
         }
+        this.idKorisnika = data.id;
+        this.aerodromServis.vratiAerodrome(this.idKorisnika).subscribe(
+          data => {
+            this.aerodromi = data;
+          }
+        )
+    
+        this.aerodromServis.vratiSlobodne(this.idKorisnika).subscribe(
+          data => {
+            this.postojeciAerodromi = data;
+          }
+        )
       }
     )
-    this.aerodromServis.vratiAerodrome().subscribe(
-      data => {
-        this.aerodromi = data;
-      }
-    )
-
-    this.aerodromServis.vratiSlobodne().subscribe(
-      data => {
-        this.postojeciAerodromi = data;
-      }
-    )
+    
   }
 
   ngOnInit() {
@@ -70,9 +73,9 @@ export class AerodromiComponent implements OnInit {
     }
 
     if(!provera){
-      this.aerodromServis.dodajAerodrom(this.noviAerodrom).subscribe(
+      this.aerodromServis.dodajAerodrom(this.noviAerodrom, this.idKorisnika).subscribe(
         data => {
-          this.aerodromServis.vratiAerodrome().subscribe(
+          this.aerodromServis.vratiAerodrome(this.idKorisnika).subscribe(
             data => {
               this.aerodromi = data;
               this.prikazFormeZaDodavanjeNovog = false;
@@ -109,14 +112,14 @@ export class AerodromiComponent implements OnInit {
         this.aerodromiZaSlanje.push(p);
       }
     }
-    this.aerodromServis.dodajPostojeci(this.aerodromiZaSlanje).subscribe(
+    this.aerodromServis.dodajPostojeci(this.aerodromiZaSlanje, this.idKorisnika).subscribe(
       data => {
-        this.aerodromServis.vratiAerodrome().subscribe(
+        this.aerodromServis.vratiAerodrome(this.idKorisnika).subscribe(
           data => {
             this.aerodromi = data;
             this.prikazFormeZaDodavanjePostojeceg = false;
             this.aerodromiZaSlanje = [];
-            this.aerodromServis.vratiSlobodne().subscribe(
+            this.aerodromServis.vratiSlobodne(this.idKorisnika).subscribe(
               data => {
                 this.postojeciAerodromi = data;
                 if(this.postojeciAerodromi.length != 0){
@@ -131,11 +134,11 @@ export class AerodromiComponent implements OnInit {
   }
 
   obrisi(a : Aerodrom){
-    this.aerodromServis.obrisi(a).subscribe(
+    this.aerodromServis.obrisi(a, this.idKorisnika).subscribe(
       data => {
         this.aerodromi = data;
         this.porukaBrisanje = "";
-        this.aerodromServis.vratiSlobodne().subscribe(
+        this.aerodromServis.vratiSlobodne(this.idKorisnika).subscribe(
           data => {
             this.postojeciAerodromi = data;
             if(this.postojeciAerodromi.length != 0){

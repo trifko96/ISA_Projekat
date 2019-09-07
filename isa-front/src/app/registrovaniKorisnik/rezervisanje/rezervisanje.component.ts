@@ -29,6 +29,7 @@ import { Router } from '@angular/router';
 export class RezervisanjeComponent implements OnInit {
 
   avioKompanije : AvioKompanija[] = [];
+  idKorisnika : number;
   kompanije : AvioKompanija[] = [];
   brzeKarte : AvionskaKarta[] = [];
   prikazBrzihKarata : boolean = false;
@@ -49,6 +50,8 @@ export class RezervisanjeComponent implements OnInit {
   poruka : string = "";
   poruka1 : string = "";
   poruka2 : string = "";
+  greskaPriBrzojRezervaciji = "";
+  greskaPriRezervaciji = "";
   lokacijeZaPrikaz : LokacijePresedanja[] = [];
   rezervacija : Rezervacija = new Rezervacija();
   korisnici : Korisnik[] = [];
@@ -79,6 +82,7 @@ export class RezervisanjeComponent implements OnInit {
         } else if(data.provera == "ADMINISTRATOR_AVIOKOMPANIJE"){
           this.router.navigate(["glavna/avioKompanija"]);
         }
+        this.idKorisnika = data.id;
       }
     )
     
@@ -128,9 +132,14 @@ export class RezervisanjeComponent implements OnInit {
   }
 
   brzoRezervisi(k : AvionskaKarta){
-    this.avionServis.brzoRezervisi(k).subscribe(
+    this.avionServis.brzoRezervisi(k, this.idKorisnika).subscribe(
       data => {
         this.brzeKarte = data;
+        this.greskaPriBrzojRezervaciji = "";
+      },
+
+      error => {
+        this.greskaPriBrzojRezervaciji = "Karta je u medjuvremenu rezervisana!";
       }
     )
   }
@@ -352,11 +361,16 @@ export class RezervisanjeComponent implements OnInit {
 
   ne(){
     this.poruka = "Uspesno ste rezervisali let!";
-    this.avionServis.rezervisi(this.rezervacija).subscribe(
+    this.avionServis.rezervisi(this.rezervacija, this.idKorisnika).subscribe(
       data => {
         this.poruka = "";
         this.rezervisanje = false;
         this.prikazPoruke = false;
+        this.greskaPriRezervaciji = "";
+      },
+
+      error => {
+        this.greskaPriRezervaciji = "Neko od sedista je u medjuvremenu rezervisano!";
       }
     )
   }
