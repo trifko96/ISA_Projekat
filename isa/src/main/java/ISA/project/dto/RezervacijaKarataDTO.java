@@ -9,6 +9,7 @@ public class RezervacijaKarataDTO {
 	private String brTelefona;
 	private String email;
 	private String brPasosa;
+	private int idLeta;
 	
 	public RezervacijaKarataDTO() {
 		
@@ -68,6 +69,14 @@ public class RezervacijaKarataDTO {
 
 	public void setBrPasosa(String brPasosa) {
 		this.brPasosa = brPasosa;
+	}
+
+	public int getIdLeta() {
+		return idLeta;
+	}
+
+	public void setIdLeta(int idLeta) {
+		this.idLeta = idLeta;
 	}
 	
 	
