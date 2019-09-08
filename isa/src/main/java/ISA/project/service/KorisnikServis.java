@@ -96,6 +96,8 @@ public class KorisnikServis {
 						return "avio";
 					else if(pom.getUloga().equals(UlogaKorisnika.ADMINISTRATOR_HOTELA))
 						return "hotel";
+					else if(pom.getUloga().equals(UlogaKorisnika.ADMINISTRATOR_RENT_A_CAR) && !pom.getPrvoLogovanje())
+						return "drugo";		
 					else if(pom.getUloga().equals(UlogaKorisnika.ADMINISTRATOR_RENT_A_CAR))
 						return "rent";
 					else

@@ -43,6 +43,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { StatistikaComponent } from './adminAvioKompanije/statistika/statistika.component';
 import { RezervisanjeHotelaComponent } from './registrovaniKorisnik/rezervisanje-hotela/rezervisanje-hotela.component';
 import { RezervisanjeVozilaComponent } from './registrovaniKorisnik/rezervisanje-vozila/rezervisanje-vozila.component';
+import { IzmeniLozinkuComponent } from './adminRentACar/izmeni-lozinku/izmeni-lozinku.component';
+import { LokacijeComponent } from './adminRentACar/lokacije/lokacije.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { RezervisanjeVozilaComponent } from './registrovaniKorisnik/rezervisanje
     PromenaLozinkeComponent,
     StatistikaComponent,
     RezervisanjeHotelaComponent,
-    RezervisanjeVozilaComponent
+    RezervisanjeVozilaComponent,
+    IzmeniLozinkuComponent,
+    LokacijeComponent
   ],
   imports: [
     BrowserModule,

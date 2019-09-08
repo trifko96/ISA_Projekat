@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { korisnikServis } from 'src/app/service/korisnikServis';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-glavna-rent-acar',
@@ -11,14 +13,22 @@ export class GlavnaRentACarComponent implements OnInit {
     {path: "infoStranica", label: "Info stranica"},
     {path: "vozila", label: "Vozila"},
     {path: "rezervisanaVozila", label: "Rezervisana vozila"},
-    {path: "cenovnik", label: "Cenovnik"},
+    {path: "filijale", label: "Filijale"},
     {path: "prihodiVozila", label: "Prihodi"},
     {path: "licniPodaci", label: "Licni podaci"}
   ]
 
-  constructor() { }
+  constructor(private korisnikServis : korisnikServis, private router : Router) { }
 
   ngOnInit() {
+  }
+
+  logout(){
+    this.korisnikServis.odjava().subscribe(
+      data => {
+        this.router.navigate(["/glavnaNeregistrovani"]);
+      }
+    )
   }
 
 }

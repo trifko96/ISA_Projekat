@@ -24,7 +24,6 @@ export class AvioKompanijaComponent implements OnInit {
 
 
   constructor(private avioServis : avioServis, private http : HttpClient) { 
-
     this.avioServis.vratiKompaniju().subscribe(
       data => {
         this.avioKompanija = data;
@@ -150,7 +149,7 @@ export class AvioKompanijaComponent implements OnInit {
     this.setMarker([this.avioKompanija.koordinata2,this.avioKompanija.koordinata1]);
     this.map.getView().setCenter(ol.proj.fromLonLat([this.avioKompanija.koordinata2,this.avioKompanija.koordinata1]));
     this.izmena = true;
-    this.poruka = "";
+    this.poruka = ""; 
   }
 
 }

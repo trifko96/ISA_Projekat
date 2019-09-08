@@ -24,7 +24,8 @@ public class RentACar {
 	
 	//private List<Vozilo> cenovnik = new ArrayList<>();
 	
-	private ArrayList<Integer> ocene;
+	private double ocena;
+	private double brojOcena;
 	private double prihod;
 	private ArrayList<RezervacijaVozila> listaRezervacija;
 	
@@ -91,12 +92,20 @@ public class RentACar {
 		this.lokacije = lokacije;
 	}
 
-	public ArrayList<Integer> getOcene() {
-		return ocene;
+	public double getOcena() {
+		return ocena;
 	}
 
-	public void setOcene(ArrayList<Integer> ocene) {
-		this.ocene = ocene;
+	public void setOcena(double ocena) {
+		this.ocena = ocena;
+	}
+
+	public double getBrojOcena() {
+		return brojOcena;
+	}
+
+	public void setBrojOcena(double brojOcena) {
+		this.brojOcena = brojOcena;
 	}
 
 	public double getPrihod() {
@@ -132,8 +141,20 @@ public class RentACar {
 	}
 
 	
-
+	public void dodajLokaciju(Lokacija l) {
+		lokacije.add(l);
+	}
 	
+	public void obrisiLokaciju(Lokacija l) {
+		lokacije.remove(l);
+	}
 	
+	public void dodajVozilo(Vozilo v) {
+		spisakVozila.add(v);
+	}
+	
+	public void obrisiVozilo(Vozilo v) {
+		spisakVozila.remove(v);
+	}
 
 }

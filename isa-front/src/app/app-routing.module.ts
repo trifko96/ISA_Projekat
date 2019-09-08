@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { GlavnaNeregistrovaniComponent } from './neregistrovaniKorisnik/glavna-neregistrovani/glavna-neregistrovani.component';
 import { AvioNeregistrovaniComponent } from './neregistrovaniKorisnik/avio-neregistrovani/avio-neregistrovani.component';
@@ -33,10 +33,14 @@ import { PromenaLozinkeComponent } from './adminAvioKompanije/promena-lozinke/pr
 import { StatistikaComponent } from './adminAvioKompanije/statistika/statistika.component';
 import { RezervisanjeHotelaComponent } from './registrovaniKorisnik/rezervisanje-hotela/rezervisanje-hotela.component';
 import { RezervisanjeVozilaComponent } from './registrovaniKorisnik/rezervisanje-vozila/rezervisanje-vozila.component';
+import { IzmeniLozinkuComponent } from './adminRentACar/izmeni-lozinku/izmeni-lozinku.component';
+import { LokacijeComponent } from './adminRentACar/lokacije/lokacije.component';
+
 
 const routes: Route[] = [
   {path: '', redirectTo: '/glavnaNeregistrovani/prijava', pathMatch: 'full'},
   {path: 'promenaLozinke', component: PromenaLozinkeComponent},
+  {path: 'izmeniLozinku', component: IzmeniLozinkuComponent},
   {path: 'glavnaNeregistrovani', component: GlavnaNeregistrovaniComponent,
     children : [
       {path: '', redirectTo: 'prijava', pathMatch: 'full'},
@@ -76,7 +80,7 @@ const routes: Route[] = [
     children : [
       {path: '', redirectTo: 'infoStranica', pathMatch: 'full'},
       {path: 'infoStranica', component: InfoStranicaComponent},
-      {path: 'cenovnik', component: CenovnikComponent},
+      {path: 'filijale', component: LokacijeComponent},
       {path: 'licniPodaci', component: LicniPodaciComponent},
       {path: 'prihodiVozila', component: PrihodiVozilaComponent},
       {path: 'vozila', component: VozilaComponent},

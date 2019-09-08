@@ -1,5 +1,8 @@
 package ISA.project.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +17,9 @@ public class Lokacija {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="IdRentACar", referencedColumnName="rentACarId")
 	private RentACar rentACar;
+	
+	@OneToMany(targetEntity=Vozilo.class, mappedBy="lokacija", cascade = CascadeType.ALL)
+	private List<Vozilo> spisakVozila = new ArrayList<>();
 
 	public Lokacija() {
 		

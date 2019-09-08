@@ -48,6 +48,8 @@ export class PrijavaComponent implements OnInit {
             this.router.navigate(["/promenaLozinke"]);
           } else if(data.poruka == "rent"){
             this.router.navigate(["/glavnaRentACar"]);
+          } else if(data.poruka == "drugo"){
+            this.router.navigate(["/izmeniLozinku"]);
           } else if(data.poruka == "sistem"){
             this.router.navigate(["/glavnaAdminSistema"]);
           } else if(data.poruka == "greska"){

@@ -1,115 +1,96 @@
 <div class="container-fluid">
 	<div class="row">
-	<div class="col scroll" style="height:300px;">
-	<br>
-		<h2>Spisak vozila:</h2>
-		<table class="table" >
-			<thead class="thead-light">
-				<tr>
-					<th style="text-align: center;">Naziv</th>
-					<th style="text-align: center;">Marka</th>
-					<th style="text-align: center;">Model</th>
-					<th style="text-align: center;">Godina proizvodnje</th>
-					<th style="text-align: center;">Broj sedista</th>
-					<th style="text-align: center;">Tip</th>
-					<th style="text-align: center;">Prosecna ocena</th>
-					<th style="text-align: center;">Cena</th>
-					<th>&nbsp;</th>
-				</tr>
-			</thead>
-			<tbody>
-				
-			</tbody>
-			
+	  <div class="col-6">
+	  <div style="max-height: 320px; overflow-y:  scroll;">
+		<br>
+		<h4>Vozila:</h4>            
+		<table class="table">
+		  <thead>
+			<tr>
+			  <th>Naziv</th>
+			  <th>Marka</th>
+			  <th>Model</th>
+			  <th>Godina proizvodnje</th>
+			  <th>Broj sedista</th>
+			  <th>Na popustu</th>
+			  <th>Adresa lokacije</th>  
+			  <th><button class="btn btn-link" (click) = "dodajNovi()">Dodaj novi</button></th>
+			</tr>
+		  </thead>
+		  <tbody *ngFor="let vozilo of vozila">
+			<tr>
+			  <td>{{vozilo.naziv}}</td>
+			  <td>{{vozilo.marka}}</td>
+			  <td>{{vozilo.model}}</td>
+			  <td>{{vozilo.godinaProizvodnje}}</td>
+			  <td>{{vozilo.brSedista}}</td>
+			  <td>{{vozilo.naPopustu}}</td>
+			  <td>{{vozilo.adresaLokacije}}</td>
+			  <td><button class="btn btn-link" (click) = "obrisi(vozilo)">Obrisi</button></td>
+			  <td>&nbsp;</td>
+			</tr>
+		  </tbody>
 		</table>
+	  </div>
+	  <p class="text-danger">{{porukaBrisanje}}</p>
 	</div>
-	
-	<div class = "w-100"></div>
-	
-<div class="col-6">
-			<h3>Dodaj vozilo:</h3>
-						<table class="table">
-							<tr>
-								<td align="center">Naziv:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr><tr>
-								<td align="center">Marka:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr><tr>
-								<td align="center">Model:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr><tr>
-								<td align="center">Godina proizvodnje:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr><tr>
-								<td align="center">Broj sedista:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr>
-							<tr>
-								<td align="center">Tip:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr>
-							<tr>
-								<td align="center">Cena:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr>							
-							<tr>
-								<td colspan="2" align="center"><button>Dodaj</button></td>
-							</tr>
-							
-	                    </table>
-	
+	  <div class="col-6" *ngIf = "prikazFormeZaDodavanjeNovog">
+			<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Naziv:</label>
+					<div class="col-sm-10">
+					  <input type="text" class="form-control" id="nazivVoz" [(ngModel)] = "novoVozilo.naziv" [ngModelOptions] = "{standalone:true}">
+					</div>
+			</div>
+			<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Marka:</label>
+					<div class="col-sm-10">
+					  <input type="text" class="form-control" id="markaVoz" [(ngModel)] = "novoVozilo.marka" [ngModelOptions] = "{standalone:true}">
+					</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Model:</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" id="modelVoz" [(ngModel)] = "novoVozilo.model" [ngModelOptions] = "{standalone:true}">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Godina proizvodnje:</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" id="proizVoz" [(ngModel)] = "novoVozilo.godinaProizvodnje" [ngModelOptions] = "{standalone:true}">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Broj sedista:</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" id="brSedVoz" [(ngModel)] = "novoVozilo.brSedista" [ngModelOptions] = "{standalone:true}">
+				</div>
+			</div> 
+			<div class="form-group row">
+				<label class="col-sm-5 col-form-label">Na popustu:</label>
+                    <div class="col-sm-7">
+                        <select [(ngModel)]="selektovanaOpcija" id="popustVozilo">
+                            <option *ngFor="let o of opcije">
+                                {{o.name}}
+                            </option>
+                        </select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-5 col-form-label">Adresa lokacije:</label>
+				<div class="col-sm-7">
+					<select [(ngModel)]="selektovanaLokacija" id="adresaLokacije">
+						<option *ngFor="let l of lokacije" [value]="l.adresa">
+							{{l.adresa}}
+						</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+					<div class="col-sm-10 text-center">
+					  <p class="text-danger">{{poruka}}</p>
+					  <button class="btn btn-dark" (click)="Dodaj()">Dodaj</button>
+					</div>
+			</div>
+	  </div>
 	</div>
-	
-	
-
-<div class="col-6">
-			<h3>Izmeni vozilo:</h3>
-						<table class="table">
-							<tr>
-								<td align="center">Naziv:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr><tr>
-								<td align="center">Marka:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr><tr>
-								<td align="center">Model:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr><tr>
-								<td align="center">Godina proizvodnje:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr><tr>
-								<td align="center">Broj sedista:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr>
-							<tr>
-								<td align="center">Tip:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr>
-							<tr>
-								<td align="center">Cena:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr>							
-							<tr>
-								<td colspan="2" align="center"><button>Izmeni</button></td>
-							</tr>
-							
-	                    </table>
-	
-	</div>
-	</div>
-	</div>
+</div>

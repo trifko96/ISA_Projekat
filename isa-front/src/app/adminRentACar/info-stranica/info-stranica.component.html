@@ -1,98 +1,56 @@
 <div class="container-fluid">
-	<div class="row">
-	<div class="col-8">
-		<br>
-		<h2>Rent a car servis:</h2>
-		<table class="table">
-			<thead class="thead-light">
-				<tr>
-					<th style="text-align: center;">Naziv</th>
-					<th style="text-align: center;">Adresa</th>
-					<th style="text-align: center;">Promotivni opis</th>
-					<th style="text-align: center;">Prosecna ocena</th>
-					<th>&nbsp;</th>
-					<th>&nbsp;</th>
-				</tr>
-			</thead>
-			<tbody>
-				
-			</tbody>
-		</table>
-	</div>
-	
-	<div class="col-4">
-		<br>
-		<h3>Izmeni servis:</h3>
-					<table class="table" id="izmeniServis">
-						<tr>
-							<td align="center">Naziv:</td>
-							<td align="center"><input type="text"/>
-							</td>
-						</tr>
-						<tr>
-							<td align="center">Adresa:</td>
-							<td align="center"><input type="text"/></td>
-						</tr>
-						<tr>
-							<td align="center">Promotivni opis:</td>
-							<td align="center"><input type="text"/></td>
-						</tr>
-						<tr>
-							<td colspan="2" align="center"><button>Izmeni</button></td>
-						</tr>
-					</table>
-	</div>
-	<div class="w-100"></div>
-	
-	<div class="col scroll">
-		<h2>Filijale:</h2>
-		<table class="table">
-			<thead class="thead-light">
-				<tr>
-					<th style="text-align: center;">Adresa</th>
-					<th>&nbsp;</th>
-					<th>&nbsp;</th>
-				</tr>
-			</thead>
-			<tbody>
-				
-			</tbody>
-		</table>
-	</div>
-	<div class = "w-100"></div>
+    <div class="row">  
+      <div class="col-7" style="max-height: 320px; overflow-y:  scroll;">
+        <br>
+        <h4>Podaci o rent a car-u:</h4>            
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Naziv</th>
+              <th>Adresa</th>
+              <th>Promotivni opis</th>
+              <th>Prosecna ocena</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{rentACar.naziv}}</td>
+              <td>{{rentACar.adresa}}</td>
+              <td>{{rentACar.opis}}</td>
+              <td>{{prosecnaOcena}}</td>
+              <td><button class="btn btn-link" (click) = "onClick()">Izmeni</button></td>
+            </tr>
+          </tbody>
+        </table>
+	  </div>
 
-	<div class="col-6">
-			<h3>Dodaj filijalu:</h3>
-						<table class="table">
-							<tr>
-								<td align="center">Adresa:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2" align="center"><button>Dodaj</button></td>
-							</tr>
-							
-	                    </table>
-	
+	  <div class="col-5">
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label">Naziv:</label>
+			<div class="col-sm-10">
+			  <input type="text" class="form-control" id="nazivKom">
+			</div>
+		</div>
+	  <div class="form-group row">
+		<label class="col-sm-2 col-form-label">Adresa:</label>
+		<div class="col-10 form-group">
+			<div id="map" class="map"></div>
+			<input type="text" class="form-control my-input mt-3" id="adresaKom">
+		</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label">Opis:</label>
+			<div class="col-sm-10">
+			  <input type="text" class="form-control" id="opisKom">
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-sm-10 text-center">
+			  <p class="text-danger">{{poruka}}</p>
+			  <button class="btn btn-dark" (click)="Izmena()">Sacuvaj</button>
+			</div>
+		  </div>
 	</div>
-	
-	
-
-    <div class="col-6">
-			<h3>Izmeni filijalu:</h3>
-						<table class="table">
-							<tr>
-								<td align="center">Adresa:</td>
-								<td align="center"><input type="text"/>
-								</td>
-							</tr>
-							
-							<tr>
-								<td colspan="2" align="center"><button>Izmeni</button></td>
-							</tr>
-	                    </table>
-    </div>
-	
-	</div>
+  </div>
 </div>

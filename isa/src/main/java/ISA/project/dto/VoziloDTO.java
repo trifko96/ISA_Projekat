@@ -1,15 +1,10 @@
-package ISA.project.model;
+package ISA.project.dto;
 
-import java.util.ArrayList;
+import ISA.project.model.Vozilo;
 
-import javax.persistence.*;
-
-@Entity
-public class Vozilo {
+public class VoziloDTO {
 	
-	@Id
-	@GeneratedValue
-	private long voziloId;
+	private long id;
 	
 	private double cena;
 	private String naziv;
@@ -24,125 +19,87 @@ public class Vozilo {
 	private String naPopustu;
 	private String adresaLokacije;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="rentACarId", referencedColumnName="rentACarId")
-	private RentACar rentACar;
+	VoziloDTO(){}
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="lokacijaId", referencedColumnName="lokacijaId")
-	private Lokacija lokacija;
+	public VoziloDTO(Vozilo vozilo){
 	
-	public Vozilo() {
-		
-	}
-	
-	public Vozilo(double cena, String naziv, String marka, String model, String godinaProizvodnje, int brSedista,
-			String tip) {
-		super();
-		this.cena = cena;
-		this.naziv = naziv;
-		this.marka = marka;
-		this.model = model;
-		this.godinaProizvodnje = godinaProizvodnje;
-		this.brSedista = brSedista;
-		this.tip = tip;
+		this.id = vozilo.getVoziloId();
+		this.cena = vozilo.getCena();
+		this.naziv = vozilo.getNaziv();
+		this.marka = vozilo.getMarka();
+		this.model = vozilo.getModel();
+		this.godinaProizvodnje = vozilo.getGodinaProizvodnje();
+		this.brSedista = vozilo.getBrSedista();
+		this.tip = vozilo.getTip();
+		this.prosecnaOcena = vozilo.getProsecnaOcena();
+		this.brOcena = vozilo.getBrOcena();
+		this.rezervisano = vozilo.isRezervisano();
+		this.naPopustu = vozilo.getNaPopustu();
+		this.adresaLokacije = vozilo.getAdresaLokacije();
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public double getCena() {
 		return cena;
 	}
 
-
 	public void setCena(double cena) {
 		this.cena = cena;
 	}
 
-	
 	public String getNaziv() {
 		return naziv;
 	}
-
 
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
 	}
 
-
 	public String getMarka() {
 		return marka;
 	}
-
 
 	public void setMarka(String marka) {
 		this.marka = marka;
 	}
 
-
 	public String getModel() {
 		return model;
 	}
-
 
 	public void setModel(String model) {
 		this.model = model;
 	}
 
-
 	public String getGodinaProizvodnje() {
 		return godinaProizvodnje;
 	}
-
 
 	public void setGodinaProizvodnje(String godinaProizvodnje) {
 		this.godinaProizvodnje = godinaProizvodnje;
 	}
 
-
 	public int getBrSedista() {
 		return brSedista;
 	}
-
 
 	public void setBrSedista(int brSedista) {
 		this.brSedista = brSedista;
 	}
 
-
 	public String getTip() {
 		return tip;
 	}
 
-
 	public void setTip(String tip) {
 		this.tip = tip;
-	}
-
-	public boolean isRezervisano() {
-		return rezervisano;
-	}
-
-
-	public void setRezervisano(boolean rezervisano) {
-		this.rezervisano = rezervisano;
-	}
-
-
-	public RentACar getRentACar() {
-		return rentACar;
-	}
-
-
-	public void setRentACar(RentACar rentACar) {
-		this.rentACar = rentACar;
-	}
-
-	public String getNaPopustu() {
-		return naPopustu;
-	}
-
-	public void setNaPopustu(String naPopustu) {
-		this.naPopustu = naPopustu;
 	}
 
 	public double getProsecnaOcena() {
@@ -161,12 +118,20 @@ public class Vozilo {
 		this.brOcena = brOcena;
 	}
 
-	public long getVoziloId() {
-		return voziloId;
+	public boolean isRezervisano() {
+		return rezervisano;
 	}
 
-	public void setVoziloId(long voziloId) {
-		this.voziloId = voziloId;
+	public void setRezervisano(boolean rezervisano) {
+		this.rezervisano = rezervisano;
+	}
+
+	public String getNaPopustu() {
+		return naPopustu;
+	}
+
+	public void setNaPopustu(String naPopustu) {
+		this.naPopustu = naPopustu;
 	}
 
 	public String getAdresaLokacije() {
@@ -176,6 +141,7 @@ public class Vozilo {
 	public void setAdresaLokacije(String adresaLokacije) {
 		this.adresaLokacije = adresaLokacije;
 	}
+	
 	
 	
 
