@@ -105,7 +105,6 @@ private static final String URL_PREFIX = "/Aerodrom";
 		.andExpect(jsonPath("$.[*].id").value(hasItem(3)));
 	}
 	
-	
 	@Test
 	public void dummyTest(){
 		assertTrue(true);
