@@ -43,6 +43,12 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { StatistikaComponent } from './adminAvioKompanije/statistika/statistika.component';
 import { RezervisanjeHotelaComponent } from './registrovaniKorisnik/rezervisanje-hotela/rezervisanje-hotela.component';
 import { RezervisanjeVozilaComponent } from './registrovaniKorisnik/rezervisanje-vozila/rezervisanje-vozila.component';
+import { rezervacijaServis } from './service/rezervacijaServis';
+import { zahteviServis } from './service/zahteviServis';
+import { avionServis } from './service/avionServis';
+import { avioServis } from './service/avioServis';
+import { korisnikServis } from './service/korisnikServis';
+import { letServis } from './service/letServis';
 
 @NgModule({
   declarations: [
@@ -90,6 +96,12 @@ import { RezervisanjeVozilaComponent } from './registrovaniKorisnik/rezervisanje
   ],
   providers: [
     aerodromServis,
+    avionServis,
+    avioServis,
+    korisnikServis,
+    letServis,
+    rezervacijaServis,
+    zahteviServis
   ],
   bootstrap: [AppComponent]
 })

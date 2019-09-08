@@ -6,4 +6,5 @@ export class RezervacijaKarataDTO{
     brTelefona : string = "";
     email : string = "";
     brPasosa : string = "";
+    idLeta : number;
 }

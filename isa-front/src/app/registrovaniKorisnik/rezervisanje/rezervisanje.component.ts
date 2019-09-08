@@ -30,6 +30,7 @@ export class RezervisanjeComponent implements OnInit {
 
   avioKompanije : AvioKompanija[] = [];
   idKorisnika : number;
+  idTrenutnogLeta : number;
   kompanije : AvioKompanija[] = [];
   brzeKarte : AvionskaKarta[] = [];
   prikazBrzihKarata : boolean = false;
@@ -257,6 +258,7 @@ export class RezervisanjeComponent implements OnInit {
   rezervisi(l : Let){
     this.rezervisanje = true;
     this.filtriranje = false;
+    this.idTrenutnogLeta = l.id;
     this.avionServis.vratiAvion(l.id).subscribe(
       data => {
         this.avion = data;
@@ -329,6 +331,7 @@ export class RezervisanjeComponent implements OnInit {
     karta.prezime = k.prezime;
     karta.email = k.email;
     karta.brTelefona = k.brTelefona;
+    karta.idLeta = this.idTrenutnogLeta;
   }
 
   dalje1(){
