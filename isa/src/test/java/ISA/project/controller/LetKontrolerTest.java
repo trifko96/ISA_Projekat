@@ -25,8 +25,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import ISA.project.dto.AerodromDTO;
+import ISA.project.dto.AvionDTO;
 import ISA.project.dto.DatumskiOpsegDTO;
 import ISA.project.dto.FilterLetDTO;
+import ISA.project.dto.LetDTO;
 import ISA.project.dto.PretragaLetDTO;
 
 @RunWith(SpringRunner.class)
@@ -98,4 +101,5 @@ public class LetKontrolerTest {
 		this.mockMvc.perform(post(URL_PREFIX + "/pretraziLet").contentType(contentType).content(json)).andExpect(status().isOk())
 		.andExpect(jsonPath("$.[*].id").value(hasItem(1)));
 	}
+	
 }

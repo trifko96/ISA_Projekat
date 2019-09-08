@@ -34,6 +34,8 @@ import ISA.project.dto.LetDTO;
 import ISA.project.dto.PretragaLetDTO;
 import ISA.project.dto.RezervacijaDTO;
 import ISA.project.dto.RezervacijaKarataDTO;
+import ISA.project.dto.SedisteDTO;
+import ISA.project.model.StatusSedista;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -113,5 +115,39 @@ public class SedisteKontrolerTest {
 		rd.setKarte(lista);
 		String json = ISA.project.utils.TestUtil.json(rd);
 		this.mockMvc.perform(post(URL_PREFIX + "/rezervisi/7").contentType(contentType).content(json)).andExpect(status().isOk());
+	}
+	
+	@Transactional
+	@Rollback(true)
+	@Test
+	public void testDodajSediste() throws Exception {
+		SedisteDTO s = new SedisteDTO();
+		s.setBrKolone(2);
+		s.setBrReda(3);
+		s.setGranica(false);
+		s.setId(55);
+		s.setNatpis(5);
+		s.setPom(11);
+		s.setStatus(StatusSedista.SLOBODNO);
+		s.setZauzeto(false);
+		String json = ISA.project.utils.TestUtil.json(s);
+		this.mockMvc.perform(post(URL_PREFIX + "/dodajSediste").contentType(contentType).content(json)).andExpect(status().isOk());
+	}
+	
+	@Transactional
+	@Rollback(true)
+	@Test
+	public void testIzmeniSediste() throws Exception {
+		SedisteDTO s = new SedisteDTO();
+		s.setBrKolone(2);
+		s.setBrReda(3);
+		s.setGranica(false);
+		s.setId(11);
+		s.setNatpis(11);
+		s.setPom(13);
+		s.setStatus(StatusSedista.BRZA_REZERVACIJA);
+		s.setZauzeto(false);
+		String json = ISA.project.utils.TestUtil.json(s);
+		this.mockMvc.perform(post(URL_PREFIX + "/izmeniSediste").contentType(contentType).content(json)).andExpect(status().isOk());
 	}
 }
