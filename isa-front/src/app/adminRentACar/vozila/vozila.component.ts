@@ -147,6 +147,13 @@ export class VozilaComponent implements OnInit {
       $("#adresaLokacije").removeClass('border-danger');
     }
 
+    if((this.novoVozilo.popust == 0 && this.novoVozilo.naPopustu == 'DA') || ((this.novoVozilo.popust != 0 && this.novoVozilo.naPopustu == 'NE')))
+      {
+        this.poruka = "Ako je vozilo na popustu, mora se zadati vrednost popusta, a ako nije ne sme imati popust!"
+      }
+
+    else{  
+
     if(!provera){
       this.voziloServis.dodajVozilo(this.novoVozilo).subscribe(
         data => {
@@ -155,6 +162,7 @@ export class VozilaComponent implements OnInit {
               this.vozila = data;
               this.prikazFormeZaDodavanjeNovog = false;
               this.novoVozilo = new Vozilo();
+              this.poruka = "";
             }
           )
         },
@@ -163,7 +171,10 @@ export class VozilaComponent implements OnInit {
         }
         
       )
+      
     }
+
+  }
   }
 
   obrisi(v : Vozilo){
@@ -181,14 +192,19 @@ export class VozilaComponent implements OnInit {
   Izmena(){
     if(this.izmena == true){
       this.izmena = false;
-      this.prikazFormeZaIzmenuPostojeceg = false;
       this.novoVozilo.adresaLokacije = this.selektovanaLokacijaIzmena;
       this.novoVozilo.naPopustu = this.selektovanaOpcijaIzmena;
       this.novoVozilo.tip = this.selektovanaOpcijaIzmena1;
+      if((this.novoVozilo.popust == 0 && this.novoVozilo.naPopustu == 'DA') || ((this.novoVozilo.popust != 0 && this.novoVozilo.naPopustu == 'NE')))
+      {
+        this.poruka = "Ako je vozilo na popustu, mora se zadati vrednost popusta, a ako nije ne sme imati popust!"
+      }
+      else{
       this.voziloServis.izmeniVozilo(this.novoVozilo).subscribe(
         data => {
           this.voziloServis.vratiVozilo().subscribe(
             data => {
+              this.prikazFormeZaIzmenuPostojeceg = false;
               this.vozila = data;
               $("#cenaVozila").val("");
               $("#nazivVozila").val("");
@@ -209,6 +225,7 @@ export class VozilaComponent implements OnInit {
           this.poruka = "Uneto ime vec postoji!";
         }
       )
+      }
     } else {
       this.poruka = "Odaberite vozilo za izmenu!";
     }

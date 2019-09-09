@@ -18,6 +18,5 @@ export class Vozilo{
     mestoPreuzimanja : string = "";
     mestoVracanja : string = "";
     adresaLokacije : string = "";
-    
     popust : number;
 } 
