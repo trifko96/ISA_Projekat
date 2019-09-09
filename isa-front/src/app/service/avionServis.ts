@@ -4,6 +4,7 @@ import { Avion } from '../model/Avion';
 import { Sediste } from '../model/Sediste';
 import { Let } from '../model/Let';
 import { AvionskaKarta } from '../model/AvionskaKarta';
+import { Rezervacija } from '../model/Rezervacija';
 
 @Injectable({
     providedIn : 'root',
@@ -12,16 +13,16 @@ export class avionServis {
 
     constructor(private http : HttpClient) {}
 
-    dodajAvion(a : Avion){
-        return this.http.post<Avion[]>("api/Avion/dodajAvion", a);
+    dodajAvion(a : Avion, id : number){
+        return this.http.post<Avion[]>("api/Avion/dodajAvion/"+id, a);
     }
 
-    vratiAvione(){
-        return this.http.get<Avion[]>("api/Avion/vratiAvione");
+    vratiAvione(id : number){
+        return this.http.get<Avion[]>("api/Avion/vratiAvione/"+id);
     }
 
-    vratiAvioneZaLet(){
-        return this.http.get<Avion[]>("api/Avion/vratiAvioneZaLet");
+    vratiAvioneZaLet(id : number){
+        return this.http.get<Avion[]>("api/Avion/vratiAvioneZaLet/"+id);
     }
 
     izmeniAvion(a : Avion){
@@ -44,7 +45,15 @@ export class avionServis {
         return this.http.get<AvionskaKarta[]>("api/Sediste/vratiSveBrzeKarte");
     }
 
-    brzoRezervisi(k : AvionskaKarta){
-        return this.http.post<AvionskaKarta[]>("api/Sediste/brzoRezervisi",k);
+    brzoRezervisi(k : AvionskaKarta, id : number){
+        return this.http.post<AvionskaKarta[]>("api/Sediste/brzoRezervisi/"+id,k);
+    }
+
+    vratiAvion(id : number){
+        return this.http.get<Avion>("api/Avion/vratiAvion/"+id);
+    }
+
+    rezervisi(r : Rezervacija, id : number){
+        return this.http.post<Rezervacija>("api/Sediste/rezervisi/"+id,r);
     }
 }

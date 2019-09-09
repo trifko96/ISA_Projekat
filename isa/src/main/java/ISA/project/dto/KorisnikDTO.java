@@ -13,6 +13,7 @@ public class KorisnikDTO {
 	private String grad;
 	private String brTelefona;
 	private String poruka;
+	private String provera;
 	private UlogaKorisnika uloga;
 	private long avioKompanija;
 	private long hotel;
@@ -32,6 +33,17 @@ public class KorisnikDTO {
 		this.grad = korisnik.getGrad();
 		this.brTelefona = korisnik.getBrTelefona();
 		this.uloga = korisnik.getUloga();
+		if(korisnik.getUloga().equals(UlogaKorisnika.ADMINISTRATOR_AVIOKOMPANIJE)) {
+			this.provera = "ADMINISTRATOR_AVIOKOMPANIJE";
+		} else if(korisnik.getUloga().equals(UlogaKorisnika.ADMINISTRATOR_HOTELA)) {
+			this.provera = "ADMINISTRATOR_HOTELA";
+		} else if(korisnik.getUloga().equals(UlogaKorisnika.ADMINISTRATOR_RENT_A_CAR)) {
+			this.provera = "ADMINISTRATOR_RENT_A_CAR";
+		} else if(korisnik.getUloga().equals(UlogaKorisnika.ADMINISTRATOR_SISTEMA)) {
+			this.provera = "ADMINISTRATOR_SISTEMA";
+		} else {
+			this.provera = "OBICAN_KORISNIK";
+		}
 		if(korisnik.getAvioKompanija() != null)
 			this.avioKompanija = korisnik.getAvioKompanija().getId();
 		if(korisnik.getRentACar() != null)
@@ -132,6 +144,14 @@ public class KorisnikDTO {
 
 	public void setPoruka(String poruka) {
 		this.poruka = poruka;
+	}
+
+	public String getProvera() {
+		return provera;
+	}
+
+	public void setProvera(String provera) {
+		this.provera = provera;
 	}
 	
 	

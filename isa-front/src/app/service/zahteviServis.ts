@@ -36,4 +36,8 @@ export class zahteviServis{
     izbrisiZahtev(id : number){
         return this.http.get<Korisnik[]>("api/Zahtevi/izbrisiZahtev/"+id);
     }
+    
+    vratiPrijateljeZaLet(){
+        return this.http.get<Korisnik[]>("api/Zahtevi/vratiPrijateljeZaLet");
+    }
 }

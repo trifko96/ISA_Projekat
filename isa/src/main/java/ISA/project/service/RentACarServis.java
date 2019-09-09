@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ISA.project.dto.AvioKompanijaDTO;
 import ISA.project.dto.RentACarDTO;
-import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
 import ISA.project.model.RentACar;
 import ISA.project.repository.RentACarRepozitorijum;

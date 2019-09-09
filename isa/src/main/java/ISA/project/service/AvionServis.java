@@ -11,9 +11,11 @@ import ISA.project.dto.SedisteDTO;
 import ISA.project.dto.SegmentDTO;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Avion;
+import ISA.project.model.Let;
 import ISA.project.model.Sediste;
 import ISA.project.model.Segment;
 import ISA.project.repository.AvionRepozitorijum;
+import ISA.project.repository.LetRepozitorijum;
 import ISA.project.repository.SedisteRepozitorijum;
 
 @Service
@@ -24,6 +26,9 @@ public class AvionServis {
 	
 	@Autowired
 	SedisteRepozitorijum sedisteRepo;
+	
+	@Autowired
+	LetRepozitorijum letRepo;
 	
 	public List<AvionDTO> vratiAvione(AvioKompanija a){
 		List<Avion> avioni = repozitorijum.vratiAvione(a.getId());
@@ -154,5 +159,23 @@ public class AvionServis {
 			repozitorijum.save(av);
 			return "ok";
 		}
+	}
+	
+	public AvionDTO vratiAvionPoLetu(long id) {
+		Let l = letRepo.vratiLet(id);
+		Avion avion = l.getAvion();
+		List<SegmentDTO> klase = new ArrayList<>();
+		for(Segment seg : avion.getKlasa()) {
+			List<SedisteDTO> lista = new ArrayList<>();
+			for(Sediste sed : seg.getListaSedista()) {
+				lista.add(new SedisteDTO(sed));
+			}
+			SegmentDTO sd = new SegmentDTO(seg);
+			sd.setListaSedista(lista);
+			klase.add(sd);
+		}
+		AvionDTO adto = new AvionDTO(avion);
+		adto.setKlase(klase);
+		return adto;
 	}
 }

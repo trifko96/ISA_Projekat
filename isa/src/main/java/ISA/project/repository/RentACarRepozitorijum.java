@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import ISA.project.model.AvioKompanija;
 import ISA.project.model.RentACar;
 
 public interface RentACarRepozitorijum extends JpaRepository<RentACar, Long> {

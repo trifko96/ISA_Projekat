@@ -17,7 +17,7 @@ public interface AvionskaKartaRepozitorijum extends JpaRepository<AvionskaKarta,
 	public AvionskaKarta vratiKartuPoId(long id);
 	
 	@Query("select karta.datum, count(karta) from AvionskaKarta karta where "
-			+ "karta.let.avioKompanija.kompanijaId = :idKompanije and karta.sediste.status = ISA.project.model.StatusSedista.REZERVISANO group by karta.datum")
+			+ "karta.let.avioKompanija.kompanijaId = :idKompanije and karta.sediste.status = ISA.project.model.StatusSedista.REZERVISANO group by day(karta.datum)")
 	public List<Object[]> vratiStatistikuPoDanu(@Param("idKompanije") long idKompanije);
 	
 	@Query(value = "select concat(year(datum), '/', week(datum)), count(*) from AvionskaKarta karta where karta.let.avioKompanija.kompanijaId = :idKompanije and karta.sediste.status = ISA.project.model.StatusSedista.REZERVISANO group by concat(year(datum), '/', week(datum))")

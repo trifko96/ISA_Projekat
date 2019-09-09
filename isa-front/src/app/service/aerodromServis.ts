@@ -9,24 +9,24 @@ export class aerodromServis {
 
     constructor(private http : HttpClient) {}
 
-    vratiAerodrome(){
-        return this.http.get<Aerodrom[]>("api/Aerodrom/vratiAerodrome");
+    vratiAerodrome(id : number){
+        return this.http.get<Aerodrom[]>("api/Aerodrom/vratiAerodrome/"+id);
     }
 
-    dodajAerodrom(a : Aerodrom){
-        return this.http.post<Aerodrom[]>("api/Aerodrom/dodajNovi",a);
+    dodajAerodrom(a : Aerodrom, id : number){
+        return this.http.post<Aerodrom[]>("api/Aerodrom/dodajNovi/"+id,a);
     }
 
-    vratiSlobodne(){
-        return this.http.get<Aerodrom[]>("api/Aerodrom/vratiSlobodneAerodrome");
+    vratiSlobodne(id : number){
+        return this.http.get<Aerodrom[]>("api/Aerodrom/vratiSlobodneAerodrome/"+id);
     }
 
-    dodajPostojeci(a : Aerodrom[]){
-        return this.http.post<Aerodrom[]>("api/Aerodrom/dodajPostojeci",a);
+    dodajPostojeci(a : Aerodrom[], id : number){
+        return this.http.post<Aerodrom[]>("api/Aerodrom/dodajPostojeci/"+id,a);
     }
 
-    obrisi(a : Aerodrom){
-        return this.http.post<Aerodrom[]>("api/Aerodrom/obrisiAerodrom",a);
+    obrisi(a : Aerodrom, id : number){
+        return this.http.post<Aerodrom[]>("api/Aerodrom/obrisiAerodrom/"+id,a);
     }
 
     vratiSveAerodrome(){

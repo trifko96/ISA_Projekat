@@ -36,8 +36,8 @@ public class Korisnik {
 	@JoinColumn(name="IdRentACar", referencedColumnName="rentACarId")
 	private RentACar rentACar = null;
 	
-	@OneToMany(targetEntity=AvionskaKarta.class,mappedBy="korisnik", cascade = CascadeType.ALL)
-	private List<AvionskaKarta> karte = new ArrayList<>();
+	/*@OneToMany(targetEntity=AvionskaKarta.class,mappedBy="korisnik", cascade = CascadeType.ALL)
+	private List<AvionskaKarta> karte = new ArrayList<>();*/
 	
 	public Korisnik() {
 		
@@ -149,13 +149,13 @@ public class Korisnik {
 		this.listaRezervacija = listaRezervacija;
 	}
 
-	public List<AvionskaKarta> getKarte() {
+	/*public List<AvionskaKarta> getKarte() {
 		return karte;
 	}
 
 	public void setKarte(List<AvionskaKarta> karte) {
 		this.karte = karte;
-	}
+	}*/
 	
 	public Boolean getVerifikovan() {
 		return verifikovan;

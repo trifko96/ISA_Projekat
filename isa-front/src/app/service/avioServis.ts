@@ -12,16 +12,16 @@ export class avioServis {
 
     constructor(private http : HttpClient) {}
 
-    vratiKompaniju(){
-        return this.http.get<AvioKompanija>("api/AvioKompanija/vratiKompaniju");
+    vratiKompaniju(id : number){
+        return this.http.get<AvioKompanija>("api/AvioKompanija/vratiKompaniju/"+id);
     }
 
     izmeniKompaniju(a : AvioKompanija){
         return this.http.post<AvioKompanija>("api/AvioKompanija/izmeniKompaniju", a);
     }
 
-    vratiPrihod(d : DatumskiOpseg){
-        return this.http.post<Prihod>("api/AvioKompanija/vratiPrihod", d);
+    vratiPrihod(d : DatumskiOpseg, id : number){
+        return this.http.post<Prihod>("api/AvioKompanija/vratiPrihod/"+id, d);
     }
 
     vratiStatistikuPoDanu(){

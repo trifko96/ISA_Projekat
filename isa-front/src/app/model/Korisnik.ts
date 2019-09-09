@@ -7,4 +7,5 @@ export class Korisnik {
     grad : string = "";
     brTelefona : string = "";
     poruka : string;
+    provera : string;
 }

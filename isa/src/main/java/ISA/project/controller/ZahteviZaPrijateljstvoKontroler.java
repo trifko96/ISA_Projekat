@@ -79,4 +79,11 @@ public class ZahteviZaPrijateljstvoKontroler {
 		return new ResponseEntity<>(prijatelji, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/vratiPrijateljeZaLet", method = RequestMethod.GET)
+	public ResponseEntity<List<KorisnikDTO>> vratiPrijateljeZaLet(@Context HttpServletRequest request){
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		List<KorisnikDTO> korisniciDTO = servis.vratiPrijateljeZaLet(k);
+		return new ResponseEntity<>(korisniciDTO, HttpStatus.OK);
+	}
+	
 }

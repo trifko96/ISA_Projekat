@@ -1,5 +1,6 @@
 export class Vozilo{
     id : number;
+    cena : string = "";
     naziv : string = "";
     marka : string = "";
     model : string = "";

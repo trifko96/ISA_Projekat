@@ -58,7 +58,7 @@ export class InfoStranicaComponent implements OnInit {
         }
       )
     } else {
-      this.poruka = "Odaberite kompaniju za izmenu!";
+      this.poruka = "Odaberite servis za izmenu!";
     }
   }
 

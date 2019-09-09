@@ -11,12 +11,12 @@ export class letServis{
 
     constructor(private http : HttpClient) {}
 
-    vratiLetove(){
-        return this.http.get<Let[]>("api/Let/vratiLetove");
+    vratiLetove(id : number){
+        return this.http.get<Let[]>("api/Let/vratiLetove/"+id);
     }
 
-    dodajNoviLet(l : Let){
-        return this.http.post<Let[]>("api/Let/dodajLet", l);
+    dodajNoviLet(l : Let, id : number){
+        return this.http.post<Let[]>("api/Let/dodajLet/"+id, l);
     }
 
     vratiSveLetove(){

@@ -8,6 +8,8 @@ import * as $ from 'jquery';
 import { LokacijePresedanja } from 'src/app/model/LokacijePresedanja';
 import { letServis } from 'src/app/service/letServis';
 import { AvionskaKarta } from 'src/app/model/AvionskaKarta';
+import { korisnikServis } from 'src/app/service/korisnikServis';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-letovi',
@@ -39,25 +41,40 @@ export class LetoviComponent implements OnInit {
   porukaLokacije : string = "";
   avioKarte : AvionskaKarta[] = [];
   prikazBrzihKarata : boolean = false;
+  idKorisnika : number;
 
-  constructor(private avionServis : avionServis, private aeroServis : aerodromServis, private letServis : letServis) {
-
-    this.avionServis.vratiAvioneZaLet().subscribe(
+  constructor(private avionServis : avionServis, private aeroServis : aerodromServis, private letServis : letServis, private korisnikServis : korisnikServis, private router : Router) {
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
-        this.avioni = data;
-      }
-    )
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+          this.router.navigate(["glavnaRentACar/infoStranica"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "OBICAN_KORISNIK"){
+          this.router.navigate(["glavnaRegistrovani/profil"]);
+        }
+        this.idKorisnika = data.id;
 
-    this.aeroServis.vratiAerodrome().subscribe(
-      data => {
-        this.mojiAerodromi = data;
-        this.lokacijeAerodromi = data;
-      }
-    )
+        this.avionServis.vratiAvioneZaLet(this.idKorisnika).subscribe(
+          data => {
+            this.avioni = data;
+          }
+        )
 
-    this.letServis.vratiLetove().subscribe(
-      data => {
-        this.letovi = data;
+        this.letServis.vratiLetove(this.idKorisnika).subscribe(
+          data => {
+            this.letovi = data;
+          }
+        )
+
+        this.aeroServis.vratiAerodrome(this.idKorisnika).subscribe(
+          data => {
+            this.mojiAerodromi = data;
+            this.lokacijeAerodromi = data;
+          }
+        )
       }
     )
 
@@ -202,7 +219,7 @@ export class LetoviComponent implements OnInit {
       }
       this.noviLet.lokacije = this.izabraneLokacije;
       this.izabraneLokacije = [];
-      this.letServis.dodajNoviLet(this.noviLet).subscribe(
+      this.letServis.dodajNoviLet(this.noviLet, this.idKorisnika).subscribe(
         data => {
           this.letovi = data;
           this.prikazFormeZaDodavanje = false;
@@ -215,7 +232,7 @@ export class LetoviComponent implements OnInit {
           this.selektovaniAvion = "";
           this.selektovanoMestoPoletanja = "";
           this.selektovanoMestoSletanja = "";
-          this.avionServis.vratiAvioneZaLet().subscribe(
+          this.avionServis.vratiAvioneZaLet(this.idKorisnika).subscribe(
             data => {
               this.avioni = data;
             }

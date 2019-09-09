@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Korisnik } from 'src/app/model/Korisnik';
 import { korisnikServis } from 'src/app/service/korisnikServis';
 import * as $ from 'jquery';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profil-korisnika',
@@ -20,7 +21,20 @@ export class ProfilKorisnikaComponent implements OnInit {
   ponovljenaLozinka : string = "";
   porukaLozinke : string = "";
 
-  constructor(private korisnikServis : korisnikServis) { 
+  constructor(private korisnikServis : korisnikServis, private router : Router) { 
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
+      data => {
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+          this.router.navigate(["glavnaRentACar/infoStranica"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "ADMINISTRATOR_AVIOKOMPANIJE"){
+          this.router.navigate(["glavna/avioKompanija"]);
+        }
+      }
+    )
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
         this.korisnik = data;

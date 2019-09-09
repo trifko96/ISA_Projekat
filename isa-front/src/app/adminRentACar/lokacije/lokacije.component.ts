@@ -125,7 +125,7 @@ export class LokacijeComponent implements OnInit {
         )
       },
       error => {
-        this.porukaBrisanje = "Nije moguce brisanje aerodroma!";
+        this.porukaBrisanje = "Nije moguce brisanje lokacije!";
       }
     )
   }

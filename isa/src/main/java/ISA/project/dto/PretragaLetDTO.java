@@ -5,7 +5,7 @@ import java.util.Date;
 public class PretragaLetDTO {
 
 	private Date vremePoletanja;
-	private Date vremeSletanja;
+	private Date vremePovratka;
 	private String mestoPoletanja;
 	private String mestoSletanja;
 	private String tip;
@@ -24,12 +24,12 @@ public class PretragaLetDTO {
 		this.vremePoletanja = vremePoletanja;
 	}
 
-	public Date getVremeSletanja() {
-		return vremeSletanja;
+	public Date getVremePovratka() {
+		return vremePovratka;
 	}
 
-	public void setVremeSletanja(Date vremeSletanja) {
-		this.vremeSletanja = vremeSletanja;
+	public void setVremePovratka(Date vremeSletanja) {
+		this.vremePovratka = vremeSletanja;
 	}
 
 	public String getMestoPoletanja() {

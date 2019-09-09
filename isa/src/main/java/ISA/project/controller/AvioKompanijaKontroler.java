@@ -22,6 +22,7 @@ import ISA.project.dto.StatistikaDTO;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
 import ISA.project.service.AvioKompanijaServis;
+import ISA.project.service.KorisnikServis;
 
 @RestController
 @RequestMapping(value="/AvioKompanija")
@@ -29,11 +30,15 @@ public class AvioKompanijaKontroler {
 	
 	@Autowired
 	AvioKompanijaServis servis;
+	
+	@Autowired
+	KorisnikServis korisnikServis;
 
-	@RequestMapping(value="/vratiKompaniju", method = RequestMethod.GET)
-	public ResponseEntity<AvioKompanijaDTO> vratiAvioKompaniju(@Context HttpServletRequest request) {
+	@RequestMapping(value="/vratiKompaniju/{id}", method = RequestMethod.GET)
+	public ResponseEntity<AvioKompanijaDTO> vratiAvioKompaniju(@PathVariable long id) {
 		
-		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		//Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		Korisnik k = korisnikServis.vratiKorisnikaPoId(id);
 		AvioKompanija a = k.getAvioKompanija();
 		AvioKompanijaDTO akd = servis.nadjiKompaniju(a.getId());
 		if(akd != null)
@@ -61,9 +66,10 @@ public class AvioKompanijaKontroler {
 		}
 	}
 	
-	@RequestMapping(value="/vratiPrihod", method = RequestMethod.POST)
-	public ResponseEntity<PrihodDTO> vratiPrihod(@RequestBody DatumskiOpsegDTO datumDTO, @Context HttpServletRequest request){
-		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+	@RequestMapping(value="/vratiPrihod/{id}", method = RequestMethod.POST)
+	public ResponseEntity<PrihodDTO> vratiPrihod(@RequestBody DatumskiOpsegDTO datumDTO, @PathVariable long id){
+		//Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		Korisnik k = korisnikServis.vratiKorisnikaPoId(id);
 		AvioKompanija a = k.getAvioKompanija();
 		PrihodDTO prihod = servis.vratiPrihod(datumDTO, a);
 		return new ResponseEntity<>(prihod, HttpStatus.OK);

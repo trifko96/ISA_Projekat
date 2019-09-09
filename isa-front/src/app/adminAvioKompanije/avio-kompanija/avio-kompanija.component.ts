@@ -4,6 +4,8 @@ import { avioServis } from 'src/app/service/avioServis';
 import { HttpClient } from '@angular/common/http';
 declare var ol: any;
 import * as $ from 'jquery';
+import { korisnikServis } from 'src/app/service/korisnikServis';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-avio-kompanija',
@@ -21,19 +23,36 @@ export class AvioKompanijaComponent implements OnInit {
   pomKord2 : number = 0;
   pomAdresa : string = "";
   poruka : string = "";
+  idKorisnika : number;
 
 
-  constructor(private avioServis : avioServis, private http : HttpClient) { 
-    this.avioServis.vratiKompaniju().subscribe(
+  constructor(private avioServis : avioServis, private http : HttpClient, private korisnikServis : korisnikServis, private router : Router) { 
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
-        this.avioKompanija = data;
-        if(data.brojOcena != 0){
-          this.prosecnaOcena = data.ocena/data.brojOcena;
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+          this.router.navigate(["glavnaRentACar/infoStranica"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "OBICAN_KORISNIK"){
+          this.router.navigate(["glavnaRegistrovani/profil"]);
         }
-        this.setMarker([data.koordinata2,data.koordinata1]);
-        this.map.getView().setCenter(ol.proj.fromLonLat([data.koordinata2,data.koordinata1]));
+        this.idKorisnika = data.id;
+
+        this.avioServis.vratiKompaniju(this.idKorisnika).subscribe(
+          data => {
+            this.avioKompanija = data;
+            if(data.brojOcena != 0){
+              this.prosecnaOcena = data.ocena/data.brojOcena;
+            }
+            this.setMarker([data.koordinata2,data.koordinata1]);
+            this.map.getView().setCenter(ol.proj.fromLonLat([data.koordinata2,data.koordinata1]));
+          }
+        )
       }
     )
+    
   }
 
   ngOnInit() {
@@ -121,7 +140,7 @@ export class AvioKompanijaComponent implements OnInit {
       this.avioKompanijaIzmena.prihod = this.avioKompanija.prihod;
       this.avioServis.izmeniKompaniju(this.avioKompanijaIzmena).subscribe(
         data => {
-          this.avioServis.vratiKompaniju().subscribe(
+          this.avioServis.vratiKompaniju(this.idKorisnika).subscribe(
             data => {
               this.avioKompanija = data;
               $("#nazivKom").val("");

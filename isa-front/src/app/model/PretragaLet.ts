@@ -1,6 +1,6 @@
 export class PretragaLet{
     vremePoletanja : Date = new Date();
-    vremeSletanja : Date = new Date();
+    vremePovratka : Date = new Date();
     mestoPoletanja : string = "";
     mestoSletanja : string = "";
     tip : string = "";

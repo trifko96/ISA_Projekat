@@ -19,7 +19,7 @@ export class voziloServis {
 
    /* vratiSlobodne(){
         return this.http.get<Lokacija[]>("api/Lokacija/vratiSlobodneLokacije");
-    }*/
+    }*/ 
 
     /*dodajPostojecu(l : Lokacija[]){
         return this.http.post<Lokacija[]>("api/Lokacija/dodajPostojecu",l);
@@ -27,6 +27,10 @@ export class voziloServis {
 
     obrisi(v : Vozilo){
         return this.http.post<Vozilo[]>("api/Vozilo/obrisiVozilo",v);
+    }
+
+    izmeniVozilo(v : Vozilo){
+        return this.http.post<Vozilo>("api/Vozilo/izmeniVozilo", v);
     }
 
    /* vratiSveLokacije(){

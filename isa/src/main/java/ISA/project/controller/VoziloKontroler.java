@@ -64,5 +64,26 @@ public class VoziloKontroler {
 		else
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	@RequestMapping(value="/izmeniVozilo", method = RequestMethod.POST)
+	public ResponseEntity<VoziloDTO> izmeniVozilo(@RequestBody VoziloDTO vDTO){
+		Vozilo v = servis.nadjiVozilo(vDTO.getId());
+		VoziloDTO vkd = servis.nadjiVoziloDTO(vDTO.getId());
+		String retVal = servis.vratiVoziloIzmena(vDTO);
+		if(retVal.equals("ok")) { 
+			v.setCena(vDTO.getCena());
+			v.setNaziv(vDTO.getNaziv());
+			v.setMarka(vDTO.getMarka());
+			v.setModel(vDTO.getModel());
+			v.setGodinaProizvodnje(vDTO.getGodinaProizvodnje());
+			v.setBrSedista(vDTO.getBrSedista());
+			v.setNaPopustu(vDTO.getNaPopustu());
+			v.setAdresaLokacije(vDTO.getAdresaLokacije());
+			servis.sacuvajVozilo(v);
+			return new ResponseEntity<>(vkd, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 
 }

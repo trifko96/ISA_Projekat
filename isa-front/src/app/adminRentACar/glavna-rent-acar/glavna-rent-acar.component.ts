@@ -12,7 +12,6 @@ export class GlavnaRentACarComponent implements OnInit {
   navLinks = [
     {path: "infoStranica", label: "Info stranica"},
     {path: "vozila", label: "Vozila"},
-    {path: "rezervisanaVozila", label: "Rezervisana vozila"},
     {path: "filijale", label: "Filijale"},
     {path: "prihodiVozila", label: "Prihodi"},
     {path: "licniPodaci", label: "Licni podaci"}

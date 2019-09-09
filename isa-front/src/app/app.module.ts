@@ -45,6 +45,12 @@ import { RezervisanjeHotelaComponent } from './registrovaniKorisnik/rezervisanje
 import { RezervisanjeVozilaComponent } from './registrovaniKorisnik/rezervisanje-vozila/rezervisanje-vozila.component';
 import { IzmeniLozinkuComponent } from './adminRentACar/izmeni-lozinku/izmeni-lozinku.component';
 import { LokacijeComponent } from './adminRentACar/lokacije/lokacije.component';
+import { rezervacijaServis } from './service/rezervacijaServis';
+import { zahteviServis } from './service/zahteviServis';
+import { avionServis } from './service/avionServis';
+import { avioServis } from './service/avioServis';
+import { korisnikServis } from './service/korisnikServis';
+import { letServis } from './service/letServis';
 
 @NgModule({
   declarations: [
@@ -94,6 +100,12 @@ import { LokacijeComponent } from './adminRentACar/lokacije/lokacije.component';
   ],
   providers: [
     aerodromServis,
+    avionServis,
+    avioServis,
+    korisnikServis,
+    letServis,
+    rezervacijaServis,
+    zahteviServis
   ],
   bootstrap: [AppComponent]
 })

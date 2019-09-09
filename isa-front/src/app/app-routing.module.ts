@@ -84,7 +84,6 @@ const routes: Route[] = [
       {path: 'licniPodaci', component: LicniPodaciComponent},
       {path: 'prihodiVozila', component: PrihodiVozilaComponent},
       {path: 'vozila', component: VozilaComponent},
-      {path: 'rezervisanaVozila', component: RezervisanaVozilaComponent},
       {path: '**', redirectTo: 'infoStranica', pathMatch: 'full'},
     ]
   },
