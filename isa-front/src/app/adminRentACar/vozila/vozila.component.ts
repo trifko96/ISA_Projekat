@@ -4,6 +4,8 @@ import { voziloServis } from 'src/app/service/voziloServis';
 import * as $ from 'jquery';
 import { Lokacija } from 'src/app/model/Lokacija';
 import { lokacijeServis } from 'src/app/service/lokacijeServis';
+import { korisnikServis } from 'src/app/service/korisnikServis';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vozila',
@@ -37,21 +39,35 @@ export class VozilaComponent implements OnInit {
   selektovanaLokacija : string = "";
   selektovanaLokacijaIzmena : string = "";
   lokacije : Lokacija[] = [];
+  idKorisnik : number;
 
-  constructor(private voziloServis : voziloServis, private lokacijeServis : lokacijeServis) { 
-
-    this.voziloServis.vratiVozilo().subscribe(
+  constructor(private voziloServis : voziloServis, private lokacijeServis : lokacijeServis, private korisnikServis : korisnikServis, private router : Router) { 
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
-        this.vozila = data;
+        if(data.provera == "ADMINISTRATOR_HOTELA"){
+          this.router.navigate([""]);
+        } else if(data.provera == "ADMINISTRATOR_AVIOKOMPANIJE"){
+          this.router.navigate(["glavna/avioKompanija"]);
+        } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+          this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+        } else if(data.provera == "OBICAN_KORISNIK"){
+          this.router.navigate(["glavnaRegistrovani/profil"]);
+        }
+     
+        this.idKorisnik = data.id;
+        this.voziloServis.vratiVozilo().subscribe(
+          data => {
+            this.vozila = data;
+         }
+       )
+
+        this.lokacijeServis.vratiSveLokacije().subscribe(
+          data => {
+            this.lokacije = data;
+          }
+        )
       }
     )
-
-    this.lokacijeServis.vratiSveLokacije().subscribe(
-      data => {
-        this.lokacije = data;
-      }
-    )
-
   }
  
   ngOnInit() {

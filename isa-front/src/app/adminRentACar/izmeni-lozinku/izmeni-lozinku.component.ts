@@ -15,7 +15,7 @@ export class IzmeniLozinkuComponent implements OnInit {
   pomLozinka : string = "";
   trenutniKorisnik : Korisnik = new Korisnik();
 
-  constructor(private korisnikServis : korisnikServis, private router : Router) { }
+  constructor(private korisnikServis : korisnikServis, private router : Router) {}
  
   ngOnInit() {
   }
