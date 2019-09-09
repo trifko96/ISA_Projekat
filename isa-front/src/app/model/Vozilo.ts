@@ -12,4 +12,5 @@ export class Vozilo{
     rezervisano : boolean;
     naPopustu : string = "";
     adresaLokacije : string = "";
+    popust : number;
 } 

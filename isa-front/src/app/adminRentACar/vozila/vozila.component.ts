@@ -23,8 +23,17 @@ export class VozilaComponent implements OnInit {
     {name: "DA", value: "DA"},
     {name: "NE", value: "NE"}
   ]
+  opcije1 = [
+    {name: "MINI", value: "MINI"},
+    {name: "LIMUZINA", value: "LIMUZINA"},
+    {name: "KARAVAN", value: "KARAVAN"},
+    {name: "KABRIOLET", value: "KABRIOLET"}
+  
+  ]
   selektovanaOpcija : string = "";
+  selektovanaOpcija1 : string = ""
   selektovanaOpcijaIzmena : string = "";
+  selektovanaOpcijaIzmena1 : string = "";
   selektovanaLokacija : string = "";
   selektovanaLokacijaIzmena : string = "";
   lokacije : Lokacija[] = [];
@@ -61,14 +70,17 @@ export class VozilaComponent implements OnInit {
     this.novoVozilo.model = v.model;
     this.novoVozilo.godinaProizvodnje = v.godinaProizvodnje;
     this.novoVozilo.brSedista = v.brSedista;
+    this.selektovanaOpcijaIzmena1 = v.tip;
     this.selektovanaOpcijaIzmena = v.naPopustu;
     this.selektovanaLokacijaIzmena = v.adresaLokacije;
+    this.novoVozilo.popust = v.popust;
     this.izmena = true;
     this.poruka = ""; 
   }
 
   Dodaj(){
     let provera : boolean = false;
+    this.novoVozilo.tip = this.selektovanaOpcija1;
     this.novoVozilo.naPopustu = this.selektovanaOpcija;
     this.novoVozilo.adresaLokacije = this.selektovanaLokacija;
 
@@ -112,6 +124,13 @@ export class VozilaComponent implements OnInit {
       $("#brSedVoz").addClass('border-danger');
     } else {
       $("#brSedVoz").removeClass('border-danger');
+    }
+
+    if(this.novoVozilo.tip == ""){
+      provera = true;
+      $("#tipVoz").addClass('border-danger');
+    } else {
+      $("#tipVoz").removeClass('border-danger');
     }
 
     if(this.novoVozilo.naPopustu == ""){
@@ -165,6 +184,7 @@ export class VozilaComponent implements OnInit {
       this.prikazFormeZaIzmenuPostojeceg = false;
       this.novoVozilo.adresaLokacije = this.selektovanaLokacijaIzmena;
       this.novoVozilo.naPopustu = this.selektovanaOpcijaIzmena;
+      this.novoVozilo.tip = this.selektovanaOpcijaIzmena1;
       this.voziloServis.izmeniVozilo(this.novoVozilo).subscribe(
         data => {
           this.voziloServis.vratiVozilo().subscribe(
@@ -176,8 +196,10 @@ export class VozilaComponent implements OnInit {
               $("#modelVozila").val("");
               $("#proizGodVozila").val("");
               $("#brSedVozila").val("");
+              $("#tipVozilo").val("");
               $("#popustVoz").val("");
               $("#adresaLokVozila").val("");
+              $("#popustVozila").val("");
               this.novoVozilo = new Vozilo();
               this.poruka = "";
             }

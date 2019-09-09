@@ -7,4 +7,5 @@ export class RentCar
     ocena : number;
     brojOcena : number = 0;
     prihod : number;
+    prosecnaOcena : number = 0;
 }
