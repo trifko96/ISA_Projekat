@@ -13,6 +13,8 @@ export class LokacijeComponent implements OnInit {
   lokacije : Lokacija[] = [];
   novaLokacija : Lokacija = new Lokacija();
   prikazFormeZaDodavanjeNovog : boolean = false;
+  prikazFormeZaIzmenuPostojeceg : boolean = false;
+  izmena : boolean = false;
   poruka : string = "";
   postojeceLokacije : Lokacija[] = [];
   prikazFormeZaDodavanjePostojeceg : boolean = false;
@@ -72,6 +74,15 @@ export class LokacijeComponent implements OnInit {
     this.prikazFormeZaDodavanjeNovog = true;
   }
 
+  izmeni(l : Lokacija){
+    this.prikazFormeZaIzmenuPostojeceg = true;
+    this.novaLokacija.id = l.id;
+    this.novaLokacija.adresa = l.adresa;
+    this.izmena = true;
+    this.poruka = ""; 
+
+  }
+
   dodajPostojeci(){
     this.prikazFormeZaDodavanjePostojeceg = true;
     if(this.postojeceLokacije.length == 0){
@@ -122,12 +133,36 @@ export class LokacijeComponent implements OnInit {
               this.imaPostojecih = true;
             }
           }
-        )
+        ) 
       },
       error => {
         this.porukaBrisanje = "Nije moguce brisanje lokacije!";
       }
     )
+  }
+
+  Izmena(){
+    if(this.izmena == true){
+      this.izmena = false;
+      this.prikazFormeZaIzmenuPostojeceg = false;
+      this.lokacijeServis.izmeniLokaciju(this.novaLokacija).subscribe(
+        data => {
+          this.lokacijeServis.vratiLokacije().subscribe(
+            data => {
+              this.lokacije = data;
+              $("#adresaLokacije").val("");
+              this.novaLokacija = new Lokacija();
+              this.poruka = "";
+            }
+          )
+        },
+        error => {
+          this.poruka = "Uneto ime vec postoji!";
+        }
+      )
+    } else {
+      this.poruka = "Odaberite lokaciju za izmenu!";
+    }
   }
 
 }
