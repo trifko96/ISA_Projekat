@@ -77,8 +77,10 @@ public class VoziloKontroler {
 			v.setModel(vDTO.getModel());
 			v.setGodinaProizvodnje(vDTO.getGodinaProizvodnje());
 			v.setBrSedista(vDTO.getBrSedista());
+			v.setTip(vDTO.getTip());
 			v.setNaPopustu(vDTO.getNaPopustu());
 			v.setAdresaLokacije(vDTO.getAdresaLokacije());
+			v.setPopust(vDTO.getPopust());
 			servis.sacuvajVozilo(v);
 			return new ResponseEntity<>(vkd, HttpStatus.OK);
 		} else {

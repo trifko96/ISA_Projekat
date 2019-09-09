@@ -18,6 +18,7 @@ public class VoziloDTO {
 	private boolean rezervisano;
 	private String naPopustu;
 	private String adresaLokacije;
+	private double popust;
 	
 	VoziloDTO(){}
 	
@@ -36,6 +37,7 @@ public class VoziloDTO {
 		this.rezervisano = vozilo.isRezervisano();
 		this.naPopustu = vozilo.getNaPopustu();
 		this.adresaLokacije = vozilo.getAdresaLokacije();
+		this.popust = vozilo.getPopust();
 	}
 
 	public long getId() {
@@ -140,6 +142,14 @@ public class VoziloDTO {
 
 	public void setAdresaLokacije(String adresaLokacije) {
 		this.adresaLokacije = adresaLokacije;
+	}
+
+	public double getPopust() {
+		return popust;
+	}
+
+	public void setPopust(double popust) {
+		this.popust = popust;
 	}
 	
 	

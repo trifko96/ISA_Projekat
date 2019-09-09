@@ -35,8 +35,10 @@ public class VoziloServis {
 		vozi.setModel(vdto.getModel());
 		vozi.setGodinaProizvodnje(vdto.getGodinaProizvodnje());
 		vozi.setBrSedista(vdto.getBrSedista());
+		vozi.setTip(vdto.getTip());
 		vozi.setNaPopustu(vdto.getNaPopustu());
 		vozi.setAdresaLokacije(vdto.getAdresaLokacije());
+		vozi.setPopust(vdto.getPopust());
 		vozi.setRentACar(r);
 		//vozi.dodajRentACar(r);
 		r.dodajVozilo(vozi);

@@ -25,6 +25,12 @@ public class Vozilo {
 	private String naPopustu;
 	private String adresaLokacije;
 	private Date trenutniDatum;
+	private Date datumOd;
+	private Date datumDo;
+	private String emailKorisnika;
+	private String mestoPreuzimanja;
+	private String mestoVracanja;
+	private double popust;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="rentACarId", referencedColumnName="rentACarId")
@@ -39,7 +45,7 @@ public class Vozilo {
 	}
 	
 	public Vozilo(double cena, String naziv, String marka, String model, String godinaProizvodnje, int brSedista,
-			String tip) {
+			String tip, double popust) {
 		super();
 		this.cena = cena;
 		this.naziv = naziv;
@@ -48,6 +54,7 @@ public class Vozilo {
 		this.godinaProizvodnje = godinaProizvodnje;
 		this.brSedista = brSedista;
 		this.tip = tip;
+		this.popust = popust;
 	}
 
 
@@ -185,6 +192,54 @@ public class Vozilo {
 
 	public void setTrenutniDatum(Date trenutniDatum) {
 		this.trenutniDatum = trenutniDatum;
+	}
+
+	public Date getDatumOd() {
+		return datumOd;
+	}
+
+	public void setDatumOd(Date datumOd) {
+		this.datumOd = datumOd;
+	}
+
+	public Date getDatumDo() {
+		return datumDo;
+	}
+
+	public void setDatumDo(Date datumDo) {
+		this.datumDo = datumDo;
+	}
+
+	public String getEmailKorisnika() {
+		return emailKorisnika;
+	}
+
+	public void setEmailKorisnika(String emailKorisnika) {
+		this.emailKorisnika = emailKorisnika;
+	}
+
+	public String getMestoPreuzimanja() {
+		return mestoPreuzimanja;
+	}
+
+	public void setMestoPreuzimanja(String mestoPreuzimanja) {
+		this.mestoPreuzimanja = mestoPreuzimanja;
+	}
+
+	public String getMestoVracanja() {
+		return mestoVracanja;
+	}
+
+	public void setMestoVracanja(String mestoVracanja) {
+		this.mestoVracanja = mestoVracanja;
+	}
+
+	public double getPopust() {
+		return popust;
+	}
+
+	public void setPopust(double popust) {
+		this.popust = popust;
 	}
 	
 	
