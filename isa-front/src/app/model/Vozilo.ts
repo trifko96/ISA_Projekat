@@ -1,3 +1,4 @@
+
 export class Vozilo{
     id : number;
     cena : string = "";
@@ -11,6 +12,12 @@ export class Vozilo{
     brOcena : number;
     rezervisano : boolean;
     naPopustu : string = "";
+    datumOd : Date;
+    datumDo : Date;
+    emailKorisnika : string = "";
+    mestoPreuzimanja : string = "";
+    mestoVracanja : string = "";
     adresaLokacije : string = "";
+    
     popust : number;
 } 
