@@ -1,5 +1,6 @@
 package ISA.project.model;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class Vozilo {
 	private boolean rezervisano;
 	private String naPopustu;
 	private String adresaLokacije;
+	private Date trenutniDatum;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="rentACarId", referencedColumnName="rentACarId")
@@ -175,6 +177,14 @@ public class Vozilo {
 
 	public void setAdresaLokacije(String adresaLokacije) {
 		this.adresaLokacije = adresaLokacije;
+	}
+
+	public Date getTrenutniDatum() {
+		return trenutniDatum;
+	}
+
+	public void setTrenutniDatum(Date trenutniDatum) {
+		this.trenutniDatum = trenutniDatum;
 	}
 	
 	

@@ -79,4 +79,18 @@ public class LokacijaKontroler {
 		List<LokacijaDTO> aerodromi = servis.vratiSveLokacije();
 		return new ResponseEntity<>(aerodromi, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/izmeniLokaciju", method = RequestMethod.POST)
+	public ResponseEntity<LokacijaDTO> izmeniLokaciju(@RequestBody LokacijaDTO lDTO){
+		Lokacija l = servis.nadjiLokaciju(lDTO.getId());
+		LokacijaDTO lkd = servis.nadjiLokacijuDTO(lDTO.getId());
+		String retVal = servis.vratiLokacijuIzmena(lDTO);
+		if(retVal.equals("ok")) { 
+			l.setAdresa(lDTO.getAdresa());
+			servis.sacuvajLokaciju(l);
+			return new ResponseEntity<>(lkd, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

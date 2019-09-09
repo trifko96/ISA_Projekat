@@ -109,6 +109,42 @@ public class LokacijaServis {
 		}
 		return listaDTO;
 	}
+	
+public LokacijaDTO nadjiLokacijuDTO(long id) {
+		
+		Lokacija lok = repozitorijum.vratiLokacijuPoNazivu(id);
+		if(lok != null)
+			return new LokacijaDTO(lok);
+		else 
+			return null;
+	}
+
+	public Lokacija nadjiLokaciju(long id) {
+	
+		Lokacija lok = repozitorijum.vratiLokacijuPoNazivu(id);
+		if(lok != null)
+			return lok;
+		else 
+			return null;
+	}
+	
+	public String vratiLokacijuIzmena(LokacijaDTO ldto) {
+		int brojac = 0;
+		List<Lokacija> lok = repozitorijum.vratiLokacijePoNazivu(ldto.getId());
+		for(Lokacija l : lok) {
+			if(l.getAdresa().equals(ldto.getAdresa())) {
+				brojac++;
+			}
+		}
+		if(brojac != 0)
+			return "greska";
+		else
+			return "ok";
+	}
+	
+	public void sacuvajLokaciju(Lokacija l) {
+		repozitorijum.save(l);
+	}
 
 
 }
