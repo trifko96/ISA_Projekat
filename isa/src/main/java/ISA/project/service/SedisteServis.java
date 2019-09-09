@@ -58,11 +58,13 @@ public class SedisteServis {
 		sediste.setStatus(s.getStatus());
 		AvionskaKarta a = kartaRepo.vratiKartu(sediste.getId());
 		Let l = letRepozitorijum.vratiLetPoAvionu(sediste.getSegment().getAvion().getId());
-		if(a != null) {
-			a.setCena(a.getCena() - a.getCena()*l.getPopust() / 100);
+		if(s.getStatus().equals(StatusSedista.BRZA_REZERVACIJA)) {
+			if(a != null) {
+				a.setCena(a.getCena() - a.getCena()*l.getPopust() / 100);
+				kartaRepo.save(a);
+			}
 		}
 		repozitorijum.save(sediste);
-		kartaRepo.save(a);
 	}
 	
 	public Segment dodajSediste(SedisteDTO s) {
