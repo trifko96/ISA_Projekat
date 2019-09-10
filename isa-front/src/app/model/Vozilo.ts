@@ -10,6 +10,7 @@ export class Vozilo{
     tip : string = "";
     prosecnaOcena : number;
     brOcena : number;
+    ocene : number;
     rezervisano : boolean;
     naPopustu : string = "";
     datumOd : Date;

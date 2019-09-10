@@ -1,7 +1,8 @@
 package ISA.project.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -21,6 +22,7 @@ public class Vozilo {
 	private String tip;
 	private double prosecnaOcena;
 	private int brOcena;
+	private int ocene;
 	private boolean rezervisano;
 	private String naPopustu;
 	private String adresaLokacije;
@@ -39,6 +41,9 @@ public class Vozilo {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="lokacijaId", referencedColumnName="lokacijaId")
 	private Lokacija lokacija;
+	
+	@OneToMany(targetEntity=Rezervacija.class,mappedBy="vozilo", cascade = CascadeType.ALL)
+	private List<Rezervacija> rezervacije = new ArrayList<>();
 	
 	public Vozilo() {
 		
@@ -87,6 +92,14 @@ public class Vozilo {
 		this.marka = marka;
 	}
 
+
+	public int getOcene() {
+		return ocene;
+	}
+
+	public void setOcene(int ocene) {
+		this.ocene = ocene;
+	}
 
 	public String getModel() {
 		return model;
@@ -240,6 +253,22 @@ public class Vozilo {
 
 	public void setPopust(double popust) {
 		this.popust = popust;
+	}
+
+	public Lokacija getLokacija() {
+		return lokacija;
+	}
+
+	public void setLokacija(Lokacija lokacija) {
+		this.lokacija = lokacija;
+	}
+
+	public List<Rezervacija> getRezervacije() {
+		return rezervacije;
+	}
+
+	public void setRezervacije(List<Rezervacija> rezervacije) {
+		this.rezervacije = rezervacije;
 	}
 	
 	

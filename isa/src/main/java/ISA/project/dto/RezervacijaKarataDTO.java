@@ -1,5 +1,7 @@
 package ISA.project.dto;
 
+import java.sql.Date;
+
 public class RezervacijaKarataDTO {
 
 	private long idSedista;
@@ -10,6 +12,8 @@ public class RezervacijaKarataDTO {
 	private String email;
 	private String brPasosa;
 	private int idLeta;
+	private Date datumOdLeta;
+	private Date datumDoLeta;
 	
 	public RezervacijaKarataDTO() {
 		
@@ -77,6 +81,22 @@ public class RezervacijaKarataDTO {
 
 	public void setIdLeta(int idLeta) {
 		this.idLeta = idLeta;
+	}
+
+	public Date getDatumOdLeta() {
+		return datumOdLeta;
+	}
+
+	public void setDatumOdLeta(Date datumOdLeta) {
+		this.datumOdLeta = datumOdLeta;
+	}
+
+	public Date getDatumDoLeta() {
+		return datumDoLeta;
+	}
+
+	public void setDatumDoLeta(Date datumDoLeta) {
+		this.datumDoLeta = datumDoLeta;
 	}
 	
 	

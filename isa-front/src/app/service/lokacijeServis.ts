@@ -36,4 +36,8 @@ export class lokacijeServis {
     izmeniLokaciju(l : Lokacija){
         return this.http.post<Lokacija>("api/Lokacija/izmeniLokaciju", l);
     }
+
+    vratiLokacijePoRent(id : number){
+        return this.http.get<Lokacija[]>("api/Lokacija/vratiLokacijePoRent/"+id);
+    }
 }

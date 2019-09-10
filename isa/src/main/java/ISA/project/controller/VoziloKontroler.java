@@ -5,19 +5,31 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ISA.project.dto.PretragaVoziloDTO;
+import ISA.project.dto.RezervacijaDTO;
+import ISA.project.dto.RezervacijaKarataDTO;
 import ISA.project.dto.VoziloDTO;
 import ISA.project.model.Korisnik;
+import ISA.project.model.Let;
 import ISA.project.model.RentACar;
+import ISA.project.model.Segment;
+import ISA.project.model.TipKlase;
 import ISA.project.model.Vozilo;
+import ISA.project.service.EmailServis;
+import ISA.project.service.KorisnikServis;
 import ISA.project.service.RentACarServis;
+import ISA.project.service.SedisteServis;
 import ISA.project.service.VoziloServis;
 
 
@@ -30,6 +42,17 @@ public class VoziloKontroler {
 	
 	@Autowired
 	RentACarServis carServis;
+	
+	@Autowired
+	KorisnikServis korisnikServis;
+	
+	@Autowired
+	EmailServis eservis;
+	
+	@Autowired
+	SedisteServis sedisteServis;
+	
+	private Logger logger = LoggerFactory.getLogger(VoziloKontroler.class);
 	
 	@RequestMapping(value = "/dodajNovo", method = RequestMethod.POST)
 	public ResponseEntity<List<VoziloDTO>> dodajNovo(@RequestBody VoziloDTO vdto, @Context HttpServletRequest request){
@@ -87,5 +110,68 @@ public class VoziloKontroler {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@RequestMapping(value="/vratiBrzaVozila", method = RequestMethod.GET)
+	public ResponseEntity<List<VoziloDTO>> vratiBrzaVozila(){
+		List<VoziloDTO> vozila = servis.vratiBrzaVozila();
+		return new ResponseEntity<>(vozila, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/brzoRezervisiVozilo/{id}", method = RequestMethod.POST)
+	public ResponseEntity<List<VoziloDTO>> brzoRezervisiVozilo(@RequestBody RezervacijaDTO r, @PathVariable long id){
+		Korisnik k = korisnikServis.vratiKorisnikaPoId(id);
+		List<Korisnik> korisnici = korisnikServis.vratiKorisnike();
+		long idPom = 0;
+		double cena = 0;
+		for(RezervacijaKarataDTO rez : r.getKarte()) {
+			idPom = rez.getIdSedista();
+			break;
+		}
+		Let l = sedisteServis.vratiPodatkeOLetu(idPom);
+		Segment s = sedisteServis.vratiPodatkeOKlasi(idPom);
+		if(s.getTip().equals(TipKlase.BIZNIS)) {
+			cena = l.getCenaKarteBiznisKlase();
+		} else if(s.getTip().equals(TipKlase.EKONOMSKA)) {
+			cena = l.getCenaKarteEkonomskeKlase();
+		} else {
+			cena = l.getCenaPrveKlase();
+		}
+		String poruka = servis.brzoRezervisi(r, k, r.getVozilo());
+		if(poruka.equals("ok")) {
+			try {
+				eservis.rezervacijaInformacijeBrzoVozilo(r, k, l, s, r.getVozilo());
+			}catch( Exception e ){
+				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+			}
+			
+			for(RezervacijaKarataDTO rez : r.getKarte()) {
+				double pom = 0;
+				for(Korisnik kor : korisnici) {
+					if(rez.getEmail().equals(kor.getEmail())) {
+						pom++;
+					}
+				}
+				if((pom != 0) && (!rez.getEmail().equals(k.getEmail()))) {
+					try {
+						eservis.pozivZaLet(l, cena, rez);
+					}catch( Exception e ){
+						logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+					}
+				}
+			}
+			List<VoziloDTO> vozilaDTO = servis.vratiBrzaVozila();
+			return new ResponseEntity<>(vozilaDTO, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value="/pretraziVozilo/{id}", method = RequestMethod.POST)
+	public ResponseEntity<List<VoziloDTO>> pretraziVozilo(@RequestBody PretragaVoziloDTO p, @PathVariable long id){
+		List<VoziloDTO> vozila = servis.pretraziVozilo(p, id);
+		return new ResponseEntity<>(vozila, HttpStatus.OK);
+	}
+	
+	
 
 }

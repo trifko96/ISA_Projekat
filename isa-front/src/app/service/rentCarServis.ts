@@ -4,6 +4,8 @@ import {RentCar} from '../model/RentCar';
 import { DatumskiOpseg } from '../model/DatumskiOpseg';
 import { Prihod } from '../model/Prihod';
 import { Statistika } from '../model/Statistika';
+import { Lokacija } from '../model/Lokacija';
+import { PretragaServis } from '../model/PretragaServis';
 
 @Injectable({
     providedIn : 'root',
@@ -37,4 +39,15 @@ export class rentCarServis{
       return this.http.get<Statistika>("api/RentACar/vratiStatistikuPoGodini");
     }
 
+    vratiSveServise(){
+      return this.http.get<RentCar[]>("api/RentACar/vratiSveServise");
+    }
+
+    vratiFilijaleServisa(r : RentCar, id : number){
+      return this.http.post<Lokacija[]>("api/RentACar/vratiFilijale/"+id, r);
+    }
+
+    pretraziServis(p : PretragaServis){
+      return this.http.post<RentCar[]>("api/RentACar/pretraziServise",p);
+    }
 }

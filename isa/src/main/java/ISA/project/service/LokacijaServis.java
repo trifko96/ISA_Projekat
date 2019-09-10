@@ -146,5 +146,13 @@ public LokacijaDTO nadjiLokacijuDTO(long id) {
 		repozitorijum.save(l);
 	}
 
+	public List<LokacijaDTO> vratiLokacijePoRent(long id){
+		List<Lokacija> lista = repozitorijum.vratiLokacije(id);
+		List<LokacijaDTO> listaDTO = new ArrayList<>();
+		for(Lokacija l : lista) {
+			listaDTO.add(new LokacijaDTO(l));
+		}
+		return listaDTO;
+	}
 
 }

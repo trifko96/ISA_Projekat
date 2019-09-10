@@ -1,5 +1,7 @@
 package ISA.project.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 
@@ -14,12 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ISA.project.dto.DatumskiOpsegDTO;
 import ISA.project.dto.PrihodDTO;
+import ISA.project.dto.LokacijaDTO;
+import ISA.project.dto.PretragaServisDTO;
 import ISA.project.dto.RentACarDTO;
 import ISA.project.dto.StatistikaDTO;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
 import ISA.project.model.RentACar;
 import ISA.project.service.KorisnikServis;
+import ISA.project.service.LokacijaServis;
 import ISA.project.service.RentACarServis;
 
 
@@ -32,6 +37,9 @@ public class RentACarKontroler {
 	
 	@Autowired
 	KorisnikServis korisnikServis;
+	
+	@Autowired
+	LokacijaServis lokacijaServis;
 
 	@RequestMapping(value="/vratiRentACar", method = RequestMethod.GET)
 	public ResponseEntity<RentACarDTO> vratiRentACar(@Context HttpServletRequest request) {
@@ -92,5 +100,22 @@ public class RentACarKontroler {
 		RentACar r = k.getRentACar();
 		StatistikaDTO stat = servis.vratiStatistikuPoGodini(r);
 		return new ResponseEntity<>(stat, HttpStatus.OK);
+	@RequestMapping(value="/vratiSveServise", method = RequestMethod.GET)
+	public ResponseEntity<List<RentACarDTO>> vratiSveServise(){
+		List<RentACarDTO> lista = servis.vratiServise();
+		return new ResponseEntity<>(lista, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/vratiFilijale/{id}", method = RequestMethod.POST)
+	public ResponseEntity<List<LokacijaDTO>> vratiFilijale(@RequestBody RentACarDTO r, @PathVariable long id){
+		RentACar rent = servis.nadjiRentACar(id);
+		List<LokacijaDTO> lista = lokacijaServis.vratiLokacije(rent);
+		return new ResponseEntity<>(lista, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/pretraziServise", method = RequestMethod.POST)
+	public ResponseEntity<List<RentACarDTO>> pretraziServise(@RequestBody PretragaServisDTO p){
+		List<RentACarDTO> servisiDTO = servis.pretraziServise(p);
+		return new ResponseEntity<>(servisiDTO, HttpStatus.OK);
 	}
 }

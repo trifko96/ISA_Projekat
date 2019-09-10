@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import ISA.project.dto.AvionskaKartaDTO;
 import ISA.project.dto.RezervacijaDTO;
 import ISA.project.dto.RezervacijaKarataDTO;
+import ISA.project.dto.VoziloDTO;
 import ISA.project.model.Korisnik;
 import ISA.project.model.Let;
 import ISA.project.model.Segment;
@@ -103,6 +104,31 @@ public class EmailServis {
 		helper.setFrom(env.getProperty("spring.mail.username"));
 		javaMailSender.send(mimeMessage);
 	
+		System.out.println("Email poslat!");
+	}
+	
+	@Async
+	public void rezervacijaInformacijeBrzoVozilo(RezervacijaDTO r, Korisnik k, Let l, Segment s, VoziloDTO v) throws MailException, InterruptedException, MessagingException {
+		System.out.println("Slanje emaila...");
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
+		
+		String htmlMsg = "<h3>Pozdrav "+k.getIme()+"</h3><br> <p>Uspesno ste rezervisali let na relaciji "+
+				l.getPolaznaDestinacija().getGrad()+ " - " + l.getOdredisnaDestinacija().getGrad()+
+				".<br> Rezervisana mesta u avionu su: ";
+		
+		for(RezervacijaKarataDTO rez : r.getKarte()) {
+			htmlMsg += "<br>"+ s.getTip() + " klasa, broj sedista: "+ rez.getBrSedista()+
+					", "+ rez.getIme() + " "+rez.getPrezime()+".<br>";
+		}
+		
+		htmlMsg += "<br>Uspesno ste rezervisali vozilo "+ v.getMarka() + " " + v.getModel() + ".";
+		mimeMessage.setContent(htmlMsg, "text/html");
+		helper.setTo(k.getEmail());
+		helper.setSubject("Obavestenje o rezervaciji");
+		helper.setFrom(env.getProperty("spring.mail.username"));
+		javaMailSender.send(mimeMessage);
+		
 		System.out.println("Email poslat!");
 	}
 }

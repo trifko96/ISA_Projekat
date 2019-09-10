@@ -17,6 +17,7 @@ public class VoziloDTO {
 	private String tip;
 	private double prosecnaOcena;
 	private int brOcena;
+	private int ocene;
 	private boolean rezervisano;
 	private String naPopustu;
 	private String adresaLokacije;
@@ -41,6 +42,7 @@ public class VoziloDTO {
 		this.tip = vozilo.getTip();
 		this.prosecnaOcena = vozilo.getProsecnaOcena();
 		this.brOcena = vozilo.getBrOcena();
+		this.ocene = vozilo.getOcene();
 		this.rezervisano = vozilo.isRezervisano();
 		this.naPopustu = vozilo.getNaPopustu();
 		this.adresaLokacije = vozilo.getAdresaLokacije();
@@ -193,6 +195,14 @@ public class VoziloDTO {
 
 	public double getPopust() {
 		return popust;
+	}
+
+	public int getOcene() {
+		return ocene;
+	}
+
+	public void setOcene(int ocene) {
+		this.ocene = ocene;
 	}
 
 	public void setPopust(double popust) {

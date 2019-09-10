@@ -1,15 +1,31 @@
 package ISA.project.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ISA.project.dto.PretragaVoziloDTO;
+import ISA.project.dto.RezervacijaDTO;
+import ISA.project.dto.RezervacijaKarataDTO;
 import ISA.project.dto.VoziloDTO;
+import ISA.project.model.AvionskaKarta;
+import ISA.project.model.Korisnik;
 import ISA.project.model.RentACar;
+import ISA.project.model.Rezervacija;
+import ISA.project.model.Sediste;
+import ISA.project.model.StatusSedista;
 import ISA.project.model.Vozilo;
+import ISA.project.repository.AvionskaKartaRepozitorijum;
+import ISA.project.repository.KorisnikRepozitorijum;
 import ISA.project.repository.RentACarRepozitorijum;
+import ISA.project.repository.RezervacijaRepozitorijum;
+import ISA.project.repository.SedisteRepozitorijum;
 import ISA.project.repository.VoziloRepozitorijum;
 
 
@@ -21,6 +37,18 @@ public class VoziloServis {
 	
 	@Autowired
 	RentACarRepozitorijum carRepozitorijum;
+	
+	@Autowired
+	SedisteRepozitorijum sedisteRepo;
+	
+	@Autowired
+	AvionskaKartaRepozitorijum kartaRepo;
+	
+	@Autowired
+	KorisnikRepozitorijum korisnikRepo;
+	
+	@Autowired
+	RezervacijaRepozitorijum rezervacijaRepo;
 	
 	public Vozilo vratiVoziloPoNazivu(VoziloDTO vdto) {
 		Vozilo v = repozitorijum.vratiVoziloPoNazivu(vdto.getId());
@@ -104,6 +132,103 @@ public class VoziloServis {
 	
 	public void sacuvajVozilo(Vozilo v) {
 		repozitorijum.save(v);
+	}
+	
+	public List<VoziloDTO> vratiBrzaVozila(){
+		List<Vozilo> vozila = repozitorijum.findAll();
+		List<VoziloDTO> vozilaDTO = new ArrayList<>();
+		for(Vozilo v : vozila) {
+			if(!v.isRezervisano() && v.getNaPopustu().equals("DA")) {
+				vozilaDTO.add(new VoziloDTO(v));
+			}
+		}
+		return vozilaDTO;
+	}
+	
+	@Transactional
+	synchronized public String brzoRezervisi(RezervacijaDTO r, Korisnik k, VoziloDTO v) {
+		Rezervacija rezervacija = new Rezervacija();
+		List<Korisnik> korisnici = korisnikRepo.findAll();
+		Vozilo voz = repozitorijum.vratiVoziloPoNazivu(v.getId());
+		int br = 0;
+		for(RezervacijaKarataDTO rdto : r.getKarte()) {
+			Sediste sed = sedisteRepo.vratiSediste(rdto.getIdSedista());
+			if(sed.getStatus().equals(StatusSedista.REZERVISANO)) {
+				br++;
+			}
+		}
+		if(br != 0 || voz.isRezervisano()) {
+			return "greska";
+		} else {
+			for(RezervacijaKarataDTO rdto : r.getKarte()) {
+				int tmp = 0;
+				AvionskaKarta a = kartaRepo.vratiKartu(rdto.getIdSedista());
+				a.setBrojPasosaPutnika(rdto.getBrPasosa());
+				a.setBrTelefonaPutnika(rdto.getBrTelefona());
+				a.setEmailPutnika(rdto.getEmail());
+				a.setImePutnika(rdto.getIme());
+				a.setPrezimePutnika(rdto.getPrezime());
+				a.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+				for(Korisnik kor : korisnici) {
+					if(kor.getEmail().equals(rdto.getEmail()) && !k.getEmail().equals(rdto.getEmail())) {
+						tmp++;
+					}
+				}
+				if(tmp == 0) {
+					Sediste s = sedisteRepo.vratiSediste(rdto.getIdSedista());
+					s.setStatus(StatusSedista.REZERVISANO);
+					sedisteRepo.save(s);
+				}
+				kartaRepo.save(a);
+				rezervacija.getKarte().add(a);
+			}
+			voz.setTrenutniDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+			voz.setDatumOd(v.getDatumOd());
+			voz.setEmailKorisnika(v.getEmailKorisnika());
+			voz.setMestoPreuzimanja(v.getAdresaLokacije());
+			voz.setMestoVracanja(v.getAdresaLokacije());
+			voz.setRezervisano(true);
+			if(v.getDatumDo() != null) {
+				voz.setDatumDo(v.getDatumDo());
+			} else {
+				voz.setDatumDo(new GregorianCalendar(2020, Calendar.JANUARY, 1).getTime());
+			}
+			rezervacija.setVozilo(voz);
+			rezervacijaRepo.save(rezervacija);
+			return "ok";
+		}
+	}
+	
+	public List<VoziloDTO> pretraziVozilo(PretragaVoziloDTO p, long id){
+		List<Vozilo> vozila = repozitorijum.findAll();
+		List<Vozilo> lista1 = new ArrayList<>();
+		List<Vozilo> lista2 = new ArrayList<>();
+		List<VoziloDTO> listaDTO = new ArrayList<>();
+		
+		for(Vozilo v : vozila) {
+			if(v.getTip().equals(p.getTipVozila()) && (v.getBrSedista() >= p.getBrojPutnika()) && (v.getRentACar().getRentACarId() == id)) {
+				lista1.add(v);
+			}
+		}
+		
+		for(Vozilo v : lista1) {
+			if(v.getDatumDo() != null) {
+				if((v.getDatumOd().after(p.getDatumVracanja()) || v.getDatumDo().before(p.getDatumPreuzimanja())) && v.getNaPopustu().equals("NE")) {
+					lista2.add(v);
+					break;
+				} 
+			} else if(v.getNaPopustu().equals("NE")){
+				lista2.add(v);
+				break;
+			}
+		}
+		
+		for(Vozilo v : lista2) {
+			listaDTO.add(new VoziloDTO(v));
+		}
+		
+		return listaDTO;
+		
 	}
 
 }
