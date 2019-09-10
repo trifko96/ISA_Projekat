@@ -51,5 +51,13 @@ export class voziloServis {
         return this.http.post<Vozilo[]>("api/Vozilo/pretraziVozilo/"+id,p);
     }
 
+    vratiRezezrvisanaVozila(){
+        return this.http.get<Vozilo[]>("api/Vozilo/rezervisanaVozila")
+    }
+
+    otkaziRezervacijuVozila(v : Vozilo, id : number){
+        return this.http.post<Vozilo[]>("api/Vozilo/otkaziRezervacijuVozila/"+id, v);
+    }
+
     
 }

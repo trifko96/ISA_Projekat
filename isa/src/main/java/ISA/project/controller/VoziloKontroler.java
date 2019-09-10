@@ -16,16 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ISA.project.dto.LetDTO;
 import ISA.project.dto.PretragaVoziloDTO;
 import ISA.project.dto.RezervacijaDTO;
 import ISA.project.dto.RezervacijaKarataDTO;
 import ISA.project.dto.VoziloDTO;
+import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
 import ISA.project.model.Let;
 import ISA.project.model.RentACar;
 import ISA.project.model.Segment;
 import ISA.project.model.TipKlase;
 import ISA.project.model.Vozilo;
+import ISA.project.repository.VoziloRepozitorijum;
 import ISA.project.service.EmailServis;
 import ISA.project.service.KorisnikServis;
 import ISA.project.service.RentACarServis;
@@ -51,6 +54,9 @@ public class VoziloKontroler {
 	
 	@Autowired
 	SedisteServis sedisteServis;
+	
+	@Autowired
+	VoziloRepozitorijum vozRep;
 	
 	private Logger logger = LoggerFactory.getLogger(VoziloKontroler.class);
 	
@@ -172,6 +178,39 @@ public class VoziloKontroler {
 		return new ResponseEntity<>(vozila, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/rezervisanaVozila", method = RequestMethod.GET)
+	public ResponseEntity<List<VoziloDTO>> vratiRezVozila(@Context HttpServletRequest request){
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		//RentACar rent = k.getRentACar();
+		List<VoziloDTO> pom = servis.vratiRezVozila(k);
+		return new ResponseEntity<>(pom, HttpStatus.OK);
+	}
 	
+	@RequestMapping(value = "/otkaziRezervacijuVozila/{idVozila}", method = RequestMethod.POST)
+	public ResponseEntity<List<VoziloDTO>> otkaziRezervacijuVozila(@RequestBody VoziloDTO vdto, @PathVariable long idVozila, @Context HttpServletRequest request) 
+	{
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		RentACar rent = carServis.nadjiRentACarPoKorisniku(k);
+		
+		Vozilo voz = vozRep.vratiVoziloPoNazivu(idVozila);
+		
+		java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
+        java.sql.Date tomorrow = new java.sql.Date(date.getTime() + 72*60*60*1000);
+        //System.out.println(tomorrow);
+
+		if (tomorrow.before(voz.getDatumOd())) 
+		{
+			
+			List<VoziloDTO> vtdo = servis.otkaziRezervaciju(idVozila, k);
+
+			return new ResponseEntity<>(vtdo, HttpStatus.OK);
+		}
+
+		else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		}
+	}
+
 
 }

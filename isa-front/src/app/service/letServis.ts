@@ -39,4 +39,4 @@ export class letServis{
     otkaziRezervacijuLeta(l : Let, id : number){
         return this.http.post<Let[]>("api/Let/otkaziRezervacijuLeta/"+id, l);
     }
-}
+} 

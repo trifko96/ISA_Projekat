@@ -10,15 +10,26 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ISA.project.dto.AerodromDTO;
+import ISA.project.dto.AvionDTO;
+import ISA.project.dto.AvionskaKartaDTO;
+import ISA.project.dto.LetDTO;
+import ISA.project.dto.LokacijePresedanjaDTO;
 import ISA.project.dto.PretragaVoziloDTO;
 import ISA.project.dto.RezervacijaDTO;
 import ISA.project.dto.RezervacijaKarataDTO;
+import ISA.project.dto.SedisteDTO;
+import ISA.project.dto.SegmentDTO;
 import ISA.project.dto.VoziloDTO;
+import ISA.project.model.Avion;
 import ISA.project.model.AvionskaKarta;
 import ISA.project.model.Korisnik;
+import ISA.project.model.Let;
+import ISA.project.model.LokacijePresedanja;
 import ISA.project.model.RentACar;
 import ISA.project.model.Rezervacija;
 import ISA.project.model.Sediste;
+import ISA.project.model.Segment;
 import ISA.project.model.StatusSedista;
 import ISA.project.model.Vozilo;
 import ISA.project.repository.AvionskaKartaRepozitorijum;
@@ -229,6 +240,33 @@ public class VoziloServis {
 		
 		return listaDTO;
 		
+	}
+	
+	public List<VoziloDTO> vratiRezVozila(Korisnik k){
+		List<Vozilo> vozila = repozitorijum.vratiRezervisana(k.getEmail());
+		List<VoziloDTO> voziDTO = new ArrayList<VoziloDTO>();
+			
+		for(Vozilo voz : vozila) {
+				voziDTO.add(new VoziloDTO(voz));;
+			}
+		
+		return voziDTO;
+		
+	}
+	
+	public List<VoziloDTO> otkaziRezervaciju(long id, Korisnik k){
+		Vozilo vozilo = repozitorijum.vratiVoziloPoNazivu(id);
+		
+		vozilo.setEmailKorisnika("");
+		vozilo.setTrenutniDatum(null);
+		vozilo.setDatumOd(null);
+		vozilo.setDatumDo(null);
+		vozilo.setRezervisano(false);
+		repozitorijum.save(vozilo);
+		
+		
+		List<VoziloDTO> vozila = vratiRezVozila(k);
+		return vozila;
 	}
 
 }
