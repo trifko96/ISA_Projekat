@@ -7,4 +7,6 @@ export class RezervacijaKarataDTO{
     email : string = "";
     brPasosa : string = "";
     idLeta : number;
+    datumOdLeta : Date = new Date();
+    datumDoLeta : Date = new Date();
 }
