@@ -32,7 +32,7 @@ public class RentACarServis {
 	@Autowired
 	VoziloRepozitorijum vozRepo;
 	
-public RentACarDTO nadjiRentCar(long id) {
+
 	public RentACarDTO nadjiRentCar(long id) {
 	
 		RentACar rent = repozitorijum.vratiRentACarPoId(id);

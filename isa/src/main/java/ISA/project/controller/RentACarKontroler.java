@@ -100,6 +100,7 @@ public class RentACarKontroler {
 		RentACar r = k.getRentACar();
 		StatistikaDTO stat = servis.vratiStatistikuPoGodini(r);
 		return new ResponseEntity<>(stat, HttpStatus.OK);
+	}
 	@RequestMapping(value="/vratiSveServise", method = RequestMethod.GET)
 	public ResponseEntity<List<RentACarDTO>> vratiSveServise(){
 		List<RentACarDTO> lista = servis.vratiServise();
