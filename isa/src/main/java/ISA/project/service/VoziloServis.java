@@ -180,7 +180,7 @@ public class VoziloServis {
 				a.setImePutnika(rdto.getIme());
 				a.setPrezimePutnika(rdto.getPrezime());
 				a.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-				a.setRezervacija(rezervacija);
+				//a.setRezervacija(rezervacija);
 				for(Korisnik kor : korisnici) {
 					if(kor.getEmail().equals(rdto.getEmail()) && !k.getEmail().equals(rdto.getEmail())) {
 						tmp++;
@@ -200,7 +200,7 @@ public class VoziloServis {
 			voz.setMestoPreuzimanja(v.getAdresaLokacije());
 			voz.setMestoVracanja(v.getAdresaLokacije());
 			voz.setRezervisano(true);
-			voz.getRezervacije().add(rezervacija);
+			//voz.getRezervacije().add(rezervacija);
 			if(v.getDatumDo() != null) {
 				voz.setDatumDo(v.getDatumDo());
 			} else {

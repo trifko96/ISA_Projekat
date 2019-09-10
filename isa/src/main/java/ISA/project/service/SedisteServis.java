@@ -168,7 +168,7 @@ public class SedisteServis {
 				a.setImePutnika(rdto.getIme());
 				a.setPrezimePutnika(rdto.getPrezime());
 				a.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-				a.setRezervacija(rezervacija);
+				//a.setRezervacija(rezervacija);
 				for(Korisnik kor : korisnici) {
 					if(kor.getEmail().equals(rdto.getEmail()) && !k.getEmail().equals(rdto.getEmail())) {
 						tmp++;
