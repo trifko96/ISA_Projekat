@@ -1,1 +1,32 @@
-<p>istorija-rezervacija works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col" style="max-height: 350px; overflow-y:  scroll;">
+            <h2>Rezervisani letovi:</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tip</th>
+                        <th>Avion</th>
+                        <th>Datum i vreme poletanja</th>
+                        <th>Datum i vreme sletanja</th>
+                        <th>Mesto poletanja</th>
+                        <th>Mesto sletanja</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor = "let l of letovi">
+                    <tr>
+                        <td>{{l.tip}}</td>
+                        <td>{{l.avion.ime}}</td>
+                        <td>{{l.datumPoletanja.slice(0,10)}} {{l.datumPoletanja.slice(11,19)}}</td>
+                        <td>{{l.datumSletanja.slice(0,10)}} {{l.datumSletanja.slice(11,19)}}</td>
+                        <td>{{l.polaznaDestinacija.ime}} {{l.polaznaDestinacija.grad}}</td>
+                        <td>{{l.odredisnaDestinacija.ime}} {{l.odredisnaDestinacija.grad}}</td>
+                        <td><button class="btn btn-link" (click) = "obrisi(l)">Otkazi</button></td>
+                    </tr>
+                </tbody>
+            </table> 
+            <p class="text-danger">{{porukaBrisanje}}</p>
+        </div>
+    </div>
+</div>

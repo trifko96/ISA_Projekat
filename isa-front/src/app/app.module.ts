@@ -32,7 +32,7 @@ import { IstorijaRezervacijaComponent } from './registrovaniKorisnik/istorija-re
 import { RezervisanjeComponent } from './registrovaniKorisnik/rezervisanje/rezervisanje.component';
 import { ProfilKorisnikaComponent } from './registrovaniKorisnik/profil-korisnika/profil-korisnika.component';
 import { ZahteviComponent } from './registrovaniKorisnik/zahtevi/zahtevi.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PromenaLozinkeComponent } from './adminAvioKompanije/promena-lozinke/promena-lozinke.component';
 import { aerodromServis } from './service/aerodromServis';
@@ -105,7 +105,8 @@ import { letServis } from './service/letServis';
     korisnikServis,
     letServis,
     rezervacijaServis,
-    zahteviServis
+    zahteviServis,
+    FormBuilder
   ],
   bootstrap: [AppComponent]
 })

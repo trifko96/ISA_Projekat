@@ -1,5 +1,7 @@
 package ISA.project.controller;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import ISA.project.dto.FilterLetDTO;
 import ISA.project.dto.LetDTO;
 import ISA.project.dto.PretragaLetDTO;
+import ISA.project.dto.VoziloDTO;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
+import ISA.project.model.Let;
+import ISA.project.model.RentACar;
+import ISA.project.repository.LetRepozitorijum;
 import ISA.project.service.AvioKompanijaServis;
 import ISA.project.service.KorisnikServis;
 import ISA.project.service.LetServis;
@@ -35,6 +41,9 @@ public class LetKontroler {
 	
 	@Autowired
 	KorisnikServis korisnikServis;
+	
+	@Autowired
+	LetRepozitorijum letRep;
 	
 	@RequestMapping(value="/vratiLetove/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<LetDTO>> vratiLetove(@PathVariable long id){
@@ -71,5 +80,39 @@ public class LetKontroler {
 	public ResponseEntity<List<LetDTO>> filtrirajLet(@RequestBody FilterLetDTO let){
 		List<LetDTO> letovi = servis.filtrirajLet(let);
 		return new ResponseEntity<>(letovi, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/rezervisaniLetovi", method = RequestMethod.GET)
+	public ResponseEntity<List<LetDTO>> vratiRezLetove(@Context HttpServletRequest request){
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		//RentACar rent = k.getRentACar();
+		List<LetDTO> pom = servis.vratiRezLetove(k);
+		return new ResponseEntity<>(pom, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/otkaziRezervacijuLeta/{idLeta}", method = RequestMethod.POST)
+	public ResponseEntity<List<LetDTO>> otkaziRezervacijuLeta(@RequestBody LetDTO ldto, @PathVariable Long idLeta, @Context HttpServletRequest request) 
+	{
+		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		AvioKompanija avio = avioServis.nadjiKompanijuPoKorisniku(k);
+		
+		Let let = letRep.vratiLet(idLeta);
+		
+		java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
+        java.sql.Date tomorrow = new java.sql.Date(date.getTime() + 3*60*60*1000);
+        //System.out.println(tomorrow);
+
+		if (tomorrow.before(let.getVremePoletanja())) 
+		{
+			
+			List<LetDTO> ltdo = servis.otkaziRezervaciju(idLeta, k);
+
+			return new ResponseEntity<>(ltdo, HttpStatus.OK);
+		}
+
+		else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		}
 	}
 }

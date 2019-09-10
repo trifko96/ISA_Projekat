@@ -39,4 +39,8 @@ export class avioServis {
     vratiSveKompanije(){
         return this.http.get<AvioKompanija[]>("api/AvioKompanija/vratiSveKompanije");
     }
+
+    sortAvio(sort : string){
+        return this.http.get<any>("api/AvioKompanija/sort/" + sort);
+      }
 }

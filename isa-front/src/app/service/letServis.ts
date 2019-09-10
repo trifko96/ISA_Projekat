@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Let } from '../model/Let';
 import { PretragaLet } from '../model/PretragaLet';
 import { FilterLet } from '../model/FilterLet';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn : 'root',
@@ -29,5 +30,13 @@ export class letServis{
 
     filtrirajLet(l : FilterLet){
         return this.http.post<Let[]>("api/Let/filtrirajLet", l);
+    }
+
+    vratiRezezrvisaneLetove(){
+        return this.http.get<Let[]>("api/Let/rezervisaniLetovi")
+    }
+
+    otkaziRezervacijuLeta(l : Let, id : number){
+        return this.http.post<Let[]>("api/Let/otkaziRezervacijuLeta/"+id, l);
     }
 }

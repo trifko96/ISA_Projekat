@@ -1,1 +1,47 @@
-<p>prihodi-vozila works!</p>
+<div class="container-fluid">
+	<div class="row">
+        <div class="col-5">
+            <br>
+            <h4>Odaberite datumski opseg za prikaz prihoda:</h4>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label">Pocetni datum:</label>
+                <div class="col-sm-7">
+                    <input type="date" class="form-control" [(ngModel)]="datum1" [ngModelOptions] = "{standalone:true}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label">Krajnji datum:</label>
+                <div class="col-sm-7">
+                    <input type="date" class="form-control" [(ngModel)]="datum2" [ngModelOptions] = "{standalone:true}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 text-center">
+                    <button class="btn btn-dark" (click)="posalji()">Posalji</button>
+                </div>
+            </div>
+            <div *ngIf="prikaz">
+                <div class="form-group row">
+                    <div class="col-sm-10 text-center">
+                        <p>Prihod:  {{trenutniPrihod}} {{trenutnaValuta}}</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10 text-center">
+                        <button class="btn btn-dark" (click)="ok()">OK</button>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6">
+            <h4>Statistika broja rezervisanih vozila:</h4><br>
+            <div>
+                <button class="btn btn-link" (click)="prikaziDnevnu()">Dnevna</button>
+                <button class="btn btn-link" (click)="prikaziNedeljnu()">Nedeljna</button>
+                <button class="btn btn-link" (click)="prikaziGodisnju()">Godisnja</button>
+            </div><br><br>
+            <canvas id="chart">{{ chart }}</canvas>
+        </div> 
+    </div>
+</div>

@@ -1,6 +1,7 @@
 package ISA.project.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import ISA.project.dto.PrihodDTO;
 import ISA.project.dto.StatistikaDTO;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
+import ISA.project.repository.AvioKompanijaRepozitorijum;
 import ISA.project.service.AvioKompanijaServis;
 import ISA.project.service.KorisnikServis;
 
@@ -33,6 +35,9 @@ public class AvioKompanijaKontroler {
 	
 	@Autowired
 	KorisnikServis korisnikServis;
+	
+	@Autowired
+	AvioKompanijaRepozitorijum avioRep;
 
 	@RequestMapping(value="/vratiKompaniju/{id}", method = RequestMethod.GET)
 	public ResponseEntity<AvioKompanijaDTO> vratiAvioKompaniju(@PathVariable long id) {
@@ -104,5 +109,32 @@ public class AvioKompanijaKontroler {
 		List<AvioKompanijaDTO> listaDTO = new ArrayList<>();
 		listaDTO = servis.vratiSveKompanije();
 		return new ResponseEntity<>(listaDTO, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/sort/{uslov}", method = RequestMethod.GET)
+	public List<AvioKompanija> getSortedRents(@PathVariable String uslov) {
+		System.out.println("Uslov je " + uslov);
+		
+		List<AvioKompanija> svi = avioRep.findAll();
+		List<AvioKompanija> sortiranaLista = new ArrayList<AvioKompanija>();
+
+		if (uslov.equals("NameA")) {
+			// sortiraj po nazivu od A-Z
+			Collections.sort(svi, AvioKompanija.AvioKompanijaComparator);
+			for (AvioKompanija A : svi) {
+				sortiranaLista.add(A);
+			}
+
+		} else  {
+			// sortiraj po nazivu od Z-A
+			Collections.sort(svi, AvioKompanija.AvioKompanijaComparator);
+			for (int i = svi.size() - 1; i >= 0; i--) {
+				sortiranaLista.add(svi.get(i));
+			}
+
+		
+		}
+		return sortiranaLista;
+		
 	}
 }

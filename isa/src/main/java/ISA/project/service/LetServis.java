@@ -17,10 +17,12 @@ import ISA.project.dto.LokacijePresedanjaDTO;
 import ISA.project.dto.PretragaLetDTO;
 import ISA.project.dto.SedisteDTO;
 import ISA.project.dto.SegmentDTO;
+import ISA.project.dto.VoziloDTO;
 import ISA.project.model.Aerodrom;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Avion;
 import ISA.project.model.AvionskaKarta;
+import ISA.project.model.Korisnik;
 import ISA.project.model.Let;
 import ISA.project.model.LokacijePresedanja;
 import ISA.project.model.Sediste;
@@ -29,7 +31,9 @@ import ISA.project.model.StatusSedista;
 import ISA.project.model.TipKlase;
 import ISA.project.repository.AerodromRepozitorijum;
 import ISA.project.repository.AvionRepozitorijum;
+import ISA.project.repository.AvionskaKartaRepozitorijum;
 import ISA.project.repository.LetRepozitorijum;
+import ISA.project.repository.SedisteRepozitorijum;
 
 @Service
 public class LetServis {
@@ -42,6 +46,12 @@ public class LetServis {
 	
 	@Autowired
 	AvionRepozitorijum avioRepo;
+	
+	@Autowired
+	AvionskaKartaRepozitorijum kartaRep;
+	
+	@Autowired
+	SedisteRepozitorijum sedRepo;
 	
 	public List<LetDTO> vratiLetove(AvioKompanija a){
 		List<LetDTO> letoviDTO = new ArrayList<>();
@@ -389,5 +399,92 @@ public class LetServis {
 		}
 		
 		return letoviDTO;
+	}
+	
+	public List<LetDTO> vratiRezLetove(Korisnik k){
+		List<AvionskaKarta> karte = kartaRep.vratiRezervisane(k.getEmail());
+		List<Let> letovi = new ArrayList<>();
+		
+		for(AvionskaKarta a : karte) {
+			Let l = repozitorijum.vratiLetPoKarti(a.getLet().getIdLeta());
+			int b = 0;
+			for(Let let : letovi) {
+				if(let.getIdLeta() == l.getIdLeta()) {
+					b++;
+				}
+			}
+			if(b == 0) {
+				letovi.add(l);
+			}
+		}
+		
+		List<LetDTO> letoviDTO = new ArrayList<>();
+		
+		for(Let l : letovi) {
+			AerodromDTO aero1 = new AerodromDTO();
+			AerodromDTO aero2 = new AerodromDTO();
+			AvionDTO avio = new AvionDTO();
+			List<AvionskaKartaDTO> karte1 = new ArrayList<AvionskaKartaDTO>();
+			List<LokacijePresedanjaDTO> lokacije = new ArrayList<LokacijePresedanjaDTO>();
+			
+			
+			aero1 = new AerodromDTO(l.getPolaznaDestinacija());
+			aero2 = new AerodromDTO(l.getOdredisnaDestinacija());
+			for(AvionskaKarta avKarta : l.getKarte()) {
+				AvionskaKartaDTO ad = new AvionskaKartaDTO(avKarta);
+				karte1.add(ad);
+			}
+			for(LokacijePresedanja lp : l.getLokacijePresedanja()) {
+				LokacijePresedanjaDTO lpDTO = new LokacijePresedanjaDTO(lp);
+				lpDTO.setAerodrom(new AerodromDTO(lp.getAerodrom()));
+				lokacije.add(lpDTO);
+			}
+			
+			Avion avion = l.getAvion();
+			List<SegmentDTO> klase = new ArrayList<>();
+			for(Segment seg : avion.getKlasa()) {
+				List<SedisteDTO> lista = new ArrayList<>();
+				for(Sediste sed : seg.getListaSedista()) {
+					lista.add(new SedisteDTO(sed));
+				}
+				SegmentDTO sd = new SegmentDTO(seg);
+				sd.setListaSedista(lista);
+				klase.add(sd);
+			}
+			avio = new AvionDTO(avion);
+			avio.setKlase(klase);
+			
+			LetDTO letdto = new LetDTO(l);
+			letdto.setAvion(avio);
+			letdto.setKarte(karte1);
+			letdto.setLokacije(lokacije);
+			letdto.setPolaznaDestinacija(aero1);
+			letdto.setOdredisnaDestinacija(aero2);
+			if(l.getBrojOcena() != 0) {
+				letdto.setOcena(l.getOcene()/l.getBrojOcena());
+			} else {
+				letdto.setOcena(0);
+			}
+			
+			letoviDTO.add(letdto);		
+		}
+		
+		return letoviDTO;
+		
+	}
+	
+	public List<LetDTO> otkaziRezervaciju(long id, Korisnik k){
+		List<AvionskaKarta> karte = kartaRep.vratiKartuPoIdLeta(id, k.getEmail());
+		for(AvionskaKarta a : karte) {
+			a.setDatum(null);
+			a.setEmailPutnika("");
+			Sediste s = sedRepo.vratiSedistePoKarti(a.getIdKarte());
+			s.setStatus(StatusSedista.SLOBODNO);
+			kartaRep.save(a);
+			sedRepo.save(s);
+		}
+		
+		List<LetDTO> letovi = vratiRezLetove(k);
+		return letovi;
 	}
 }

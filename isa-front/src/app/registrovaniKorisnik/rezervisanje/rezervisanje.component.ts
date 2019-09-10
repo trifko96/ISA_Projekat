@@ -20,6 +20,7 @@ import { korisnikServis } from 'src/app/service/korisnikServis';
 import { zahteviServis } from 'src/app/service/zahteviServis';
 import { rezervacijaServis } from 'src/app/service/rezervacijaServis';
 import { Router } from '@angular/router';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-rezervisanje',
@@ -60,6 +61,9 @@ export class RezervisanjeComponent implements OnInit {
   sedistaZaIzmenu : Sediste[] = [];
   cenaFilter : number = 0;
   filterLet : FilterLet = new FilterLet();
+
+
+
   avion : Avion = new Avion();
   opcije = [
     {name: "ONE_WAY", value: "ONE_WAY"},
@@ -71,7 +75,8 @@ export class RezervisanjeComponent implements OnInit {
     {name: "EKONOMSKA", value: "EKONOMSKA"}
   ]
 
-  constructor(private avioServis : avioServis, private avionServis : avionServis, private letServis : letServis, private aeroServis : aerodromServis, private zahteviServis : zahteviServis, private rezervacijaServis : rezervacijaServis, private router : Router, private korisnikServis : korisnikServis) { 
+  constructor(private avioServis : avioServis, private avionServis : avionServis, private letServis : letServis, private aeroServis : aerodromServis, private zahteviServis : zahteviServis, private rezervacijaServis : rezervacijaServis, private router : Router, private korisnikServis : korisnikServis, public fb: FormBuilder) { 
+    
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
         if(data.provera == "ADMINISTRATOR_HOTELA"){
@@ -394,5 +399,7 @@ export class RezervisanjeComponent implements OnInit {
     this.rezervisanje = false;
     this.router.navigate(["glavnaRegistrovani/rezervisanjeVozila"]);
   }
+
+
 
 }

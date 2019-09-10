@@ -1,6 +1,7 @@
 package ISA.project.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.*;
@@ -186,4 +187,16 @@ public class AvioKompanija {
 	public void dodajAvion(Avion a) {
 		avioni.add(a);
 	}
+	
+	public static Comparator<AvioKompanija> AvioKompanijaComparator = new Comparator<AvioKompanija>() {
+
+		public int compare(AvioKompanija a1, AvioKompanija a2) {
+			String name1 = a1.getNaziv().toUpperCase();
+			String name2 = a2.getNaziv().toUpperCase();
+
+			// sortiranje od A-Z
+			return name1.compareTo(name2);
+
+		}
+	};
 }
