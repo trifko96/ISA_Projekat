@@ -1,6 +1,7 @@
 <div class="container-fluid">
     <div class="row">
-      <div class="col-6" style="max-height: 420px; overflow-y:  scroll;">
+    <div *ngIf="gornji">
+      <div class="col-9" style="max-height: 420px; overflow-y:  scroll;">
         <br>
         <h4>Avio kompanije:</h4>            
         <table class="table">
@@ -12,6 +13,7 @@
               <th>Prosecna ocena</th>
               <th>Dozvoljena tezina prtljaga (kg)</th>
               <th><button class="btn btn-link" (click)="prikaziBrzeKarte()">Brza rezervacija</button></th>
+              <th><button class="btn btn-link" (click)="pretraziLetove()">Pretrazi letove</button></th>
             </tr>
           </thead>
           <tbody *ngFor="let a of avioKompanije">
@@ -25,9 +27,12 @@
           </tbody>
         </table>
       </div>
-      <div class="col-6" style="max-height: 420px; overflow-y:  scroll;" *ngIf="prikazBrzihKarata">
+      <div class="w-100"></div>
+      <div *ngIf="prikazBrzihKarata">
+      <h4>Spisak karata za brzu rezervaciju:</h4>
+      <div class="col-9" style="max-height: 420px; overflow-y:  scroll;">
         <br><br>
-            <h4>Spisak karata za brzu rezervaciju:</h4>
+            <!--<h4>Spisak karata za brzu rezervaciju:</h4>-->
             <br>
             <table class="table">
                 <thead>
@@ -59,10 +64,16 @@
             </table>
             <p class="text-align">{{greskaPriBrzojRezervaciji}}</p>
             <br>
-            <button class="btn btn-dark" (click)="zatvori()">Zatvori</button>
+            
       </div>
-      <div class="w-100"></div>
-      <div class="col-9" style="max-height: 420px; overflow-y:  scroll;" *ngIf="!rezervisanje">
+      <br>
+      <div class="col-9" style="text-align: center;">
+        <button class="btn btn-dark" (click)="zatvori()">Zatvori</button>
+      </div>
+      </div>
+    </div>
+    <div *ngIf="donji">
+      <div class="col-12" style="max-height: 420px; overflow-y:  scroll;" *ngIf="!rezervisanje">
         <br>
         <h2>Letovi:</h2>
 				<table class="table">
@@ -79,7 +90,7 @@
                             <th style="text-align: center;">Cena prve klase (EUR)</th>
 							<th style="text-align: center;">Cena biznis klase (EUR)</th>
                             <th style="text-align: center;">Cena ekonomske klase (EUR)</th>
-                            <th>&nbsp;</th>
+                            <th><button class="btn btn-dark" (click)="povratak()">Nazad</button></th>
 						</tr>
 					</thead>
 					<tbody *ngFor = "let l of letovi">
@@ -102,7 +113,9 @@
 					</tbody>
 				</table>
       </div>
-      <div class="col-3" *ngIf="!filtriranje && !rezervisanje">
+      <div class="w-100"></div>
+      <div class="row">
+      <div class="col-6" *ngIf="!filtriranje && !rezervisanje">
           <h3>Pretrazi letove:</h3><br>
           <div class="form-group row">
             <label class="col-sm-5 col-form-label">Tip:</label>
@@ -168,7 +181,21 @@
             </div>
           </div>
       </div>
-      <div class="col-3" *ngIf="filtriranje && !rezervisanje">
+      <div class="col-6" *ngIf="prikazLokacija && !rezervisanje">
+            <br><br>
+                <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
+                    <div *ngFor="let lok of lokacijeZaPrikaz" class="list-group-item" style="display: block">
+                        <div class="row">
+                            <div class="col-6 pt-2">
+                              <p class="font-italic">{{lok.aerodrom.ime}}  {{lok.aerodrom.grad}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-dark" (click)="zatvaranje()">Zatvori</button>
+                </div>
+        </div>
+    </div>
+      <div class="col-6" *ngIf="filtriranje && !rezervisanje">
         <h3>Filtriraj letove:</h3><br>
           <div class="form-group row">
             <label class="col-sm-5 col-form-label">Avio kompanija:</label>
@@ -193,20 +220,8 @@
           </div>
       </div>
       <div class="w-100"></div>
-      <div class="col-6" *ngIf="prikazLokacija && !rezervisanje">
-        <br><br>
-            <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
-                <div *ngFor="let lok of lokacijeZaPrikaz" class="list-group-item" style="display: block">
-                    <div class="row">
-                        <div class="col-6 pt-2">
-                          <p class="font-italic">{{lok.aerodrom.ime}}  {{lok.aerodrom.grad}}</p>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-dark" (click)="zatvaranje()">Zatvori</button>
-            </div>
-    </div>
-    <div class="col-6" *ngIf="rezervisanje && !prikazSedista && !prikazPutnika && !prikazPoruke && !prikazPoruke1">
+      
+    <div class="col-12" *ngIf="rezervisanje && !prikazSedista && !prikazPutnika && !prikazPoruke && !prikazPoruke1">
         <h4>Izaberite klasu:</h4><br>
             <div>
                 <button class="btn btn-link" (click)="prikaziPrvuKlasu()">Prva</button>
@@ -214,7 +229,9 @@
                 <button class="btn btn-link" (click)="prikaziEkonomskuKlasu()">Ekonomska</button>
             </div>
     </div>
-    <div class="col-2" *ngIf = "rezervisanje && prikazSedista">
+    <div class="row">
+    <div class="col-1" *ngIf="rezervisanje && prikazSedista"></div>
+    <div class="col-4" *ngIf = "rezervisanje && prikazSedista">
         <h4>Status sedista:</h4>
         <button class="btn btn-secondary" ></button>&nbsp;slobodno<br><br>
         <button class="btn btn-dark" ></button>&nbsp;obrisano<br><br>
@@ -253,7 +270,8 @@
                 </div>
         </ng-container><br>
     </div>
-    <div class="col-8" *ngIf="rezervisanje && prikazPutnika">
+</div>
+    <div class="col-12" *ngIf="rezervisanje && prikazPutnika">
         <h4>Popunite podatke za putnike:</h4>
         <div class="row" *ngFor="let k of rezervacija.karte">
             <div class="col-6">
@@ -314,7 +332,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6" *ngIf="rezervisanje && prikazPoruke">
+    <div class="col-12" *ngIf="rezervisanje && prikazPoruke">
         <div class="form-group row">
             <div class="col-sm-12 text-center">
                 <h4>Da li zelite da rezervisete smestaj ili vozilo?</h4>
@@ -330,7 +348,7 @@
         </div>
         <p class="text-danger">{{poruka}}</p>
     </div>
-    <div class="col-6" *ngIf="rezervisanje && prikazPoruke1">
+    <div class="col-12" *ngIf="rezervisanje && prikazPoruke1">
         <div class="form-group row">
             <div class="col-sm-12 text-center">
                 <h4>Odaberite tip rezervacije:</h4>
@@ -345,6 +363,7 @@
             </div>
         </div>
         <p class="text-danger">{{poruka}}</p>
+    </div>
     </div>
     </div>
 </div>

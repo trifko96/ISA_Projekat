@@ -63,6 +63,8 @@ export class RezervisanjeComponent implements OnInit {
   sedistaZaIzmenu : Sediste[] = [];
   cenaFilter : number = 0;
   filterLet : FilterLet = new FilterLet();
+  gornji : boolean = true;
+  donji : boolean = false;
 
 
 
@@ -406,6 +408,20 @@ export class RezervisanjeComponent implements OnInit {
     this.router.navigate(["glavnaRegistrovani/rezervisanjeVozila"]);
   }
 
+  pretraziLetove(){
+    this.gornji = false;
+    this.donji = true;
+    this.filtriranje = false;
+  }
 
+  povratak(){
+    this.gornji = true;
+    this.donji = false;
+    this.letServis.vratiSveLetove().subscribe(
+      data => {
+        this.letovi = data;
+      }
+    )
+  }
 
 }
