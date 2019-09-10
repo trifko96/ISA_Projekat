@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import ISA.project.model.AvionskaKarta;
 import ISA.project.model.Vozilo;
 
 public interface VoziloRepozitorijum extends JpaRepository<Vozilo, Long> {
@@ -33,6 +34,9 @@ public interface VoziloRepozitorijum extends JpaRepository<Vozilo, Long> {
 	
 	@Query(value = "select year(trenutniDatum), count(*) from Vozilo vozilo where vozilo.rentACar.rentACarId = :idRentACar and vozilo.rezervisano = 1 group by year(trenutniDatum)")
 	public List<Object[]> vratiStatistikuPoGodini(@Param("idRentACar") long idRentACar);
+	
+	@Query("select vozilo from Vozilo vozilo where vozilo.emailKorisnika = :emailKorisnik")
+	public List<Vozilo> vratiRezervisana(@Param("emailKorisnik") String emailKorisnik);
 	
 	public List<Vozilo> findAll();
 	
