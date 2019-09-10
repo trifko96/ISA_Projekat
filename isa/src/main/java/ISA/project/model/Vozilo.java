@@ -46,7 +46,8 @@ public class Vozilo {
 	private List<Rezervacija> rezervacije = new ArrayList<>();
 	
 	public Vozilo() {
-		
+		this.brOcena = 0;
+		this.ocene = 0;
 	}
 	
 	public Vozilo(double cena, String naziv, String marka, String model, String godinaProizvodnje, int brSedista,
