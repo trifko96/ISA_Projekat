@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Let } from 'src/app/model/Let';
 import { Router } from '@angular/router';
 import { letServis } from 'src/app/service/letServis';
+import { Vozilo } from 'src/app/model/Vozilo';
+import { voziloServis } from 'src/app/service/voziloServis';
 
 @Component({
   selector: 'app-istorija-rezervacija',
@@ -12,13 +14,21 @@ export class IstorijaRezervacijaComponent implements OnInit {
 
   letovi : Let[] = [];
   porukaBrisanje : string = "";
+  porukaBrisanje1 : string = "";
+  vozila : Vozilo[] = [];
   //idLeta : number;
 
-  constructor(private router : Router, private letServis : letServis) {
+  constructor(private router : Router, private letServis : letServis, private voziloServis : voziloServis) {
     
     this.letServis.vratiRezezrvisaneLetove().subscribe(
       data => {
         this.letovi = data;
+      }
+    )
+
+    this.voziloServis.vratiRezezrvisanaVozila().subscribe(
+      data => {
+        this.vozila = data;
       }
     )
   }
@@ -35,9 +45,23 @@ export class IstorijaRezervacijaComponent implements OnInit {
         this.porukaBrisanje = "";  
       },
       error => {
-        this.porukaBrisanje = "Nije moguce otkazivanje rezervacije leta!";
+        this.porukaBrisanje = "Nije moguce otkazivanje rezervaciju leta!";
+      }
+    )
+  }
+
+  obrisiVozilo(v : Vozilo)
+  {
+    let idVozila = v.id;
+    this.voziloServis.otkaziRezervacijuVozila(v, idVozila).subscribe(
+      data => {
+        this.vozila = data;
+        this.porukaBrisanje1 = "";  
+      },
+      error => {
+        this.porukaBrisanje1 = "Nije moguce otkazivanje rezervaciju vozila!";
       }
     )
   }
  
-}
+} 

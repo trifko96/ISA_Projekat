@@ -1,9 +1,9 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col" style="max-height: 350px; overflow-y:  scroll;">
+        <div class="col-12" style="max-height: 350px; overflow-y:  scroll;">
             <h2>Rezervisani letovi:</h2>
             <table class="table">
-                <thead>
+                <thead> 
                     <tr>
                         <th>Tip</th>
                         <th>Avion</th>
@@ -28,5 +28,29 @@
             </table> 
             <p class="text-danger">{{porukaBrisanje}}</p>
         </div>
+
+        <div class="col-12" style="max-height: 350px; overflow-y:  scroll;">
+                <h2>Rezervisana vozila:</h2>
+                <table class="table">
+                    <thead> 
+                        <tr>
+                            <th>Naziv</th>
+                            <th>Marka</th>
+                            <th>Model</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor = "let v of vozila">
+                        <tr>
+                            <td>{{v.naziv}}</td>
+                            <td>{{v.marka}}</td>
+                            <td>{{v.model}}</td>
+                            <td><button class="btn btn-link" (click) = "obrisiVozilo(v)">Otkazi</button></td>
+                        </tr>
+                    </tbody>
+                </table> 
+                <p class="text-danger">{{porukaBrisanje1}}</p>
+            </div>
+
     </div>
 </div>
