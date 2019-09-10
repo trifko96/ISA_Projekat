@@ -168,16 +168,17 @@ public class SedisteServis {
 				a.setImePutnika(rdto.getIme());
 				a.setPrezimePutnika(rdto.getPrezime());
 				a.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+				a.setRezervacija(rezervacija);
 				for(Korisnik kor : korisnici) {
 					if(kor.getEmail().equals(rdto.getEmail()) && !k.getEmail().equals(rdto.getEmail())) {
 						tmp++;
 					}
 				}
-				if(tmp == 0) {
+				//if(tmp == 0) {
 					Sediste s = repozitorijum.vratiSediste(rdto.getIdSedista());
 					s.setStatus(StatusSedista.REZERVISANO);
 					repozitorijum.save(s);
-				}
+				//}
 				kartaRepo.save(a);
 				rezervacija.getKarte().add(a);
 			}

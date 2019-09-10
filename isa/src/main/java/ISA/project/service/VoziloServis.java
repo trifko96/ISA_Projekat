@@ -180,6 +180,7 @@ public class VoziloServis {
 				a.setImePutnika(rdto.getIme());
 				a.setPrezimePutnika(rdto.getPrezime());
 				a.setDatum(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+				a.setRezervacija(rezervacija);
 				for(Korisnik kor : korisnici) {
 					if(kor.getEmail().equals(rdto.getEmail()) && !k.getEmail().equals(rdto.getEmail())) {
 						tmp++;
@@ -199,6 +200,7 @@ public class VoziloServis {
 			voz.setMestoPreuzimanja(v.getAdresaLokacije());
 			voz.setMestoVracanja(v.getAdresaLokacije());
 			voz.setRezervisano(true);
+			voz.getRezervacije().add(rezervacija);
 			if(v.getDatumDo() != null) {
 				voz.setDatumDo(v.getDatumDo());
 			} else {
@@ -224,7 +226,7 @@ public class VoziloServis {
 		
 		for(Vozilo v : lista1) {
 			if(v.getDatumDo() != null) {
-				if((v.getDatumOd().after(p.getDatumVracanja()) || v.getDatumDo().before(p.getDatumPreuzimanja())) && v.getNaPopustu().equals("NE")) {
+				if((v.getDatumOd().after(p.getDatumVracanja()) || v.getDatumDo().before(p.getDatumPreuzimanja())) && v.getNaPopustu().equals("NE") && !v.isRezervisano()) {
 					lista2.add(v);
 					break;
 				} 

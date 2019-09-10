@@ -101,7 +101,7 @@ public class RentACarServis {
 		for(RentACar r : lista2) {
 			for(Vozilo v : r.getSpisakVozila()) {
 				if(v.getDatumDo() != null) {
-					if((v.getDatumOd().after(p.getDatumDo()) || v.getDatumDo().before(p.getDatumOd())) && v.getNaPopustu().equals("NE")) {
+					if((v.getDatumOd().after(p.getDatumDo()) || v.getDatumDo().before(p.getDatumOd())) && v.getNaPopustu().equals("NE") && !v.isRezervisano()) {
 						lista3.add(r);
 						break;
 					} 
