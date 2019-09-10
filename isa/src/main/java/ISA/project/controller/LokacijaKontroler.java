@@ -8,6 +8,7 @@ import javax.ws.rs.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -92,5 +93,11 @@ public class LokacijaKontroler {
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@RequestMapping(value="/vratiLokacijePoRent/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<LokacijaDTO>> vratiLokacijePoRent(@PathVariable long id){
+		List<LokacijaDTO> lista = servis.vratiLokacijePoRent(id);
+		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 }
