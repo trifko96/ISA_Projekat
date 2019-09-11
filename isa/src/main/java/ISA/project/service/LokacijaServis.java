@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import ISA.project.dto.LokacijaDTO;
 import ISA.project.model.Lokacija;
 import ISA.project.model.RentACar;
+import ISA.project.model.Vozilo;
 import ISA.project.repository.LokacijaRepozitorijum;
 import ISA.project.repository.RentACarRepozitorijum;
+import ISA.project.repository.VoziloRepozitorijum;
 
 @Service
 public class LokacijaServis {
@@ -20,6 +22,9 @@ public class LokacijaServis {
 	
 	@Autowired
 	RentACarRepozitorijum carRepozitorijum;
+	
+	@Autowired
+	VoziloRepozitorijum vozRep;
 	
 	
 	public Lokacija vratiLokacijuPoAdresi(LokacijaDTO adto) {
@@ -90,15 +95,21 @@ public class LokacijaServis {
 	
 	public String obrisiLokaciju(LokacijaDTO a, RentACar avio){
 		Lokacija aero = repozitorijum.vratiLokacijuPoAdresi(a.getAdresa());
+		List<Vozilo> vozila = vozRep.vratiVozila(avio.getRentACarId());
+		int br = 0;
 		
+		for(Vozilo v : vozila) {
+			if(v.getAdresaLokacije().equals(aero.getAdresa()))
+				br++;
+		}
 		
-		//aero.obrisiKompaniju(avio);
-		avio.obrisiLokaciju(aero);
-		
-		repozitorijum.delete(aero);
-		
-		return "ok";
-		
+		if(br != 0)
+			return "greska";
+		else {
+			avio.obrisiLokaciju(aero);
+			repozitorijum.delete(aero);
+			return "ok";
+		}
 	}
 	
 	public List<LokacijaDTO> vratiSveLokacije(){
@@ -129,17 +140,17 @@ public LokacijaDTO nadjiLokacijuDTO(long id) {
 	}
 	
 	public String vratiLokacijuIzmena(LokacijaDTO ldto) {
-		int brojac = 0;
-		List<Lokacija> lok = repozitorijum.vratiLokacijePoNazivu(ldto.getId());
-		for(Lokacija l : lok) {
-			if(l.getAdresa().equals(ldto.getAdresa())) {
-				brojac++;
-			}
+		Lokacija lok = repozitorijum.vratiLokacijuPoNazivu(ldto.getId());
+		List<Vozilo> vozila = vozRep.findAll();
+		for(Vozilo v : vozila) {
+			if(lok.getAdresa().equals(v.getAdresaLokacije())) 
+				v.setAdresaLokacije(ldto.getAdresa());		
 		}
-		if(brojac != 0)
-			return "greska";
-		else
-			return "ok";
+		
+		lok.setAdresa(ldto.getAdresa());
+		repozitorijum.save(lok);
+		
+		return "ok";
 	}
 	
 	public void sacuvajLokaciju(Lokacija l) {
