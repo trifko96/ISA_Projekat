@@ -33,7 +33,7 @@ public class AerodromKontroler {
 	
 	@Autowired
 	AvioKompanijaServis avioServis;
-	
+	 
 	@Autowired
 	KorisnikServis korisnikServis;
 	
