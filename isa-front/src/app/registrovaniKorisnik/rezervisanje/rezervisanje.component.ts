@@ -397,6 +397,10 @@ export class RezervisanjeComponent implements OnInit {
       this.prikazPoruke = true;
       this.prikazPutnika = false;
       this.poruka1 = "";
+      for(let k of this.rezervacija.karte){
+        k.datumOdLeta = this.datumOdTrenutnogLeta;
+        k.datumDoLeta = this.datumDoTrenutnogLeta;
+      }
     } else {
       this.poruka1 = "Popunite sva polja!";
     }
