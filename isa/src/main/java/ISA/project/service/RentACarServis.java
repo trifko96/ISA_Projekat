@@ -125,7 +125,8 @@ public PrihodDTO vratiPrihod(DatumskiOpsegDTO d, RentACar r) {
 		for(Vozilo v : vozila) {
 			if(v.isRezervisano()) {
 				if((!(v.getTrenutniDatum().before(d.getDatum1())) && !(v.getTrenutniDatum().after(d.getDatum2()))) || (DateUtils.isSameDay(v.getTrenutniDatum(), d.getDatum1())) || (DateUtils.isSameDay(v.getTrenutniDatum(), d.getDatum2()))) {
-					prihod += v.getCena();
+					double vreme = v.getDatumDo().getTime() - v.getDatumOd().getTime(); 
+					prihod += (v.getCena()*vreme);
 				}
 			}
 		}
