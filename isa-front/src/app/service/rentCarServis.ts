@@ -51,7 +51,7 @@ export class rentCarServis{
       return this.http.post<RentCar[]>("api/RentACar/pretraziServise",p);
     }
 
-    oceniServis(r : RentCar, id : number, opcija : number){
-      return this.http.get<RentCar[]>("api/RentACar/oceniServis/"+id/+r/+opcija);
+    oceniServis(idr : number, id : number, opcija : number){
+      return this.http.get<RentCar[]>("api/RentACar/oceniServis/"+id+"/"+idr+"/"+opcija);
   }
 }

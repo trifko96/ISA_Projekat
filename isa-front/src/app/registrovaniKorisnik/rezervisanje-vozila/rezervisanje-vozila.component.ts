@@ -63,6 +63,14 @@ export class RezervisanjeVozilaComponent implements OnInit {
   
   ]
 
+  opcije = [
+    {name: "5", value: 5},
+    {name: "4", value: 4},
+    {name: "3", value: 3},
+    {name: "2", value: 2},
+    {name: "1", value: 1}
+  ]
+
   constructor(private rentCarServis : rentCarServis, private voziloServis : voziloServis, private rezervacijaServis : rezervacijaServis, private korisnikServis : korisnikServis, private router : Router, private lokacijaServis : lokacijeServis) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
@@ -82,6 +90,11 @@ export class RezervisanjeVozilaComponent implements OnInit {
     this.rentCarServis.vratiSveServise().subscribe(
       data => {
         this.servisi = data;
+        for(let s of this.servisi){
+          if(s.brojOcena > 0){
+            s.prosecnaOcena = s.ocena / s.brojOcena;
+          }
+        }
       }
     )
 
@@ -91,11 +104,7 @@ export class RezervisanjeVozilaComponent implements OnInit {
       }
     )
 
-    for(let s of this.servisi){
-      if(s.brojOcena > 0){
-        s.prosecnaOcena = s.ocena / s.brojOcena;
-      }
-    }
+    
 
     this.rezervacija = this.rezervacijaServis.rezervacija;
     if(this.rezervacija.karte.length > 0){
@@ -140,7 +149,11 @@ export class RezervisanjeVozilaComponent implements OnInit {
     if(this.rezervacija.karte.length != 0){
       v.emailKorisnika = this.korisnik.email;
       v.datumOd = this.datumOd;
-      v.datumDo = this.datumDo;
+      if(this.datumDo == null){
+        v.datumDo = new Date("2019-10-10");
+      } else {
+        v.datumDo = this.datumDo;
+      }
       this.rezervacija.vozilo = v;
       this.voziloServis.brzoRezervisiVozilo(this.rezervacija, this.idKorisnika).subscribe(
         data => {
@@ -170,6 +183,11 @@ export class RezervisanjeVozilaComponent implements OnInit {
       this.rentCarServis.pretraziServis(this.pretragaServis).subscribe(
         data => {
           this.servisi = data;
+          for(let s of this.servisi){
+            if(s.brojOcena != 0){
+              s.prosecnaOcena = s.ocena / s.brojOcena;
+            }
+          }
           this.pretragaServis = new PretragaServis();
           this.selektovanaLokacija = "";
           this.prikazPretrageServisa = false;
@@ -251,6 +269,11 @@ export class RezervisanjeVozilaComponent implements OnInit {
           this.rentCarServis.vratiSveServise().subscribe(
             data => {
               this.servisi = data;
+              for(let s of this.servisi){
+                if(s.brojOcena != 0){
+                  s.prosecnaOcena = s.ocena / s.brojOcena;
+                }
+              }
             }
           )
         },
@@ -270,23 +293,33 @@ export class RezervisanjeVozilaComponent implements OnInit {
   }
 
   Oceni(){
-    this.servisZaOcenjivanje.ocena = this.selektovanaOpcija;
-    this.rentCarServis.oceniServis(this.servisZaOcenjivanje, this.idKorisnika, this.selektovanaOpcija).subscribe(
-      data => {
-        this.rentCarServis.vratiSveServise().subscribe(
-          data => {
-            this.prikazFormeZaOcenjivanjeServisa = false;
-            this.servisi = data;
-            $("#ocenaRent").val("");
-            this.servisZaOcenjivanje = new RentCar();
-            this.porukaOcenjivanje = "";
-          }
-        )
-      },
-      error => {
-        this.porukaOcenjivanje = "Nije moguce oceniti rent a car servis!";
-      }
-    ) 
+    //this.servisZaOcenjivanje.ocena = this.selektovanaOpcija;
+    if(this.porukaOcenjivanje == ""){
+      this.rentCarServis.oceniServis(this.servisZaOcenjivanje.id, this.idKorisnika, this.selektovanaOpcija).subscribe(
+        data => {
+          this.rentCarServis.vratiSveServise().subscribe(
+            data => {
+              this.prikazFormeZaOcenjivanjeServisa = false;
+              this.servisi = data;
+              for(let s of this.servisi){
+                if(s.brojOcena != 0){
+                  s.prosecnaOcena = s.ocena / s.brojOcena;
+                }
+              }
+              $("#ocenaRent").val("");
+              this.servisZaOcenjivanje = new RentCar();
+              this.porukaOcenjivanje = "";
+            }
+          )
+        },
+        error => {
+          this.porukaOcenjivanje = "Nije moguce oceniti rent a car servis!";
+        }
+      ) 
+    } else {
+      this.prikazFormeZaOcenjivanjeServisa = false;
+      this.porukaOcenjivanje = "";
+    }
 
  }
 

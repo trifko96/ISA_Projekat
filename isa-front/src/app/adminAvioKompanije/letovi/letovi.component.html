@@ -1,6 +1,6 @@
 <div class="container-fluid">
 		<div class="row">
-			<div class="col" style="max-height: 350px; overflow-y:  scroll;">
+			<div class="col" style="max-height: 450px; overflow-y:  scroll;">
 				<h2>Letovi:</h2>
 				<table class="table">
 					<thead>
@@ -35,7 +35,7 @@
                             <td>{{l.polaznaDestinacija.ime}} {{l.polaznaDestinacija.grad}}</td>
                             <td>{{l.odredisnaDestinacija.ime}} {{l.odredisnaDestinacija.grad}}</td>
                             <td><button class="btn btn-link" (click)="prikaziLokacije(l)">Prikazi</button></td>
-                            <td>{{l.ocena}}</td>
+                            <td>{{l.prosecnaOcena}}</td>
                             <td>{{l.cenaPrveKlase}}</td>
                             <td>{{l.cenaKarteBiznisKlase}}</td>
                             <td>{{l.cenaKarteEkonomskeKlase}}</td>

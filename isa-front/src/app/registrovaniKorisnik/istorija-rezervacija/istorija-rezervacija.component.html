@@ -11,6 +11,7 @@
                         <th>Datum i vreme sletanja</th>
                         <th>Mesto poletanja</th>
                         <th>Mesto sletanja</th>
+                        <th>Prosecna ocena</th>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -23,6 +24,7 @@
                         <td>{{l.datumSletanja.slice(0,10)}} {{l.datumSletanja.slice(11,19)}}</td>
                         <td>{{l.polaznaDestinacija.ime}} {{l.polaznaDestinacija.grad}}</td>
                         <td>{{l.odredisnaDestinacija.ime}} {{l.odredisnaDestinacija.grad}}</td>
+                        <td>{{l.prosecnaOcena}}</td>
                         <td><button class="btn btn-link" (click) = "oceni(l)">Oceni</button></td>
                         <td><button class="btn btn-link" (click) = "obrisi(l)">Otkazi</button></td>
                     </tr>
@@ -39,6 +41,7 @@
                             <th>Naziv</th>
                             <th>Marka</th>
                             <th>Model</th>
+                            <th>Prosecna ocena</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                         </tr>
@@ -48,6 +51,7 @@
                             <td>{{v.naziv}}</td>
                             <td>{{v.marka}}</td>
                             <td>{{v.model}}</td>
+                            <td>{{v.prosecnaOcena}}</td>
                             <td><button class="btn btn-link" (click) = "oceni1(v)">Oceni</button></td>
                             <td><button class="btn btn-link" (click) = "obrisiVozilo(v)">Otkazi</button></td>
                         </tr>

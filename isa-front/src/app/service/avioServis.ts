@@ -44,7 +44,7 @@ export class avioServis {
         return this.http.get<any>("api/AvioKompanija/sort/" + sort);
     }
 
-    oceniKompaniju(a : AvioKompanija, id : number, opcija : number){
-        return this.http.get<AvioKompanija[]>("api/AvioKompanija/oceniKompaniju/"+id/+a/+opcija);
+    oceniKompaniju(id1 : number, id : number, opcija : number){
+        return this.http.get<AvioKompanija[]>("api/AvioKompanija/oceniKompaniju/"+id+"/"+id1+"/"+opcija);
     }
 }

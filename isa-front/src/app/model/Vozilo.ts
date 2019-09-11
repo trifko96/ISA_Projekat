@@ -8,7 +8,7 @@ export class Vozilo{
     godinaProizvodnje : string = "";
     brSedista : number;
     tip : string = "";
-    prosecnaOcena : number;
+    prosecnaOcena : number = 0;
     brOcena : number;
     ocene : number;
     rezervisano : boolean;

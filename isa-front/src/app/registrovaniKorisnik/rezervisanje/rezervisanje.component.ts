@@ -113,15 +113,23 @@ export class RezervisanjeComponent implements OnInit {
     this.avioServis.vratiSveKompanije().subscribe(
       data => {
         this.avioKompanije = data;
+        for(let a of this.avioKompanije){
+          if(a.brojOcena != 0){
+            a.prosecnaOcena = a.ocena / a.brojOcena;
+          }
+        }
       }
     )
-    for(let a of this.avioKompanije){
-      a.prosecnaOcena = a.ocena / a.brojOcena;
-    }
+    
 
     this.letServis.vratiSveLetove().subscribe(
       data => {
         this.letovi = data;
+        for(let l of this.letovi){
+          if(l.brojOcena != 0){
+            l.prosecnaOcena = l.ocena / l.brojOcena;
+          }
+        }
       }
     )
 
@@ -292,6 +300,11 @@ export class RezervisanjeComponent implements OnInit {
     this.letServis.vratiSveLetove().subscribe(
       data => {
         this.letovi = data;
+        for(let l of this.letovi){
+          if(l.brojOcena != 0){
+            l.prosecnaOcena = l.ocena / l.brojOcena;
+          }
+        }
       }
     )
   }
@@ -434,6 +447,11 @@ export class RezervisanjeComponent implements OnInit {
     this.letServis.vratiSveLetove().subscribe(
       data => {
         this.letovi = data;
+        for(let l of this.letovi){
+          if(l.brojOcena != 0){
+            l.prosecnaOcena = l.ocena / l.brojOcena;
+          }
+        }
       }
     )
   }
@@ -444,23 +462,33 @@ export class RezervisanjeComponent implements OnInit {
   }
 
   Oceni(){
-    this.kompanijaZaOcenjivanje.ocena = this.selektovanaOpcija1;
-    this.avioServis.oceniKompaniju(this.kompanijaZaOcenjivanje, this.idKorisnika, this.selektovanaOpcija1).subscribe(
-      data => {
-        this.avioServis.vratiSveKompanije().subscribe(
-          data => {
-            this.prikazFormeZaOcenjivanjeKompanije = false;
-            this.kompanije = data;
-            $("#ocenaAvio").val("");
-            this.kompanijaZaOcenjivanje = new AvioKompanija();
-            this.porukaOcenjivanje1 = "";
-          }
-        )
-      },
-      error => {
-        this.porukaOcenjivanje1 = "Nije moguce oceniti avio kompaniju!";
-      }
-    ) 
+    //this.kompanijaZaOcenjivanje.ocena = this.selektovanaOpcija1;
+    if(this.porukaOcenjivanje1 == ""){
+      this.avioServis.oceniKompaniju(this.kompanijaZaOcenjivanje.id, this.idKorisnika, this.selektovanaOpcija1).subscribe(
+        data => {
+          this.avioServis.vratiSveKompanije().subscribe(
+            data => {
+              this.prikazFormeZaOcenjivanjeKompanije = false;
+              this.avioKompanije = data;
+              for(let a of this.avioKompanije){
+                if(a.brojOcena != 0){
+                  a.prosecnaOcena = a.ocena / a.brojOcena;
+                }
+              }
+              $("#ocenaAvio").val("");
+              this.kompanijaZaOcenjivanje = new AvioKompanija();
+              this.porukaOcenjivanje1 = "";
+            }
+          )
+        },
+        error => {
+          this.porukaOcenjivanje1 = "Vec ste ocenili ovu avio kompaniju!";
+        }
+      ) 
+    } else {
+      this.prikazFormeZaOcenjivanjeKompanije = false;
+      this.porukaOcenjivanje1 = "";
+    }
 
  }
 

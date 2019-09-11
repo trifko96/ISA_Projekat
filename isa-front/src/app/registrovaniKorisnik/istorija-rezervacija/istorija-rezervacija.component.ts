@@ -64,12 +64,22 @@ export class IstorijaRezervacijaComponent implements OnInit {
     this.letServis.vratiRezezrvisaneLetove().subscribe(
       data => {
         this.letovi = data;
+        for(let l of this.letovi){
+          if(l.brojOcena != 0){
+            l.prosecnaOcena = l.ocena / l.brojOcena;
+          }
+        }
       }
     )
 
     this.voziloServis.vratiRezezrvisanaVozila().subscribe(
       data => {
         this.vozila = data;
+        for(let v of this.vozila){
+          if(v.brOcena != 0){
+            v.prosecnaOcena = v.ocene / v.brOcena;
+          }
+        }
       }
     )
 
@@ -86,6 +96,11 @@ export class IstorijaRezervacijaComponent implements OnInit {
     this.letServis.otkaziRezervacijuLeta(l, idLeta).subscribe(
       data => {
         this.letovi = data;
+        for(let l of this.letovi){
+          if(l.brojOcena != 0){
+            l.prosecnaOcena = l.ocena / l.brojOcena;
+          }
+        }
         this.porukaBrisanje = "";  
       },
       error => {
@@ -100,6 +115,11 @@ export class IstorijaRezervacijaComponent implements OnInit {
     this.voziloServis.otkaziRezervacijuVozila(v, idVozila).subscribe(
       data => {
         this.vozila = data;
+        for(let v of this.vozila){
+          if(v.brOcena != 0){
+            v.prosecnaOcena = v.ocene / v.brOcena;
+          }
+        }
         this.porukaBrisanje1 = "";  
       },
       error => {
@@ -117,46 +137,58 @@ export class IstorijaRezervacijaComponent implements OnInit {
     this.prikazFormeZaOcenjivanjeVozila = true;
     this.voziloZaOcenjivanje = v;
   }
-
+ 
   Oceni(){
-    this.letZaOcenjivanje.ocena = this.selektovanaOpcija;
-    this.letServis.oceniLet(this.letZaOcenjivanje, this.idKorisnika, this.selektovanaOpcija).subscribe(
-      data => {
-        this.letServis.vratiLetove(this.idKorisnika).subscribe(
-          data => {
+    //this.letZaOcenjivanje.ocena = this.selektovanaOpcija;
+    if(this.porukaOcenjivanje == ""){
+      this.letServis.oceniLet(this.letZaOcenjivanje.id, this.idKorisnika, this.selektovanaOpcija).subscribe(
+        data => {
+              this.prikazFormeZaOcenjivanjeLeta = false;
+              this.letovi = data;
+              for(let l of this.letovi){
+                if(l.brojOcena != 0){
+                  l.prosecnaOcena = l.ocena / l.brojOcena;
+                }
+              }
+              $("#ocenaLet").val("");
+              this.letZaOcenjivanje = new Let();
+              this.porukaOcenjivanje = "";
+            },
+            error => {
+              this.porukaOcenjivanje = "Nije moguce oceniti let!";
+            }
+          )
+        } else {
             this.prikazFormeZaOcenjivanjeLeta = false;
-            this.letovi = data;
-            $("#ocenaLet").val("");
-            this.letZaOcenjivanje = new Let();
             this.porukaOcenjivanje = "";
           }
-        )
-      },
-      error => {
-        this.porukaOcenjivanje = "Nije moguce oceniti let!";
-      }
-    ) 
 
  }
 
   Oceni1(){
-    this.voziloZaOcenjivanje.ocene = this.selektovanaOpcija1;
-    this.voziloServis.oceniVozilo(this.voziloZaOcenjivanje, this.idKorisnika, this.selektovanaOpcija1).subscribe(
-      data => {
-        this.voziloServis.vratiVozilo().subscribe(
-          data => {
+    //this.voziloZaOcenjivanje.ocene = this.selektovanaOpcija1;
+    if(this.porukaOcenjivanje1 == ""){
+      this.voziloServis.oceniVozilo(this.voziloZaOcenjivanje.id, this.idKorisnika, this.selektovanaOpcija1).subscribe(
+        data => {
+              this.prikazFormeZaOcenjivanjeVozila = false;
+              this.vozila = data;
+              for(let v of this.vozila){
+                if(v.brOcena != 0){
+                  v.prosecnaOcena = v.ocene / v.brOcena;
+                }
+              }
+              $("#ocenaVozilo").val("");
+              this.voziloZaOcenjivanje = new Vozilo();
+              this.porukaOcenjivanje1 = "";
+            },
+            error => {
+              this.porukaOcenjivanje1 = "Nije moguce oceniti vozilo!";
+            }
+          )
+        } else {
             this.prikazFormeZaOcenjivanjeVozila = false;
-            this.vozila = data;
-            $("#ocenaVozilo").val("");
-            this.voziloZaOcenjivanje = new Vozilo();
             this.porukaOcenjivanje1 = "";
           }
-        )
-      },
-      error => {
-        this.porukaOcenjivanje1 = "Nije moguce oceniti vozilo!";
-      }
-    )
 
   }
 

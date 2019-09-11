@@ -12,6 +12,7 @@ export class Let{
     polaznaDestinacija : Aerodrom = new Aerodrom();
     odredisnaDestinacija : Aerodrom = new Aerodrom();
     ocena : number;
+    brojOcena : number;
     cenaKarteBiznisKlase : number = 0;
     cenaKarteEkonomskeKlase : number = 0;
     cenaPrveKlase : number = 0;
@@ -20,4 +21,5 @@ export class Let{
     lokacije : LokacijePresedanja[] = [];
     tip : string = "";
     popust : number = 0;
+    prosecnaOcena : number = 0;
 }

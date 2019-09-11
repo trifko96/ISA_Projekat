@@ -66,6 +66,11 @@ export class LetoviComponent implements OnInit {
         this.letServis.vratiLetove(this.idKorisnika).subscribe(
           data => {
             this.letovi = data;
+            for(let l of this.letovi){
+              if(l.brojOcena != 0){
+                l.prosecnaOcena = l.ocena / l.brojOcena;
+              }
+            }
           }
         )
 
@@ -222,6 +227,11 @@ export class LetoviComponent implements OnInit {
       this.letServis.dodajNoviLet(this.noviLet, this.idKorisnika).subscribe(
         data => {
           this.letovi = data;
+          for(let l of this.letovi){
+            if(l.brojOcena != 0){
+              l.prosecnaOcena = l.ocena / l.brojOcena;
+            }
+          }
           this.prikazFormeZaDodavanje = false;
           this.prikazDalje = false;
           this.noviLet = new Let();

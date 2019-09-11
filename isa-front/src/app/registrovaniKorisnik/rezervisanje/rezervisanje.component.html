@@ -1,6 +1,7 @@
 <div class="container-fluid">
     <div class="row">
     <div *ngIf="gornji">
+      <div class="row">
       <div class="col-9" style="max-height: 420px; overflow-y:  scroll;">
         <br>
         <h4>Avio kompanije:</h4>            
@@ -28,6 +29,25 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="col-3" *ngIf = "prikazFormeZaOcenjivanjeKompanije">
+            <div class="form-group row">
+                    <label class="col-sm-5 col-form-label">Oceni kompaniju:</label>
+                        <div class="col-sm-7">
+                            <select [(ngModel)]="selektovanaOpcija1" id="ocenaLet">
+                                <option *ngFor="let o of opcije1">
+                                    {{o.name}}
+                                </option>
+                            </select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <div class="col-sm-10 text-center">
+                          <p class="text-danger">{{porukaOcenjivanje1}}</p>
+                          <button class="btn btn-dark" (click)="Oceni()">Sacuvaj</button>
+                        </div>
+                </div>
+      </div>
       </div>
       <div class="w-100"></div>
       <div *ngIf="prikazBrzihKarata">
@@ -92,6 +112,7 @@
                             <th style="text-align: center;">Cena prve klase (EUR)</th>
 							<th style="text-align: center;">Cena biznis klase (EUR)</th>
                             <th style="text-align: center;">Cena ekonomske klase (EUR)</th>
+                            <th style="text-align: center;">Prosecna ocena</th>
                             <th><button class="btn btn-dark" (click)="povratak()">Nazad</button></th>
 						</tr>
 					</thead>
@@ -110,6 +131,7 @@
                             <td>{{l.cenaPrveKlase}}</td>
                             <td>{{l.cenaKarteBiznisKlase}}</td>
                             <td>{{l.cenaKarteEkonomskeKlase}}</td>
+                            <td>{{l.prosecnaOcena}}</td>
                             <td><button class="btn btn-link" (click) = "rezervisi(l)">Rezervisi</button></td>
                         </tr>
 					</tbody>
@@ -118,6 +140,7 @@
       <div class="w-100"></div>
       <div class="row">
       <div class="col-6" *ngIf="!filtriranje && !rezervisanje">
+          <br><br>
           <h3>Pretrazi letove:</h3><br>
           <div class="form-group row">
             <label class="col-sm-5 col-form-label">Tip:</label>
@@ -301,13 +324,13 @@
                 <div class="form-group row">
                     <label class="col-sm-5 col-form-label">Broj telefona:</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="telPutnika" [(ngModel)]="k.brTelefona" [ngModelOptions] = "{standalone:true}">
+                        <input type="number" class="form-control" id="telPutnika" [(ngModel)]="k.brTelefona" [ngModelOptions] = "{standalone:true}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-5 col-form-label">Broj pasosa:</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="pasosPutnika" [(ngModel)]="k.brPasosa" [ngModelOptions] = "{standalone:true}">
+                        <input type="number" class="form-control" id="pasosPutnika" [(ngModel)]="k.brPasosa" [ngModelOptions] = "{standalone:true}">
                     </div>
                 </div><br>
             </div>
@@ -358,7 +381,7 @@
         </div>
         <div class="form-group row">
             <div class="col-sm-6 text-center">
-                <button class="btn btn-link" (click)="smestaj()">Smestaj</button>
+                <button class="btn btn-link">Smestaj</button>
             </div>
             <div class="col-sm-6 text-center">
                 <button class="btn btn-link" (click)="vozilo()">Vozilo</button>

@@ -40,7 +40,7 @@ export class letServis{
         return this.http.post<Let[]>("api/Let/otkaziRezervacijuLeta/"+id, l);
     }
 
-    oceniLet(l : Let, id : number, opcija : number){
-        return this.http.get<Let[]>("api/Vozilo/oceniVozilo/"+id/+l/+opcija);
+    oceniLet(idLeta : number, id : number, opcija : number){
+        return this.http.get<Let[]>("api/Let/oceniLet/"+id+"/"+idLeta+"/"+opcija);
     }
 } 
