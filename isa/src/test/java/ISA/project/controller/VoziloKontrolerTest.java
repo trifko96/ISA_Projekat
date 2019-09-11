@@ -50,6 +50,7 @@ private static final String URL_PREFIX = "/Vozilo";
 	public static void setUpBeforeClass() throws Exception {
 	}
 
+	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
