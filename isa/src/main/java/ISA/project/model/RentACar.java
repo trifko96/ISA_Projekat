@@ -156,5 +156,13 @@ public class RentACar {
 	public void obrisiVozilo(Vozilo v) {
 		spisakVozila.remove(v);
 	}
+	
+	public void povecajBrojOcena() {
+		this.brojOcena++;
+	}
+	
+	public void oceniServis(double ocena) {
+		this.ocena += ocena;
+	}
 
 }

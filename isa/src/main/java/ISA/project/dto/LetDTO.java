@@ -16,6 +16,7 @@ public class LetDTO {
 	private AerodromDTO polaznaDestinacija;
 	private AerodromDTO odredisnaDestinacija;
 	private double ocena;
+	private double brojOcena;
 	private double cenaKarteBiznisKlase;
 	private double cenaKarteEkonomskeKlase;
 	private double cenaPrveKlase;
@@ -40,6 +41,8 @@ public class LetDTO {
 		this.datumPolaskaNazad = l.getVremePolaskaNazad();
 		this.tip = l.getTip();
 		this.popust = l.getPopust();
+		this.ocena = l.getOcene();
+		this.brojOcena = l.getBrojOcena();
 	}
 
 	public long getId() {
@@ -168,6 +171,14 @@ public class LetDTO {
 
 	public void setPopust(double popust) {
 		this.popust = popust;
+	}
+
+	public double getBrojOcena() {
+		return brojOcena;
+	}
+
+	public void setBrojOcena(double brojOcena) {
+		this.brojOcena = brojOcena;
 	}
 	
 	

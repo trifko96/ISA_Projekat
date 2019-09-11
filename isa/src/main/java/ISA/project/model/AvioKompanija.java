@@ -188,6 +188,14 @@ public class AvioKompanija {
 		avioni.add(a);
 	}
 	
+	public void oceniKompaniju(double ocena) {
+		this.ocena += ocena;
+	}
+	
+	public void povecajBrojOcena() {
+		this.brojOcena++;
+	}
+	
 	public static Comparator<AvioKompanija> AvioKompanijaComparator = new Comparator<AvioKompanija>() {
 
 		public int compare(AvioKompanija a1, AvioKompanija a2) {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ISA.project.dto.AerodromDTO;
+import ISA.project.dto.AvioKompanijaDTO;
 import ISA.project.dto.AvionDTO;
 import ISA.project.dto.AvionskaKartaDTO;
 import ISA.project.dto.FilterLetDTO;
@@ -25,6 +26,8 @@ import ISA.project.model.AvionskaKarta;
 import ISA.project.model.Korisnik;
 import ISA.project.model.Let;
 import ISA.project.model.LokacijePresedanja;
+import ISA.project.model.OceneKompanija;
+import ISA.project.model.OceneLet;
 import ISA.project.model.Sediste;
 import ISA.project.model.Segment;
 import ISA.project.model.StatusSedista;
@@ -32,7 +35,9 @@ import ISA.project.model.TipKlase;
 import ISA.project.repository.AerodromRepozitorijum;
 import ISA.project.repository.AvionRepozitorijum;
 import ISA.project.repository.AvionskaKartaRepozitorijum;
+import ISA.project.repository.KorisnikRepozitorijum;
 import ISA.project.repository.LetRepozitorijum;
+import ISA.project.repository.OceneLetRepozitorijum;
 import ISA.project.repository.SedisteRepozitorijum;
 
 @Service
@@ -52,6 +57,12 @@ public class LetServis {
 	
 	@Autowired
 	SedisteRepozitorijum sedRepo;
+	
+	@Autowired
+	OceneLetRepozitorijum oceneRepo;
+	
+	@Autowired 
+	KorisnikRepozitorijum korisnikRepo;
 	
 	public List<LetDTO> vratiLetove(AvioKompanija a){
 		List<LetDTO> letoviDTO = new ArrayList<>();
@@ -97,11 +108,6 @@ public class LetServis {
 			letdto.setLokacije(lokacije);
 			letdto.setPolaznaDestinacija(aero1);
 			letdto.setOdredisnaDestinacija(aero2);
-			if(l.getBrojOcena() != 0) {
-				letdto.setOcena(l.getOcene()/l.getBrojOcena());
-			} else {
-				letdto.setOcena(0);
-			}
 			
 			letoviDTO.add(letdto);		
 		}
@@ -187,11 +193,6 @@ public class LetServis {
 			letdto.setLokacije(lokacije);
 			letdto.setPolaznaDestinacija(aero1);
 			letdto.setOdredisnaDestinacija(aero2);
-			if(l.getBrojOcena() != 0) {
-				letdto.setOcena(l.getOcene()/l.getBrojOcena());
-			} else {
-				letdto.setOcena(0);
-			}
 			
 			letoviDTO.add(letdto);		
 		}
@@ -311,11 +312,6 @@ public class LetServis {
 			letdto.setLokacije(lokacije);
 			letdto.setPolaznaDestinacija(aero1);
 			letdto.setOdredisnaDestinacija(aero2);
-			if(l.getBrojOcena() != 0) {
-				letdto.setOcena(l.getOcene()/l.getBrojOcena());
-			} else {
-				letdto.setOcena(0);
-			}
 			
 			letoviDTO.add(letdto);		
 		}
@@ -389,11 +385,6 @@ public class LetServis {
 			letdto.setLokacije(lokacije);
 			letdto.setPolaznaDestinacija(aero1);
 			letdto.setOdredisnaDestinacija(aero2);
-			if(l.getBrojOcena() != 0) {
-				letdto.setOcena(l.getOcene()/l.getBrojOcena());
-			} else {
-				letdto.setOcena(0);
-			}
 			
 			letoviDTO.add(letdto);		
 		}
@@ -460,11 +451,6 @@ public class LetServis {
 			letdto.setLokacije(lokacije);
 			letdto.setPolaznaDestinacija(aero1);
 			letdto.setOdredisnaDestinacija(aero2);
-			if(l.getBrojOcena() != 0) {
-				letdto.setOcena(l.getOcene()/l.getBrojOcena());
-			} else {
-				letdto.setOcena(0);
-			}
 			
 			letoviDTO.add(letdto);		
 		}
@@ -486,5 +472,24 @@ public class LetServis {
 		
 		List<LetDTO> letovi = vratiRezLetove(k);
 		return letovi;
+	}
+	
+	public List<LetDTO> oceniLet(long id, long idLeta, double ocena){
+		OceneLet ocene = oceneRepo.vratiOcenu(id, idLeta);
+		if(ocene == null) {
+			Let l = repozitorijum.vratiLet(idLeta);
+			l.oceni(ocena);
+			l.povecajBrojOcena();
+			repozitorijum.save(l);
+			OceneLet o = new OceneLet();
+			o.setIdLeta(idLeta);
+			o.setIdKorisnika(id);
+			oceneRepo.save(o);
+			Korisnik k = korisnikRepo.vratiKorisnikaPoId(id);
+			List<LetDTO> letoviDTO = vratiRezLetove(k);
+			return letoviDTO;
+		} else {
+			return null;
+		}
 	}
 }

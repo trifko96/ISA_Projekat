@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ISA.project.dto.AvioKompanijaDTO;
 import ISA.project.dto.FilterLetDTO;
 import ISA.project.dto.LetDTO;
 import ISA.project.dto.PretragaLetDTO;
@@ -113,6 +114,16 @@ public class LetKontroler {
 		else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+		}
+	}
+	
+	@RequestMapping(value="/oceniLet/{id}/{idLeta}/{opcija}", method = RequestMethod.GET)
+	public ResponseEntity<List<LetDTO>> oceniKompaniju(@PathVariable long id, @PathVariable long idLeta, @PathVariable double opcija){
+		List<LetDTO> lista = servis.oceniLet(id, idLeta, opcija);
+		if(lista != null) {
+			return new ResponseEntity<>(lista, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

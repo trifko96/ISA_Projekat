@@ -272,6 +272,13 @@ public class Vozilo {
 		this.rezervacije = rezervacije;
 	}
 	
+	public void oceniVozilo(double ocena) {
+		this.ocene += ocena;
+	}
+	
+	public void povecajBrojOcena() {
+		this.brOcena++;
+	}
 	
 
 }

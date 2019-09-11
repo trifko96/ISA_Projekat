@@ -137,4 +137,14 @@ public class AvioKompanijaKontroler {
 		return sortiranaLista;
 		
 	}
+	
+	@RequestMapping(value="/oceniKompaniju/{id}/{id1}/{opcija}", method = RequestMethod.GET)
+	public ResponseEntity<List<AvioKompanijaDTO>> oceniKompaniju(@PathVariable long id, @PathVariable long id1, @PathVariable double opcija){
+		List<AvioKompanijaDTO> lista = servis.oceniKompaniju(id, id1, opcija);
+		if(lista != null) {
+			return new ResponseEntity<>(lista, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ISA.project.dto.AvioKompanijaDTO;
 import ISA.project.dto.DatumskiOpsegDTO;
 import ISA.project.dto.PrihodDTO;
 import ISA.project.dto.LokacijaDTO;
@@ -118,5 +119,15 @@ public class RentACarKontroler {
 	public ResponseEntity<List<RentACarDTO>> pretraziServise(@RequestBody PretragaServisDTO p){
 		List<RentACarDTO> servisiDTO = servis.pretraziServise(p);
 		return new ResponseEntity<>(servisiDTO, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/oceniServis/{id}/{idr}/{opcija}", method = RequestMethod.GET)
+	public ResponseEntity<List<RentACarDTO>> oceniKompaniju(@PathVariable long id, @PathVariable long idr, @PathVariable double opcija){
+		List<RentACarDTO> lista = servis.oceniServis(id, idr, opcija);
+		if(lista != null) {
+			return new ResponseEntity<>(lista, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 }

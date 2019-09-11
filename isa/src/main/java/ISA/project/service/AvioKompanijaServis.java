@@ -17,10 +17,12 @@ import ISA.project.model.AvioKompanija;
 import ISA.project.model.AvionskaKarta;
 import ISA.project.model.Korisnik;
 import ISA.project.model.Let;
+import ISA.project.model.OceneKompanija;
 import ISA.project.model.StatusSedista;
 import ISA.project.repository.AvioKompanijaRepozitorijum;
 import ISA.project.repository.AvionskaKartaRepozitorijum;
 import ISA.project.repository.LetRepozitorijum;
+import ISA.project.repository.OceneKompanijaRepozitorijum;
 
 @Service
 public class AvioKompanijaServis {
@@ -33,6 +35,9 @@ public class AvioKompanijaServis {
 	
 	@Autowired
 	AvionskaKartaRepozitorijum kartaRepo;
+	
+	@Autowired
+	OceneKompanijaRepozitorijum oceneRepo;
 	
 	public AvioKompanijaDTO nadjiKompaniju(long id) {
 		
@@ -139,5 +144,27 @@ public class AvioKompanijaServis {
 		}
 		
 		return listaDTO;
+	}
+	
+	public List<AvioKompanijaDTO> oceniKompaniju(long id, long id1, double ocena){
+		OceneKompanija ocene = oceneRepo.vratiOcenu(id, id1);
+		if(ocene == null) {
+			AvioKompanija a = repozitorijum.vratiAvioKompanijuPoId(id1);
+			a.oceniKompaniju(ocena);
+			a.povecajBrojOcena();
+			repozitorijum.save(a);
+			OceneKompanija o = new OceneKompanija();
+			o.setIdKompanije(id1);
+			o.setIdKorisnika(id);
+			oceneRepo.save(o);
+			List<AvioKompanija> avio = repozitorijum.findAll();
+			List<AvioKompanijaDTO> avioDTO = new ArrayList<>();
+			for(AvioKompanija av : avio) {
+				avioDTO.add(new AvioKompanijaDTO(av));
+			}
+			return avioDTO;
+		} else {
+			return null;
+		}
 	}
 }

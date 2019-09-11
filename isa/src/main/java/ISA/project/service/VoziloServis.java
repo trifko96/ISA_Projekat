@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ISA.project.dto.AerodromDTO;
+import ISA.project.dto.AvioKompanijaDTO;
 import ISA.project.dto.AvionDTO;
 import ISA.project.dto.AvionskaKartaDTO;
 import ISA.project.dto.LetDTO;
@@ -21,11 +22,14 @@ import ISA.project.dto.RezervacijaKarataDTO;
 import ISA.project.dto.SedisteDTO;
 import ISA.project.dto.SegmentDTO;
 import ISA.project.dto.VoziloDTO;
+import ISA.project.model.AvioKompanija;
 import ISA.project.model.Avion;
 import ISA.project.model.AvionskaKarta;
 import ISA.project.model.Korisnik;
 import ISA.project.model.Let;
 import ISA.project.model.LokacijePresedanja;
+import ISA.project.model.OceneKompanija;
+import ISA.project.model.OceneVozilo;
 import ISA.project.model.RentACar;
 import ISA.project.model.Rezervacija;
 import ISA.project.model.Sediste;
@@ -34,6 +38,7 @@ import ISA.project.model.StatusSedista;
 import ISA.project.model.Vozilo;
 import ISA.project.repository.AvionskaKartaRepozitorijum;
 import ISA.project.repository.KorisnikRepozitorijum;
+import ISA.project.repository.OceneVoziloRepozitorijum;
 import ISA.project.repository.RentACarRepozitorijum;
 import ISA.project.repository.RezervacijaRepozitorijum;
 import ISA.project.repository.SedisteRepozitorijum;
@@ -60,6 +65,9 @@ public class VoziloServis {
 	
 	@Autowired
 	RezervacijaRepozitorijum rezervacijaRepo;
+	
+	@Autowired
+	OceneVoziloRepozitorijum oceneRepo;
 	
 	public Vozilo vratiVoziloPoNazivu(VoziloDTO vdto) {
 		Vozilo v = repozitorijum.vratiVoziloPoNazivu(vdto.getId());
@@ -186,11 +194,11 @@ public class VoziloServis {
 						tmp++;
 					}
 				}
-				if(tmp == 0) {
+				//if(tmp == 0) {
 					Sediste s = sedisteRepo.vratiSediste(rdto.getIdSedista());
 					s.setStatus(StatusSedista.REZERVISANO);
 					sedisteRepo.save(s);
-				}
+				//}
 				kartaRepo.save(a);
 				rezervacija.getKarte().add(a);
 			}
@@ -201,11 +209,7 @@ public class VoziloServis {
 			voz.setMestoVracanja(v.getAdresaLokacije());
 			voz.setRezervisano(true);
 			//voz.getRezervacije().add(rezervacija);
-			if(v.getDatumDo() != null) {
-				voz.setDatumDo(v.getDatumDo());
-			} else {
-				voz.setDatumDo(new GregorianCalendar(2020, Calendar.JANUARY, 1).getTime());
-			}
+			voz.setDatumDo(v.getDatumDo());
 			rezervacija.setVozilo(voz);
 			rezervacijaRepo.save(rezervacija);
 			return "ok";
@@ -269,6 +273,25 @@ public class VoziloServis {
 		
 		List<VoziloDTO> vozila = vratiRezVozila(k);
 		return vozila;
+	}
+	
+	public List<VoziloDTO> oceniVozilo(long id, long idv, double ocena){
+		OceneVozilo ocene = oceneRepo.vratiOcenu(id, idv);
+		if(ocene == null) {
+			Vozilo v = repozitorijum.vratiVoziloPoNazivu(idv);
+			v.oceniVozilo(ocena);
+			v.povecajBrojOcena();
+			repozitorijum.save(v);
+			OceneVozilo o = new OceneVozilo();
+			o.setIdVozila(idv);
+			o.setIdKorisnika(id);
+			oceneRepo.save(o);
+			Korisnik k = korisnikRepo.vratiKorisnikaPoId(id);
+			List<VoziloDTO> lista = vratiRezVozila(k);
+			return lista;
+		} else {
+			return null;
+		}
 	}
 
 }
