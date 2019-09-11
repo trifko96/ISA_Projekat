@@ -14,6 +14,7 @@
               <th>Dozvoljena tezina prtljaga (kg)</th>
               <th><button class="btn btn-link" (click)="prikaziBrzeKarte()">Brza rezervacija</button></th>
               <th><button class="btn btn-link" (click)="pretraziLetove()">Pretrazi letove</button></th>
+              <th>&nbsp;</th>
             </tr>
           </thead>
           <tbody *ngFor="let a of avioKompanije">
@@ -23,6 +24,7 @@
               <td>{{a.opis}}</td>
               <td>{{a.prosecnaOcena}}</td>
               <td>{{a.infoPrtljag}}</td>
+              <td><button class="btn btn-link" (click) = "oceni(a)">Oceni</button></td>
             </tr>
           </tbody>
         </table>

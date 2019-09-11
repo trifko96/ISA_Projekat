@@ -30,7 +30,7 @@ export class rentCarServis{
     vratiStatistikuPoDanu(){
       return this.http.get<Statistika>("api/RentACar/vratiStatistikuPoDanu");
     }
-
+ 
     vratiStatistikuPoNedelji(){
       return this.http.get<Statistika>("api/RentACar/vratiStatistikuPoNedelji");
     }
@@ -50,4 +50,8 @@ export class rentCarServis{
     pretraziServis(p : PretragaServis){
       return this.http.post<RentCar[]>("api/RentACar/pretraziServise",p);
     }
+
+    oceniServis(r : RentCar, id : number, opcija : number){
+      return this.http.get<RentCar[]>("api/RentACar/oceniServis/"+id/+r/+opcija);
+  }
 }

@@ -46,6 +46,15 @@ export class RezervisanjeVozilaComponent implements OnInit {
   porukaZaRezervaciju : string = "";
   pretragaServis : PretragaServis = new PretragaServis();
   prikazPretrageServisa : boolean = true;
+
+  
+  selektovanaOpcija : number = 0;
+  porukaOcenjivanje : string = "";
+
+  prikazFormeZaOcenjivanjeServisa : boolean = false;
+
+  servisZaOcenjivanje : RentCar = new RentCar();
+
   opcije1 = [
     {name: "MINI", value: "MINI"},
     {name: "LIMUZINA", value: "LIMUZINA"},
@@ -254,5 +263,31 @@ export class RezervisanjeVozilaComponent implements OnInit {
       this.porukaZaRezervaciju = "Morate prvo rezervisati let!";
     }
   }
+
+  oceni(s : RentCar){
+    this.prikazFormeZaOcenjivanjeServisa = true;
+    this.servisZaOcenjivanje = s;
+  }
+
+  Oceni(){
+    this.servisZaOcenjivanje.ocena = this.selektovanaOpcija;
+    this.rentCarServis.oceniServis(this.servisZaOcenjivanje, this.idKorisnika, this.selektovanaOpcija).subscribe(
+      data => {
+        this.rentCarServis.vratiSveServise().subscribe(
+          data => {
+            this.prikazFormeZaOcenjivanjeServisa = false;
+            this.servisi = data;
+            $("#ocenaRent").val("");
+            this.servisZaOcenjivanje = new RentCar();
+            this.porukaOcenjivanje = "";
+          }
+        )
+      },
+      error => {
+        this.porukaOcenjivanje = "Nije moguce oceniti rent a car servis!";
+      }
+    ) 
+
+ }
 
 }

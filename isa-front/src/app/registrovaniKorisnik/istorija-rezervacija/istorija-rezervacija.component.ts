@@ -3,7 +3,9 @@ import { Let } from 'src/app/model/Let';
 import { Router } from '@angular/router';
 import { letServis } from 'src/app/service/letServis';
 import { Vozilo } from 'src/app/model/Vozilo';
+import * as $ from 'jquery';
 import { voziloServis } from 'src/app/service/voziloServis';
+import { korisnikServis } from 'src/app/service/korisnikServis';
 
 @Component({
   selector: 'app-istorija-rezervacija',
@@ -16,10 +18,49 @@ export class IstorijaRezervacijaComponent implements OnInit {
   porukaBrisanje : string = "";
   porukaBrisanje1 : string = "";
   vozila : Vozilo[] = [];
-  //idLeta : number;
+  opcije = [
+    {name: "5", value: 5},
+    {name: "4", value: 4},
+    {name: "3", value: 3},
+    {name: "2", value: 2},
+    {name: "1", value: 1}
+  ]
+  opcije1 = [
+    {name: "5", value: 5},
+    {name: "4", value: 4},
+    {name: "3", value: 3},
+    {name: "2", value: 2},
+    {name: "1", value: 1}
+  
+  ]
+  selektovanaOpcija : number = 0;
+  selektovanaOpcija1 : number = 0;
+  porukaOcenjivanje : string = "";
+  porukaOcenjivanje1 : string = "";
 
-  constructor(private router : Router, private letServis : letServis, private voziloServis : voziloServis) {
-    
+  prikazFormeZaOcenjivanjeLeta : boolean = false;
+  prikazFormeZaOcenjivanjeVozila : boolean = false;
+
+  letZaOcenjivanje : Let = new Let();
+  voziloZaOcenjivanje : Vozilo = new Vozilo();
+
+  idKorisnika : number;
+
+  constructor(private router : Router, private letServis : letServis, private voziloServis : voziloServis, private korisnikServis : korisnikServis) {
+    this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
+    data => {
+      if(data.provera == "ADMINISTRATOR_HOTELA"){
+        this.router.navigate([""]);
+      } else if(data.provera == "ADMINISTRATOR_RENT_A_CAR"){
+        this.router.navigate(["glavnaRentACar/infoStranica"]);
+      } else if(data.provera == "ADMINISTRATOR_SISTEMA"){
+        this.router.navigate(["glavnaAdminSistema/adminSistema"]);
+      } else if(data.provera == "ADMINISTRATOR_AVIOKOMPANIJE"){
+        this.router.navigate(["glavna/avioKompanija"]);
+      }
+
+      this.idKorisnika = data.id;
+
     this.letServis.vratiRezezrvisaneLetove().subscribe(
       data => {
         this.letovi = data;
@@ -31,7 +72,10 @@ export class IstorijaRezervacijaComponent implements OnInit {
         this.vozila = data;
       }
     )
-  }
+
+   }
+  )
+}
 
   ngOnInit() {
   }
@@ -63,5 +107,57 @@ export class IstorijaRezervacijaComponent implements OnInit {
       }
     )
   }
- 
+
+  oceni(l : Let){
+    this.prikazFormeZaOcenjivanjeLeta = true;
+    this.letZaOcenjivanje = l;
+  }
+
+  oceni1(v : Vozilo){
+    this.prikazFormeZaOcenjivanjeVozila = true;
+    this.voziloZaOcenjivanje = v;
+  }
+
+  Oceni(){
+    this.letZaOcenjivanje.ocena = this.selektovanaOpcija;
+    this.letServis.oceniLet(this.letZaOcenjivanje, this.idKorisnika, this.selektovanaOpcija).subscribe(
+      data => {
+        this.letServis.vratiLetove(this.idKorisnika).subscribe(
+          data => {
+            this.prikazFormeZaOcenjivanjeLeta = false;
+            this.letovi = data;
+            $("#ocenaLet").val("");
+            this.letZaOcenjivanje = new Let();
+            this.porukaOcenjivanje = "";
+          }
+        )
+      },
+      error => {
+        this.porukaOcenjivanje = "Nije moguce oceniti let!";
+      }
+    ) 
+
+ }
+
+  Oceni1(){
+    this.voziloZaOcenjivanje.ocene = this.selektovanaOpcija1;
+    this.voziloServis.oceniVozilo(this.voziloZaOcenjivanje, this.idKorisnika, this.selektovanaOpcija1).subscribe(
+      data => {
+        this.voziloServis.vratiVozilo().subscribe(
+          data => {
+            this.prikazFormeZaOcenjivanjeVozila = false;
+            this.vozila = data;
+            $("#ocenaVozilo").val("");
+            this.voziloZaOcenjivanje = new Vozilo();
+            this.porukaOcenjivanje1 = "";
+          }
+        )
+      },
+      error => {
+        this.porukaOcenjivanje1 = "Nije moguce oceniti vozilo!";
+      }
+    )
+
+  }
+
 } 

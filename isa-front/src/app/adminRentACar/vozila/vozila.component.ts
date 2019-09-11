@@ -33,7 +33,7 @@ export class VozilaComponent implements OnInit {
   
   ]
   selektovanaOpcija : string = "";
-  selektovanaOpcija1 : string = ""
+  selektovanaOpcija1 : string = "";
   selektovanaOpcijaIzmena : string = "";
   selektovanaOpcijaIzmena1 : string = "";
   selektovanaLokacija : string = "";

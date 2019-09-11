@@ -59,5 +59,8 @@ export class voziloServis {
         return this.http.post<Vozilo[]>("api/Vozilo/otkaziRezervacijuVozila/"+id, v);
     }
 
+    oceniVozilo(v : Vozilo, id : number, opcija : number){
+        return this.http.get<Vozilo[]>("api/Vozilo/oceniVozilo/"+id/+v/+opcija);
+    }
     
 }

@@ -12,6 +12,7 @@
               <th>Filijale</th>
               <th>Prosecna ocena</th>
               <th><button class="btn btn-link" (click)="prikaziBrzaVozila()">Brza rezervacija</button></th>
+              <th>&nbsp;</th>
             </tr>
           </thead>
           <tbody *ngFor="let s of servisi">
@@ -22,6 +23,7 @@
               <td><button class="btn btn-link" (click)="prikaziFilijale(s)">Prikazi</button></td>
               <td>{{s.prosecnaOcena}}</td>
               <td><button class="btn btn-link" (click)="prikazRezervisanja(s)">Rezervisi</button></td>
+              <td><button class="btn btn-link" (click) = "oceni(s)">Oceni</button></td>
             </tr>
           </tbody>
         </table>
@@ -167,7 +169,7 @@
               <table class="table">
                 <thead>
                 <tr>
-                  <th>Ukupna cena</th>
+                  <th>Cena po danu</th>
                   <th>Naziv</th>
                   <th>Marka</th>
                   <th>Model</th>
@@ -194,5 +196,18 @@
             </div>
             <p class="text-danger">{{porukaZaRezervaciju}}</p>
       </div>
+
+      <div class="col-6" *ngIf = "prikazFormeZaOcenjivanjeServisa">
+          <div class="form-group row">
+                  <label class="col-sm-5 col-form-label">Ocena rent a car-a:</label>
+                      <div class="col-sm-7">
+                          <select [(ngModel)]="selektovanaOpcija" id="ocenaRent">
+                              <option *ngFor="let o of opcije">
+                                  {{o.name}}
+                              </option>
+                          </select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      </div>
+              </div>
+
     </div>
 </div>

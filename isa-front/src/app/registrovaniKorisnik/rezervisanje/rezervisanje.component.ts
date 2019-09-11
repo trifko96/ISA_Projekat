@@ -66,7 +66,21 @@ export class RezervisanjeComponent implements OnInit {
   gornji : boolean = true;
   donji : boolean = false;
 
+  selektovanaOpcija1 : number = 0;
+  porukaOcenjivanje1 : string = "";
 
+  prikazFormeZaOcenjivanjeKompanije : boolean = false;
+
+  kompanijaZaOcenjivanje : AvioKompanija = new AvioKompanija();
+
+  opcije1 = [
+    {name: "5", value: 5},
+    {name: "4", value: 4},
+    {name: "3", value: 3},
+    {name: "2", value: 2},
+    {name: "1", value: 1}
+  
+  ]
 
   avion : Avion = new Avion();
   opcije = [
@@ -423,5 +437,31 @@ export class RezervisanjeComponent implements OnInit {
       }
     )
   }
+
+  oceni(a : AvioKompanija){
+    this.prikazFormeZaOcenjivanjeKompanije = true;
+    this.kompanijaZaOcenjivanje = a;
+  }
+
+  Oceni(){
+    this.kompanijaZaOcenjivanje.ocena = this.selektovanaOpcija1;
+    this.avioServis.oceniKompaniju(this.kompanijaZaOcenjivanje, this.idKorisnika, this.selektovanaOpcija1).subscribe(
+      data => {
+        this.avioServis.vratiSveKompanije().subscribe(
+          data => {
+            this.prikazFormeZaOcenjivanjeKompanije = false;
+            this.kompanije = data;
+            $("#ocenaAvio").val("");
+            this.kompanijaZaOcenjivanje = new AvioKompanija();
+            this.porukaOcenjivanje1 = "";
+          }
+        )
+      },
+      error => {
+        this.porukaOcenjivanje1 = "Nije moguce oceniti avio kompaniju!";
+      }
+    ) 
+
+ }
 
 }
