@@ -80,6 +80,10 @@ export class LetoviComponent implements OnInit {
             this.lokacijeAerodromi = data;
           }
         )
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
 
@@ -194,7 +198,9 @@ export class LetoviComponent implements OnInit {
           provera = true;
           this.porukaLokacije = "Odaberite drugu lokaciju!";
         } else {
-          this.porukaLokacije = "";
+          if(provera == false){
+            this.porukaLokacije = "";
+          }
         }
       }
     }

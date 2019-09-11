@@ -33,6 +33,10 @@ export class ProfilComponent implements OnInit {
         } else if(data.provera == "OBICAN_KORISNIK"){
           this.router.navigate(["glavnaRegistrovani/profil"]);
         }
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(

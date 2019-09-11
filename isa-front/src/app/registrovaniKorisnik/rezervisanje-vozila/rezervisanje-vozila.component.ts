@@ -85,6 +85,10 @@ export class RezervisanjeVozilaComponent implements OnInit {
         }
         this.idKorisnika = data.id;
         this.korisnik = data;
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
     this.rentCarServis.vratiSveServise().subscribe(

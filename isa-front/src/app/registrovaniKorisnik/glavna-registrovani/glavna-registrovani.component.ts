@@ -30,6 +30,10 @@ export class GlavnaRegistrovaniComponent implements OnInit {
         } else if(data.provera == "ADMINISTRATOR_AVIOKOMPANIJE"){
           this.router.navigate(["glavna/avioKompanija"]);
         }
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
   }

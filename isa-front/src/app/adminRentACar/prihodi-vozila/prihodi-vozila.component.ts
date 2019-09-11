@@ -38,6 +38,10 @@ export class PrihodiVozilaComponent implements OnInit {
           this.router.navigate(["glavnaRegistrovani/profil"]);
         }
         this.idKorisnika = data.id;
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
    }

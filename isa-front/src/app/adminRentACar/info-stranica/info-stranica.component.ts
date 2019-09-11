@@ -44,6 +44,10 @@ export class InfoStranicaComponent implements OnInit {
        }
      )
 
+    },
+
+    error => {
+      this.router.navigate(["glavnaNeregistrovani/prijava"]);
     }
    )
   }

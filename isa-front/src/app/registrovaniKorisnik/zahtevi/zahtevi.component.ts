@@ -3,6 +3,7 @@ import { Korisnik } from 'src/app/model/Korisnik';
 import { zahteviServis } from 'src/app/service/zahteviServis';
 import { Router } from '@angular/router';
 import { korisnikServis } from 'src/app/service/korisnikServis';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-zahtevi',
@@ -29,6 +30,10 @@ export class ZahteviComponent implements OnInit {
         } else if(data.provera == "ADMINISTRATOR_AVIOKOMPANIJE"){
           this.router.navigate(["glavna/avioKompanija"]);
         }
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
     this.zahteviServis.vratiMojePrijatelje().subscribe(
@@ -56,13 +61,18 @@ export class ZahteviComponent implements OnInit {
   }
 
   pretrazi(){
-    this.zahteviServis.vratiOstaleKorisnike(this.ime).subscribe(
-      data => {
-        this.ponudjeni = data;
-        this.prikaz = true;
-        this.ime = "";
-      }
-    )
+    if(this.ime == ""){
+      $("#pretragaIme").addClass('border-danger');
+    } else {
+      $("#pretragaIme").removeClass('border-danger');
+      this.zahteviServis.vratiOstaleKorisnike(this.ime).subscribe(
+        data => {
+          this.ponudjeni = data;
+          this.prikaz = true;
+          this.ime = "";
+        }
+      )
+    }
   }
 
   dodaj(k : Korisnik){

@@ -47,6 +47,10 @@ export class AerodromiComponent implements OnInit {
             this.postojeciAerodromi = data;
           }
         )
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
     

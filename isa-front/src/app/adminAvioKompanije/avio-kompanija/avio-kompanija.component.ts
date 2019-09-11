@@ -50,6 +50,10 @@ export class AvioKompanijaComponent implements OnInit {
             this.map.getView().setCenter(ol.proj.fromLonLat([data.koordinata2,data.koordinata1]));
           }
         )
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
     
@@ -120,42 +124,49 @@ export class AvioKompanijaComponent implements OnInit {
   }
 
   Izmena(){
-    if(this.izmena == true){
-      this.izmena = false;
-      this.avioKompanijaIzmena.naziv = $("#nazivKom").val();
-      this.avioKompanijaIzmena.adresa = $("#adresaKom").val();
-      this.avioKompanijaIzmena.opis = $("#opisKom").val();
-      this.avioKompanijaIzmena.infoPrtljag = $("#prtljagKom").val();
-      if(this.pomKord1 != 0){
-        this.avioKompanijaIzmena.koordinata1 = this.pomKord1;
-        this.avioKompanijaIzmena.koordinata2 = this.pomKord2;
-        this.setMarker([this.pomKord1,this.pomKord2]);
-      } else {
-        this.avioKompanijaIzmena.koordinata1 = this.avioKompanija.koordinata1;
-        this.avioKompanijaIzmena.koordinata2 = this.avioKompanija.koordinata2;
-      }
-      this.avioKompanijaIzmena.id = this.avioKompanija.id;
-      this.avioKompanijaIzmena.brojOcena = this.avioKompanija.brojOcena;
-      this.avioKompanijaIzmena.ocena = this.avioKompanija.ocena;
-      this.avioKompanijaIzmena.prihod = this.avioKompanija.prihod;
-      this.avioServis.izmeniKompaniju(this.avioKompanijaIzmena).subscribe(
-        data => {
-          this.avioServis.vratiKompaniju(this.idKorisnika).subscribe(
-            data => {
-              this.avioKompanija = data;
-              $("#nazivKom").val("");
-              $("#adresaKom").val("");
-              $("#opisKom").val("");
-              $("#prtljagKom").val("");
-              this.poruka = "";
-            }
-          )
-        },
-        error => {
-          this.poruka = "Uneto ime vec postoji!";
+      if(this.izmena == true){
+        if($("#nazivKom").val() == ""){
+          $("#nazivKom").addClass('border-danger');
+        } else {
+        $("#nazivKom").removeClass('border-danger'); 
+        
+        this.avioKompanijaIzmena.naziv = $("#nazivKom").val();
+        this.avioKompanijaIzmena.adresa = $("#adresaKom").val();
+        this.avioKompanijaIzmena.opis = $("#opisKom").val();
+        this.avioKompanijaIzmena.infoPrtljag = $("#prtljagKom").val();
+        if(this.pomKord1 != 0){
+          this.avioKompanijaIzmena.koordinata1 = this.pomKord1;
+          this.avioKompanijaIzmena.koordinata2 = this.pomKord2;
+          this.setMarker([this.pomKord1,this.pomKord2]);
+        } else {
+          this.avioKompanijaIzmena.koordinata1 = this.avioKompanija.koordinata1;
+          this.avioKompanijaIzmena.koordinata2 = this.avioKompanija.koordinata2;
         }
-      )
-    } else {
+        this.avioKompanijaIzmena.id = this.avioKompanija.id;
+        this.avioKompanijaIzmena.brojOcena = this.avioKompanija.brojOcena;
+        this.avioKompanijaIzmena.ocena = this.avioKompanija.ocena;
+        this.avioKompanijaIzmena.prihod = this.avioKompanija.prihod;
+        this.avioServis.izmeniKompaniju(this.avioKompanijaIzmena).subscribe(
+          data => {
+            this.avioServis.vratiKompaniju(this.idKorisnika).subscribe(
+              data => {
+                this.avioKompanija = data;
+                this.izmena = false;
+                $("#nazivKom").val("");
+                $("#adresaKom").val("");
+                $("#opisKom").val("");
+                $("#prtljagKom").val("");
+                this.poruka = "";
+              }
+            )
+          },
+          error => {
+            this.poruka = "Uneto ime vec postoji!";
+          }
+        )
+        }
+      } 
+        else {
       this.poruka = "Odaberite kompaniju za izmenu!";
     }
   }
