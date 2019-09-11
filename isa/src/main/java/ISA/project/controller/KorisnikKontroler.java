@@ -126,7 +126,11 @@ public class KorisnikKontroler {
 	public ResponseEntity<KorisnikDTO> trenutniKorisnik(@Context HttpServletRequest request){
 		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
 		KorisnikDTO kd = new KorisnikDTO(k);
-		return new ResponseEntity<>(kd, HttpStatus.OK);
+		if(k != null) {
+			return new ResponseEntity<>(kd, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(value="/izmenaKorisnika", method = RequestMethod.POST)

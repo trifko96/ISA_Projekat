@@ -107,6 +107,10 @@ export class RezervisanjeComponent implements OnInit {
           this.router.navigate(["glavna/avioKompanija"]);
         }
         this.idKorisnika = data.id;
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
     
@@ -377,11 +381,17 @@ export class RezervisanjeComponent implements OnInit {
   dalje1(){
     let provera : boolean = false;
     for(let r of this.rezervacija.karte){
-      if(r.brPasosa == ""){
+      if(r.brPasosa == "" || r.brPasosa == "0"){
         provera = true;
+        $("#pasosPutnika").addClass('border-danger');
+      } else {
+        $("#pasosPutnika").removeClass('border-danger');
       }
-      if(r.brTelefona == ""){
+      if(r.brTelefona == "" || isNaN(+r.brTelefona)){
         provera = true;
+        $("#telPutnika").addClass('border-danger');
+      } else {
+        $("#telPutnika").removeClass('border-danger');
       }
       if(r.email == ""){
         provera = true;
@@ -394,6 +404,8 @@ export class RezervisanjeComponent implements OnInit {
       }
     }
     if(!provera){
+      $("#telPutnika").removeClass('border-danger');
+      $("#pasosPutnika").removeClass('border-danger');
       this.prikazPoruke = true;
       this.prikazPutnika = false;
       this.poruka1 = "";

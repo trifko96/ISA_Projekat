@@ -66,6 +66,10 @@ export class VozilaComponent implements OnInit {
             this.lokacije = data;
           }
         )
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
   }

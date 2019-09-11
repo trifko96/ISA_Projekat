@@ -83,7 +83,11 @@ export class IstorijaRezervacijaComponent implements OnInit {
       }
     )
 
-   }
+   },
+
+   error => {
+    this.router.navigate(["glavnaNeregistrovani/prijava"]);
+  }
   )
 }
 

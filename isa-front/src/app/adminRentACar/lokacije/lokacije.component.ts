@@ -50,7 +50,11 @@ export class LokacijeComponent implements OnInit {
       }
     )
 
-   } 
+   },
+   
+   error => {
+    this.router.navigate(["glavnaNeregistrovani/prijava"]);
+  }
   )
 
  }

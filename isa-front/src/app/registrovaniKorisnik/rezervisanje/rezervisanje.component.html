@@ -208,6 +208,7 @@
       </div>
       <div class="col-6" *ngIf="prikazLokacija && !rezervisanje">
             <br><br>
+            <h3>Lokacije presedanja:</h3><br>
                 <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
                     <div *ngFor="let lok of lokacijeZaPrikaz" class="list-group-item" style="display: block">
                         <div class="row">
@@ -324,7 +325,7 @@
                 <div class="form-group row">
                     <label class="col-sm-5 col-form-label">Broj telefona:</label>
                     <div class="col-sm-7">
-                        <input type="number" class="form-control" id="telPutnika" [(ngModel)]="k.brTelefona" [ngModelOptions] = "{standalone:true}">
+                        <input type="text" class="form-control" id="telPutnika" [(ngModel)]="k.brTelefona" [ngModelOptions] = "{standalone:true}">
                     </div>
                 </div>
                 <div class="form-group row">

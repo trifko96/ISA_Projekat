@@ -67,6 +67,10 @@ export class AvioniComponent implements OnInit {
             this.avioni = data;
           }
         )
+      },
+
+      error => {
+        this.router.navigate(["glavnaNeregistrovani/prijava"]);
       }
     )
       
