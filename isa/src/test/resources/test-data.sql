@@ -83,3 +83,18 @@ insert into avionska_karta (id_karte, br_telefona_putnika, broj_pasosa_putnika, 
 insert into avionska_karta (id_karte, br_telefona_putnika, broj_pasosa_putnika, cena, datum, email_putnika, ime_putnika, popust, prezime_putnika, id_leta, id_sedista) values (1, NULL, NULL, 10, NULL, NULL, NULL, 0, NULL, NULL, 22);
 insert into avionska_karta (id_karte, br_telefona_putnika, broj_pasosa_putnika, cena, datum, email_putnika, ime_putnika, popust, prezime_putnika, id_leta, id_sedista) values (1, NULL, NULL, 10, NULL, NULL, NULL, 0, NULL, NULL, 23);
 insert into avionska_karta (id_karte, br_telefona_putnika, broj_pasosa_putnika, cena, datum, email_putnika, ime_putnika, popust, prezime_putnika, id_leta, id_sedista) values (1, NULL, NULL, 10, NULL, NULL, NULL, 0, NULL, NULL, 24);*/
+
+
+insert into rentacar (rentacar_id, adresa, broj_ocena, naziv, ocena, opis, prihod) values (89, 'Nemanje Vujovica 5, 37000 Cuprija', 0, 'Rentiranje', 0, 'opisano je', 0);
+insert into rentacar (rentacar_id, adresa, broj_ocena, naziv, ocena, opis, prihod) values (67, 'Nemanje Vujovica 5, 37000 Cuprija', 0, 'Rentiranje', 0, 'opisano je', 0);
+
+insert into lokacija (lokacija_id, adresa, id_rentacar) values (34, 'Popovica Komorasa 77', 89);
+insert into lokacija (lokacija_id, adresa, id_rentacar) values (55, 'Bulevar Evrope 2', 67);
+insert into lokacija (lokacija_id, adresa, id_rentacar) values (21, 'Maksima gorkog 6', 89);
+
+insert into vozilo (vozilo_id, adresa_lokacije, br_ocena, br_sedista, cena, godina_proizvodnje, marka, model, na_popustu, naziv, prosecna_ocena, rezervisano, tip, lokacija_id, rentacar_id, popust, ocene) values (23, 'Popovica Komorasa 77', 0, 5, 100, '2011', 'Audi', 'A3', 'NE', 'Nemanja', 0, 0, 'MINI', 55, 89, 0, 0);
+insert into vozilo (vozilo_id, adresa_lokacije, br_ocena, br_sedista, cena, godina_proizvodnje, marka, model, na_popustu, naziv, prosecna_ocena, rezervisano, tip, lokacija_id, rentacar_id, popust, ocene) values (24, 'Cara Dusana 7', 0, 3, 20, '2001', 'Ford', 'FIESTA', 'DA', 'Nemanja1', 0, 0, 'LIMUZINA', 21, 89, 20, 0);
+insert into vozilo (vozilo_id, adresa_lokacije, br_ocena, br_sedista, cena, godina_proizvodnje, marka, model, na_popustu, naziv, prosecna_ocena, rezervisano, tip, lokacija_id, rentacar_id, popust, ocene) values (25, 'Cara Lazara 27', 0, 5, 45, '2017', 'Fiat', 'Z3', 'NE', 'Nemanja2', 0, 0, 'KARAVAN', 55, 67, 0, 0);
+insert into vozilo (vozilo_id, adresa_lokacije, br_ocena, br_sedista, cena, godina_proizvodnje, marka, model, na_popustu, naziv, prosecna_ocena, rezervisano, tip, lokacija_id, rentacar_id, popust, ocene) values (26, 'Dunavska 4', 0, 4, 80, '2009', 'BMW', 'B5', 'DA', 'Nemanja3', 0, 0, 'MINI', 34, 89, 5, 0);
+
+insert into korisnik (id, br_telefona, email, grad, ime, lozinka, prezime, uloga, verifikovan, id_rentacar, prvo_logovanje) values (78, '0613333551', 'korisnik1@gmail.com', 'Novi Sad', 'Ime1', '9ee012ea8322c151576408181941188fd1402d7ed343717578e96c446a812162', 'Prezime1', 1, TRUE, 67, FALSE);

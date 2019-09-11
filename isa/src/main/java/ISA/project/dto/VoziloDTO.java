@@ -28,7 +28,7 @@ public class VoziloDTO {
 	private String mestoVracanja;
 	private double popust;
 	
-	VoziloDTO(){}
+	public VoziloDTO(){}
 	
 	public VoziloDTO(Vozilo vozilo){
 	
