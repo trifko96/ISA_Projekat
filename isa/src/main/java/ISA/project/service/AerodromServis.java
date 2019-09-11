@@ -97,15 +97,15 @@ public class AerodromServis {
 		Aerodrom aero = repozitorijum.vratiAerodromPoImenu(a.getIme());
 		List<Let> letovi = letRepo.findAll();
 		for(Let l : letovi) {
-			if(l.getPolaznaDestinacija().getIme().equals(aero.getIme())) {
+			if(l.getPolaznaDestinacija().getIme().equals(aero.getIme()) && (l.getAvioKompanija().getId() == avio.getId())) {
 				return "greska";
-			} else if(l.getOdredisnaDestinacija().getIme().equals(aero.getIme())) {
+			} else if(l.getOdredisnaDestinacija().getIme().equals(aero.getIme()) && (l.getAvioKompanija().getId() == avio.getId())) {
 				return "greska";
 			}
 		}
 		List<LokacijePresedanja> lokacije = new ArrayList<>();
 		for(LokacijePresedanja l : lokacije) {
-			if(l.getAerodrom().getIme().equals(aero.getIme())) {
+			if(l.getAerodrom().getIme().equals(aero.getIme()) && (l.getLet().getAvioKompanija().getId() == avio.getId())) {
 				return "greska";
 			}
 		}
