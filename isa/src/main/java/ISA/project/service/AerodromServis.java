@@ -32,6 +32,7 @@ public class AerodromServis {
 		return a;
 	}
 	
+	
 	public List<AerodromDTO> dodajAerodrom(AvioKompanija a, AerodromDTO adto){
 		Aerodrom aero = new Aerodrom();
 		aero.setGrad(adto.getGrad());
