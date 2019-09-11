@@ -16,7 +16,7 @@ public class AvioKompanija {
 	private long kompanijaId;
 	
 	private String naziv;
-	
+	 
 	private String adresa;
 	
 	private double koordinata1;
