@@ -14,7 +14,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import ISA.project.dto.AerodromDTO;
 import ISA.project.model.Aerodrom;
@@ -71,6 +73,8 @@ public class AerodromServisTest {
 	}
 	
 	@Test
+	@Transactional
+    @Rollback(true)
 	public void testDodajAerodrom() {
 		
 		Aerodrom aero = new Aerodrom();

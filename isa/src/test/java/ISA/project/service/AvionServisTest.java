@@ -15,7 +15,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import ISA.project.dto.AerodromDTO;
 import ISA.project.dto.AvionDTO;
@@ -23,10 +25,12 @@ import ISA.project.dto.SedisteDTO;
 import ISA.project.model.Aerodrom;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Avion;
+import ISA.project.model.Let;
 import ISA.project.model.Sediste;
 import ISA.project.model.Segment;
 import ISA.project.repository.AerodromRepozitorijum;
 import ISA.project.repository.AvionRepozitorijum;
+import ISA.project.repository.LetRepozitorijum;
 import ISA.project.repository.SedisteRepozitorijum;
 
 @RunWith(SpringRunner.class)
@@ -41,6 +45,9 @@ public class AvionServisTest {
 	
 	@Mock
 	private Avion avionMock;
+	
+	@Mock
+	private LetRepozitorijum letRepozitorijumMock;
 	
 	@InjectMocks
 	private AvionServis avionServis;
@@ -99,5 +106,53 @@ public class AvionServisTest {
 		verify(sedisteRepozitorijumMock, times(1)).vratiSediste(1);
 		verifyNoMoreInteractions(repozitorijumMock);
 		
+	}
+	
+	@Test
+	public void testVratiAvionPoKlasi() {
+		Avion a = new Avion();
+		a.setId(1);
+		when(repozitorijumMock.vratiAvion(1)).thenReturn(a);
+		AvionDTO adto = avionServis.vratiAvionPoKlasi(1);
+		assertEquals(a.getId(), adto.getId());
+		verify(repozitorijumMock, times(1)).vratiAvion(1);
+		verifyNoMoreInteractions(repozitorijumMock);
+	}
+	
+	@Test
+	public void testVratiAvionPoLetu() {
+		Avion a = new Avion();
+		a.setId(1);
+		AvionDTO adto = new AvionDTO();
+		Let l = new Let();
+		l.setIdLeta(1);
+		l.setAvion(a);
+		when(letRepozitorijumMock.vratiLet(1)).thenReturn(l);
+		adto = avionServis.vratiAvionPoLetu(1);
+		assertEquals(a.getId(), adto.getId());
+		verify(letRepozitorijumMock, times(1)).vratiLet(1);
+		verifyNoMoreInteractions(letRepozitorijumMock);
+		
+	}
+	
+	@Test
+	@Transactional
+    @Rollback(true)
+	public void testDodajAvion() {
+		AvionDTO a = new AvionDTO();
+		a.setIme("Avion");
+		a.setId(1);
+		Avion avion = new Avion();
+		avion.setId(2);
+		avion.setIme("Avion2");
+		avion.setSlobodan(true);
+		AvioKompanija avio = new AvioKompanija();
+		avio.setId(1);
+		avio.setAdresa("Adresa");
+		avio.setOpis("Opis");
+		when(repozitorijumMock.findAll()).thenReturn(Arrays.asList(avion));
+		String s = avionServis.dodajAvion(a, avio);
+		assertEquals(s, "ok");
+		verify(repozitorijumMock, times(1)).findAll();
 	}
 }

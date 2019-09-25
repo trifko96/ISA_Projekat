@@ -16,7 +16,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import ISA.project.dto.AvioKompanijaDTO;
 import ISA.project.model.AvioKompanija;
@@ -58,6 +60,8 @@ public class AvioKompanijaServisTest {
 	}
 	
 	@Test
+	@Transactional
+    @Rollback(true)
 	public void testSacuvajKompaniju() {
 		AvioKompanija a = new AvioKompanija("Avio", "Adresa", "Opis", "20");
 		when(repozitorijumMock.findAll()).thenReturn(Arrays.asList(a));
