@@ -7,7 +7,7 @@
                     <div *ngFor="let p of prijatelji" class="list-group-item" style="display: block">
                         <div class="row">
                             <div class="col-9 pt-2">
-                                <p class="font-italic">{{p.ime}}  {{p.prezime}}  {{p.grad}}  {{p.brTelefona}} </p>
+                                <p class="font-italic">{{p.ime}}  {{p.prezime}}  &nbsp;   {{p.grad}}  &nbsp;   {{p.brTelefona}} </p>
                             </div>
                             <div class="col-3 pt-2">
                                 <button class="btn btn-link" (click)="obrisi(p)">Obrisi</button>
@@ -27,7 +27,7 @@
             </div><br>
             <div class="form-group row">
                 <div class="col-sm-10 text-center">
-                    <button class="btn btn-dark" (click)="pretrazi()">Pretrazi</button>
+                    <button class="btn btn-secondary" (click)="pretrazi()">Pretrazi</button>
                 </div>
             </div>
         </div>
@@ -44,9 +44,9 @@
                         </div>
                     </div>
                 </div><br>
-                <div class="form-group row">
+                <div class="form-group row" *ngIf="prikazOk">
                     <div class="col-sm-10 text-center">
-                        <button class="btn btn-dark" (click)="ok()">OK</button>
+                        <button class="btn btn-outline-primary" (click)="ok()">OK</button>
                     </div>
                 </div>
         </div>

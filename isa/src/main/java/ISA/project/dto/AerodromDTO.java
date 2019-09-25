@@ -6,6 +6,8 @@ public class AerodromDTO {
 
 	private long id;
 	private String ime;
+	
+
 	private String grad;
 	
 	public AerodromDTO() {
@@ -42,6 +44,12 @@ public class AerodromDTO {
 		this.grad = grad;
 	}
 	
-	
+	@Override
+	public boolean equals(Object arg0) {
+		// TODO Auto-generated method stub
+		if(this.getId() == ((AerodromDTO) arg0).getId())
+			return true;
+		return false;
+	}
 	
 }

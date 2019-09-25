@@ -53,6 +53,13 @@ public class AvioKompanija {
 		
 	}
 	
+	public AvioKompanija(String naziv, String adresa, String opis, String infoPrtljag) {
+		this.naziv = naziv;
+		this.adresa = adresa;
+		this.opis = opis;
+		this.infoPrtljag = infoPrtljag;
+	}
+	
 	public AvioKompanija(String naziv, String adresa, String opis, ArrayList<Aerodrom> aerodromi, ArrayList<Let> letovi,
 			String infoPrtljag) {
 		super();

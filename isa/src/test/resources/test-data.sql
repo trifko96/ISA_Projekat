@@ -14,7 +14,7 @@ insert into avion (id_aviona, ime, slobodan, id_avio_kompanije) values (3, 'Avio
 
 insert into korisnik (id, br_telefona, email, grad, ime, lozinka, prezime, uloga, verifikovan, avio_kompanija_id, prvo_logovanje) values (7, '061-3333-555', 'korisnik1@gmail.com', 'Novi Sad', 'Ime1', '9ee012ea8322c151576408181941188fd1402d7ed343717578e96c446a812162', 'Prezime1', 1, TRUE, 3, FALSE);
 
-insert into let(id_leta, br_presedanja, br_prodatih_karata, broj_ocena, cena_karte_biznis_klase, cena_karte_ekonomske_klase, cena_prve_klase, ocene, popust, tip, vreme_dolaska_nazad, vreme_polaska_nazad, vreme_poletanja, vreme_putovanja, vreme_sletanja, id_avio_kompanije, id_aviona, odredisna_destinacija_id, polazna_destinacija_id) values (1, 0, 0, 0, 10, 12, 14, 0, 0, 'ONE_WAY', NULL, NULL, '2019-09-02', 0, '2019-09-03', 3, 1, 1, 2);
+insert into let(id_leta, br_presedanja, br_prodatih_karata, broj_ocena, cena_karte_biznis_klase, cena_karte_ekonomske_klase, cena_prve_klase, ocene, popust, tip, vreme_dolaska_nazad, vreme_polaska_nazad, vreme_poletanja, vreme_putovanja, vreme_sletanja, id_avio_kompanije, id_aviona, odredisna_destinacija_id, polazna_destinacija_id, duzina_leta) values (1, 0, 0, 0, 10, 12, 14, 0, 0, 'ONE_WAY', NULL, NULL, '2019-09-02', 0, '2019-09-03', 3, 1, 1, 2, 0);
 
 insert into segment (id_segmenta, broj_kolona, broj_redova, tip, avion_id) values (11, 2, 2, 0, 1);
 insert into segment (id_segmenta, broj_kolona, broj_redova, tip, avion_id) values (12, 2, 2, 1, 1);

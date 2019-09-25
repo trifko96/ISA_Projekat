@@ -28,7 +28,7 @@ public class Let {
 	private double vremePutovanja;
 	private double ocene;
 	private double brojOcena;
-	
+	private double duzinaLeta;
 	private int brPresedanja;
 	private double cenaKarteBiznisKlase;
 	private double cenaKarteEkonomskeKlase;
@@ -257,6 +257,14 @@ public class Let {
 		this.lokacijePresedanja = lokacijePresedanja;
 	}
 	
+	public double getDuzinaLeta() {
+		return duzinaLeta;
+	}
+
+	public void setDuzinaLeta(double duzinaLeta) {
+		this.duzinaLeta = duzinaLeta;
+	}
+
 	public void generisiKarte() {
 		double cena;
 		for(Segment s : avion.getKlasa()) {

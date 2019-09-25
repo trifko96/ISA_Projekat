@@ -61,6 +61,10 @@ public class AvioKompanijaServis {
 		repozitorijum.save(a);
 	}
 	
+	public List<AvioKompanija> vratiSve() {
+		return repozitorijum.findAll();
+	}
+	
 	public String vratiKompanije(AvioKompanijaDTO adto) {
 		int brojac = 0;
 		List<AvioKompanija> avio = repozitorijum.vratiAvioKompanije(adto.getId());

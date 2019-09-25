@@ -27,6 +27,10 @@ public class Avion {
 		
 	}
 	
+	public Avion(String ime) {
+		this.ime = ime;
+	}
+	
 	public Avion(String ime, List<Segment> klase, AvioKompanija avioKompanija) {
 		super();
 		this.ime = ime;

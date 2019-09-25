@@ -23,6 +23,11 @@ public class Aerodrom {
 	
 	}
 	
+	public Aerodrom(String ime, String grad) {
+		this.ime = ime;
+		this.grad = grad;
+	}
+	
 	public Aerodrom(String ime, String grad, ArrayList<AvioKompanija> avioKompanije) {
 		super();
 		this.ime = ime;

@@ -17,6 +17,7 @@ export class ZahteviComponent implements OnInit {
   korisniciZahtevi : Korisnik[] = [];
   ime : string = "";
   prikaz : boolean = false;
+  prikazOk : boolean = true;
 
   constructor(private zahteviServis : zahteviServis, private korisnikServis : korisnikServis, private router : Router) { 
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
@@ -82,6 +83,9 @@ export class ZahteviComponent implements OnInit {
         this.ponudjeni.splice(index, 1);
       }
     )
+    if(this.ponudjeni.length == 0){
+      this.prikazOk = false;
+    }
   }
 
   ok(){

@@ -135,6 +135,7 @@ public class LetServis {
 		l.setCenaKarteBiznisKlase(let.getCenaKarteBiznisKlase());
 		l.setCenaKarteEkonomskeKlase(let.getCenaKarteEkonomskeKlase());
 		l.setPopust(let.getPopust());
+		l.setDuzinaLeta(let.getDuzinaLeta());
 		
 		List<LokacijePresedanja> lokacije = new ArrayList<>();
 		for(LokacijePresedanjaDTO lp : let.getLokacije()) {
