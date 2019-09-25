@@ -1,9 +1,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12" style="max-height: 350px; overflow-y:  scroll;">
-            <h2>Rezervisani letovi:</h2>
-            <table class="table">
-                <thead> 
+            <div class="row">
+                    <div class="col-12">
+                            <h5 class="mt-2">Rezervisani letovi:</h5> 
+                    </div>
+                </div>
+            <table class="table table-sm table-striped border mt-2">
+                <thead class="thead "> 
                     <tr>
                         <th>Tip</th>
                         <th>Avion</th>
@@ -16,8 +20,8 @@
                         <th>&nbsp;</th>
                     </tr>
                 </thead> 
-                <tbody *ngFor = "let l of letovi">
-                    <tr>
+                <tbody style="max-height: 420px; overflow-y:  scroll;">
+                    <tr *ngFor = "let l of letovi">
                         <td>{{l.tip}}</td>
                         <td>{{l.avion.ime}}</td>
                         <td>{{l.datumPoletanja.slice(0,10)}} {{l.datumPoletanja.slice(11,19)}}</td>
@@ -34,9 +38,13 @@
         </div>
 
         <div class="col-12" style="max-height: 350px; overflow-y:  scroll;">
-                <h2>Rezervisana vozila:</h2>
-                <table class="table">
-                    <thead> 
+                <div class="row">
+                        <div class="col-12">
+                                <h5 class="mt-2">Rezervisana vozila:</h5> 
+                        </div>
+                </div>
+                <table class="table table-sm table-striped border mt-2">
+                    <thead class="thead "> 
                         <tr>
                             <th>Rezervacija</th>
                             <th>Korisnik</th> 

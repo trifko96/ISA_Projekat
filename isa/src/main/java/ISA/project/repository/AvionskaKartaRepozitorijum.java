@@ -1,8 +1,12 @@
 package ISA.project.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.LockModeType;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,7 +18,12 @@ public interface AvionskaKartaRepozitorijum extends JpaRepository<AvionskaKarta,
 	public AvionskaKarta vratiKartu(long id);
 	
 	@Query("select karta from AvionskaKarta karta where karta.idKarte = ?1")
+	@Lock(LockModeType.PESSIMISTIC_READ)
 	public AvionskaKarta vratiKartuPoId(long id);
+	
+	@Query("select karta from AvionskaKarta karta where karta.sediste.idSedista in :ids")
+	@Lock(LockModeType.PESSIMISTIC_READ)
+	public List<AvionskaKarta> vratiKartePoIdSedista(@Param("ids") ArrayList<Long> ids);
 	
 	@Query("select karta from AvionskaKarta karta where karta.let.idLeta = :id and karta.emailPutnika = :email")
 	public List<AvionskaKarta> vratiKartuPoIdLeta(@Param("id") long id, @Param("email") String email);

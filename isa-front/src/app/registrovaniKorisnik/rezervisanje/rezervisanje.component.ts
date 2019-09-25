@@ -21,6 +21,8 @@ import { zahteviServis } from 'src/app/service/zahteviServis';
 import { rezervacijaServis } from 'src/app/service/rezervacijaServis';
 import { Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-rezervisanje',
@@ -28,6 +30,9 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./rezervisanje.component.css']
 })
 export class RezervisanjeComponent implements OnInit {
+
+  modalRef: BsModalRef;
+
 
   avioKompanije : AvioKompanija[] = [];
   idKorisnika : number;
@@ -66,13 +71,15 @@ export class RezervisanjeComponent implements OnInit {
   gornji : boolean = true;
   donji : boolean = false;
 
-  selektovanaOpcija1 : number = 0;
+  selektovanaOpcija1;
   porukaOcenjivanje1 : string = "";
 
   prikazFormeZaOcenjivanjeKompanije : boolean = false;
 
   kompanijaZaOcenjivanje : AvioKompanija = new AvioKompanija();
 
+
+  
   opcije1 = [
     {name: "5", value: 5},
     {name: "4", value: 4},
@@ -93,7 +100,7 @@ export class RezervisanjeComponent implements OnInit {
     {name: "EKONOMSKA", value: "EKONOMSKA"}
   ]
 
-  constructor(private avioServis : avioServis, private avionServis : avionServis, private letServis : letServis, private aeroServis : aerodromServis, private zahteviServis : zahteviServis, private rezervacijaServis : rezervacijaServis, private router : Router, private korisnikServis : korisnikServis, public fb: FormBuilder) { 
+  constructor(private modalService: BsModalService, private avioServis : avioServis, private avionServis : avionServis, private letServis : letServis, private aeroServis : aerodromServis, private zahteviServis : zahteviServis, private rezervacijaServis : rezervacijaServis, private router : Router, private korisnikServis : korisnikServis, public fb: FormBuilder) { 
     
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
@@ -180,9 +187,10 @@ export class RezervisanjeComponent implements OnInit {
     )
   }
 
-  prikaziLokacije(l : Let){
-    this.prikazLokacija = true;
+  prikaziLokacije(l : Let, template: TemplateRef<any>){
+    //this.prikazLokacija = true;
     this.lokacijeZaPrikaz = l.lokacije;
+    this.modalRef = this.modalService.show(template);
   }
 
   pretrazi(){
@@ -239,6 +247,7 @@ export class RezervisanjeComponent implements OnInit {
           this.selektovanoMestoSletanja = "";
         }
       )
+      this.modalRef.hide();
     }
   }
 
@@ -281,13 +290,15 @@ export class RezervisanjeComponent implements OnInit {
           this.filterLet = new FilterLet();
           this.cenaFilter = 0;
           this.selektovanaKompanija = "";
+          this.modalRef.hide();
         }
       )
     }
   }
 
   zatvaranje(){
-    this.prikazLokacija = false;
+    this.modalRef.hide();
+    //this.prikazLokacija = false;
   }
 
   rezervisi(l : Let){
@@ -356,6 +367,9 @@ export class RezervisanjeComponent implements OnInit {
       this.poruka2 = "";
     } else {
       this.poruka2 = "Morate odabrati sedista!";
+      setTimeout(() => {
+        this.poruka2 = "";
+      }, 2000);
     }
   }
 
@@ -415,11 +429,17 @@ export class RezervisanjeComponent implements OnInit {
       }
     } else {
       this.poruka1 = "Popunite sva polja!";
+      setTimeout(() => {
+        this.poruka1 = "";
+      }, 2000);
     }
   }
 
   ne(){
     this.poruka = "Uspesno ste rezervisali let!";
+    setTimeout(() => {
+      this.poruka = "";
+    }, 2000);
     this.avionServis.rezervisi(this.rezervacija, this.idKorisnika).subscribe(
       data => {
         this.poruka = "";
@@ -457,6 +477,14 @@ export class RezervisanjeComponent implements OnInit {
     this.filtriranje = false;
   }
 
+  pretragaModal(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
+  }
+
+  filtriranjeModal(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
+  }
+
   povratak(){
     this.gornji = true;
     this.donji = false;
@@ -472,15 +500,22 @@ export class RezervisanjeComponent implements OnInit {
     )
   }
 
-  oceni(a : AvioKompanija){
-    this.prikazFormeZaOcenjivanjeKompanije = true;
+  oceni(a : AvioKompanija, template: TemplateRef<any> ){
+    this.modalRef = this.modalService.show(template);
     this.kompanijaZaOcenjivanje = a;
   }
 
-  Oceni(){
+  Oceni(template: TemplateRef<any> ){
     //this.kompanijaZaOcenjivanje.ocena = this.selektovanaOpcija1;
+    if(this.selektovanaOpcija1 == null){
+      this.porukaOcenjivanje1 = "Izaberi ocenu!";
+      setTimeout(() => {
+        this.porukaOcenjivanje1 = "";
+      }, 2000);
+      return;
+    }
     if(this.porukaOcenjivanje1 == ""){
-      this.avioServis.oceniKompaniju(this.kompanijaZaOcenjivanje.id, this.idKorisnika, this.selektovanaOpcija1).subscribe(
+      this.avioServis.oceniKompaniju(this.kompanijaZaOcenjivanje.id, this.idKorisnika, this.selektovanaOpcija1.value).subscribe(
         data => {
           this.avioServis.vratiSveKompanije().subscribe(
             data => {
@@ -496,9 +531,13 @@ export class RezervisanjeComponent implements OnInit {
               this.porukaOcenjivanje1 = "";
             }
           )
+          this.modalRef.hide();
         },
         error => {
           this.porukaOcenjivanje1 = "Vec ste ocenili ovu avio kompaniju!";
+          setTimeout(() => {
+            this.porukaOcenjivanje1 = "";
+          }, 2000);
         }
       ) 
     } else {

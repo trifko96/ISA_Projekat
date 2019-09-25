@@ -1,24 +1,31 @@
 <div class="container-fluid">
         <div class="row">
-          <div class="col-6">
-          <div style="max-height: 320px; overflow-y:  scroll;">
-            <br>
-            <h4>Destinacije saobracanja:</h4>            
-            <table class="table">
-              <thead>
+          <div class="col-12">
+          <!--<div style="max-height: 320px; overflow-y:  scroll;">-->
+            <div>
+            <br>   
+            <div class="row">
+                <div class="col-8">
+                        <h5 class="mt-2">Destinacije saobracanja:</h5> 
+                </div>
+                <div class="col-4 py-1 px-3">
+                        <button class="btn btn-secondary ml-2 float-right" (click)="dodajPostojeci()">Dodaj postojeci</button>
+                        <button class="btn btn-secondary float-right" (click)="dodajNovi()">Dodaj novi</button>         
+                </div>
+            </div>      
+            <table class="table table-sm table-striped border mt-2">
+              <thead class="thead ">
                 <tr>
                   <th>Naziv</th>
                   <th>Adresa</th>
-                  <th><button class="btn btn-link" (click) = "dodajNovi()">Dodaj novi</button></th>
-                  <th><button class="btn btn-link" (click) = "dodajPostojeci()">Dodaj postojeci</button></th>
+                  <th>&nbsp;</th>
                 </tr>
               </thead>
-              <tbody *ngFor="let aerodrom of aerodromi">
-                <tr>
+              <tbody style="max-height: 420px; overflow-y:  scroll;">
+                <tr *ngFor="let aerodrom of aerodromi">
                   <td>{{aerodrom.ime}}</td>
                   <td>{{aerodrom.grad}}</td>
                   <td><button class="btn btn-link" (click) = "obrisi(aerodrom)">Obrisi</button></td>
-                  <td>&nbsp;</td>
                 </tr>
               </tbody>
             </table>

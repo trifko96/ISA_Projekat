@@ -22,4 +22,5 @@ export class Let{
     tip : string = "";
     popust : number = 0;
     prosecnaOcena : number = 0;
+    duzinaLeta : number;
 }

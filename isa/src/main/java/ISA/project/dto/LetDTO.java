@@ -25,6 +25,7 @@ public class LetDTO {
 	private List<LokacijePresedanjaDTO> lokacije = new ArrayList<>();
 	private String tip;
 	private double popust;
+	private double duzinaLeta;
 	
 	public LetDTO() {
 		
@@ -43,6 +44,7 @@ public class LetDTO {
 		this.popust = l.getPopust();
 		this.ocena = l.getOcene();
 		this.brojOcena = l.getBrojOcena();
+		this.duzinaLeta = l.getDuzinaLeta();
 	}
 
 	public long getId() {
@@ -179,6 +181,14 @@ public class LetDTO {
 
 	public void setBrojOcena(double brojOcena) {
 		this.brojOcena = brojOcena;
+	}
+
+	public double getDuzinaLeta() {
+		return duzinaLeta;
+	}
+
+	public void setDuzinaLeta(double duzinaLeta) {
+		this.duzinaLeta = duzinaLeta;
 	}
 	
 	

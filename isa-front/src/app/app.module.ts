@@ -53,6 +53,7 @@ import { avionServis } from './service/avionServis';
 import { avioServis } from './service/avioServis';
 import { korisnikServis } from './service/korisnikServis';
 import { letServis } from './service/letServis';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 
@@ -101,7 +102,8 @@ import { letServis } from './service/letServis';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
     aerodromServis,

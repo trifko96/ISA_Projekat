@@ -1,35 +1,72 @@
 <div class="container-fluid">
     <div class="row">
+
+
     <div *ngIf="gornji">
-      <div class="row">
-      <div class="col-9" style="max-height: 420px; overflow-y:  scroll;">
+      <div class="row px-3 pt-2">
+      <div class="col-12">
         <br>
-        <h4>Avio kompanije:</h4>            
-        <table class="table">
-          <thead>
+        <div class="row">
+            <div class="col-8">
+                    <h5 class="mt-2">Avio kompanije:</h5> 
+            </div>
+            <div class="col-4 py-1 px-3">
+                    <button class="btn btn-secondary ml-2 float-right" (click)="prikaziBrzeKarte()">Brza rezervacija</button>
+                    <button class="btn btn-secondary float-right" (click)="pretraziLetove()">Pretrazi letove</button>         
+            </div>
+        </div>
+          
+        <table class="table table-sm table-striped border mt-2">
+          <thead class="thead ">
             <tr>
               <th>Naziv</th>
               <th>Adresa</th>
-              <th>Promotivni opis</th>
-              <th>Prosecna ocena</th>
-              <th>Dozvoljena tezina prtljaga (kg)</th>
-              <th><button class="btn btn-link" (click)="prikaziBrzeKarte()">Brza rezervacija</button></th>
-              <th><button class="btn btn-link" (click)="pretraziLetove()">Pretrazi letove</button></th>
-              <th>&nbsp;</th>
+              <th>Opis</th>
+              <th>Ocena</th>
+              <th>Tezina prtljaga (kg)</th>
+              <th></th>
+              
             </tr>
           </thead>
-          <tbody *ngFor="let a of avioKompanije">
-            <tr>
+          <tbody   style="max-height: 420px; overflow-y:  scroll;" >
+            <tr *ngFor="let a of avioKompanije">
               <td>{{a.naziv}}</td>
               <td>{{a.adresa}}</td>
               <td>{{a.opis}}</td>
               <td>{{a.prosecnaOcena}}</td>
               <td>{{a.infoPrtljag}}</td>
-              <td><button class="btn btn-link" (click) = "oceni(a)">Oceni</button></td>
+              <td><button class="btn btn-link" (click) = "oceni(a,template)">Oceni</button></td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      <ng-template #template>
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Izaberi ocenu:</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group row px-5">
+                                    <select class="form-control mx-1" [(ngModel)]="selektovanaOpcija1" id="ocenaLet">
+                                        <option class="form-control"  *ngFor="let o of opcije1" [ngValue]="o" >
+                                            {{o.name}}
+                                        </option>
+                                    </select> 
+                        </div>
+                        <div class="form-group row px-5">
+                                <div class="col-sm-9">
+                                    <p class="text-danger pt-2">{{porukaOcenjivanje1}}</p>
+                                </div>
+                                <div class="col-sm-3">
+                                  <button class="btn btn-secondary" (click)="Oceni(template)">Sacuvaj</button>
+                                </div>
+                        </div>
+            </div>
+      </ng-template>
+
       <div class="col-3" *ngIf = "prikazFormeZaOcenjivanjeKompanije">
             <div class="form-group row">
                     <label class="col-sm-5 col-form-label">Oceni kompaniju:</label>
@@ -51,13 +88,11 @@
       </div>
       <div class="w-100"></div>
       <div *ngIf="prikazBrzihKarata">
-      <h4>Spisak karata za brzu rezervaciju:</h4>
-      <div class="col-9" style="max-height: 420px; overflow-y:  scroll;">
-        <br><br>
-            <!--<h4>Spisak karata za brzu rezervaciju:</h4>-->
-            <br>
-            <table class="table">
-                <thead>
+      
+      <div class="col-12" ><br>
+            <h5>Spisak karata za brzu rezervaciju:</h5>  <br>  
+            <table class="table table-striped border table-sm">
+                <thead class="thead">
                   <tr>
                     <th>Polazna destinacija</th>
                     <th>Odredisna destinacija</th>
@@ -70,8 +105,8 @@
                     <th>&nbsp;</th>
                   </tr>
                 </thead>
-                <tbody *ngFor="let b of brzeKarte">
-                  <tr>
+                <tbody  style="max-height: 420px; overflow-y:  scroll;">
+                  <tr *ngFor="let b of brzeKarte">
                     <td>{{b.let.polaznaDestinacija.grad}}</td>
                     <td>{{b.let.odredisnaDestinacija.grad}}</td>
                     <td>{{b.let.imeAviona}}</td>
@@ -84,28 +119,39 @@
                   </tr>
                 </tbody>
             </table>
-            <p class="text-align">{{greskaPriBrzojRezervaciji}}</p>
-            <br>
-            
+            <p class="text-align">{{greskaPriBrzojRezervaciji}}</p>           
       </div>
-      <br>
-      <div class="col-9" style="text-align: center;">
-        <button class="btn btn-dark" (click)="zatvori()">Zatvori</button>
+      
+      <div class="col-12" style="text-align: center;">
+        <button class="btn btn-secondary pull-right" (click)="zatvori()">Zatvori</button>
       </div>
       </div>
     </div>
+
+
+
     <div *ngIf="donji">
-      <div class="col-12" style="max-height: 420px; overflow-y:  scroll;" *ngIf="!rezervisanje">
+      <div class="col-12"  *ngIf="!rezervisanje">
         <br>
-        <h2>Letovi:</h2>
-				<table class="table">
-					<thead>
+        <div class="row">
+                <div class="col-8">
+                        <h5 class="mt-2">Letovi:</h5> 
+                </div>
+                <div class="col-4 py-1 px-3">
+                        <button class="btn btn-secondary ml-2 float-right" (click)="povratak()" >Nazad</button>
+                        <button class="btn btn-secondary ml-2 float-right" (click)="filtriranjeModal(template3)" *ngIf="filtriranje">Filtriraj</button>
+                        <button class="btn btn-secondary float-right" (click)="pretragaModal(template2)">Pretrazi letove</button>         
+                </div>
+        </div>
+            <div style="max-height: 420px; overflow-y: scroll">
+				<table class="table table-sm table-striped border mt-2" >
+					<thead class="thead">
 						<tr>
                             <th style="text-align: center;">Avion</th>
-							<th style="text-align: center;">Datum i vreme poletanja</th>
-                            <th style="text-align: center;">Datum i vreme sletanja</th>
-                            <th style="text-align: center;">Datum i vreme polaska nazad</th>
-							<th style="text-align: center;">Datum i vreme dolaska nazad</th>
+							<th style="text-align: center;">Vreme poletanja</th>
+                            <th style="text-align: center;">Vreme sletanja</th>
+                            <th style="text-align: center;">Vreme polaska nazad</th>
+							<th style="text-align: center;">Vreme dolaska nazad</th>
 							<th style="text-align: center;">Mesto poletanja</th>
 							<th style="text-align: center;">Mesto sletanja</th>
 							<th style="text-align: center;">Lokacije presedanja</th>
@@ -113,11 +159,11 @@
 							<th style="text-align: center;">Cena biznis klase (EUR)</th>
                             <th style="text-align: center;">Cena ekonomske klase (EUR)</th>
                             <th style="text-align: center;">Prosecna ocena</th>
-                            <th><button class="btn btn-dark" (click)="povratak()">Nazad</button></th>
+                            <th style="text-align: center;">&nbsp;</th>
 						</tr>
 					</thead>
-					<tbody *ngFor = "let l of letovi">
-                        <tr>
+					<tbody >
+                        <tr *ngFor = "let l of letovi" >
                             <td>{{l.avion.ime}}</td>
                             <td>{{l.datumPoletanja.slice(0,10)}} {{l.datumPoletanja.slice(11,19)}}</td>
                             <td>{{l.datumSletanja.slice(0,10)}} {{l.datumSletanja.slice(11,19)}}</td>
@@ -127,7 +173,7 @@
                             <td *ngIf="l.tip == 'ONE_WAY'">/</td>
                             <td>{{l.polaznaDestinacija.ime}} {{l.polaznaDestinacija.grad}}</td>
                             <td>{{l.odredisnaDestinacija.ime}} {{l.odredisnaDestinacija.grad}}</td>
-                            <td><button class="btn btn-link" (click)="prikaziLokacije(l)">Prikazi</button></td>
+                            <td><button class="btn btn-link" (click)="prikaziLokacije(l, template1)">Prikazi</button></td>
                             <td>{{l.cenaPrveKlase}}</td>
                             <td>{{l.cenaKarteBiznisKlase}}</td>
                             <td>{{l.cenaKarteEkonomskeKlase}}</td>
@@ -135,11 +181,12 @@
                             <td><button class="btn btn-link" (click) = "rezervisi(l)">Rezervisi</button></td>
                         </tr>
 					</tbody>
-				</table>
+                </table>
+            </div>
       </div>
       <div class="w-100"></div>
       <div class="row">
-      <div class="col-6" *ngIf="!filtriranje && !rezervisanje">
+      <!--<div class="col-6" *ngIf="!filtriranje && !rezervisanje">
           <br><br>
           <h3>Pretrazi letove:</h3><br>
           <div class="form-group row">
@@ -205,7 +252,136 @@
                 <button class="btn btn-dark" (click)="pretrazi()">Pretrazi</button>
             </div>
           </div>
-      </div>
+      </div>-->
+
+      <ng-template #template1>
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Lokacije presedanja:</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
+                    <div *ngFor="let lok of lokacijeZaPrikaz" class="list-group-item" style="display: block">
+                        <div class="row">
+                            <div class="col-6 pt-2">
+                              <p class="font-italic">{{lok.aerodrom.ime}}  {{lok.aerodrom.grad}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-dark" (click)="zatvaranje()">Zatvori</button>
+                </div>
+            </div>
+      </ng-template>
+
+      <ng-template #template2>
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Pretrazi let:</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body px-2">
+                    <div class="form-group row">
+                            <label class="col-sm-5 label">Tip:</label>
+                            <div class="col-sm-7">
+                                <select class="form-control" [(ngModel)]="selektovanaOpcija" id="tipLeta">
+                                    <option *ngFor="let o of opcije">
+                                        {{o.name}}
+                                    </option>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Vreme poletanja:</label>
+                                <div class="col-sm-7">
+                                    <input type="date" class="form-control" id="vremePol" [(ngModel)]="pretragaLet.vremePoletanja" [ngModelOptions] = "{standalone:true}">
+                                </div>
+                    </div>
+                    <div class="form-group row" *ngIf="selektovanaOpcija == 'ROUND_TRIP'">
+                                <label class="col-sm-5 label">Vreme povratka:</label>
+                                <div class="col-sm-7">
+                                    <input type="date" class="form-control" id="vremeSle" [(ngModel)]="pretragaLet.vremePovratka" [ngModelOptions] = "{standalone:true}">
+                                </div>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Mesto poletanja:</label>
+                            <div class="col-sm-7">
+                                <select class="form-control" [(ngModel)]="selektovanoMestoPoletanja" id="mestoPol">
+                                    <option *ngFor="let a of mojiAerodromi" [value]="a.grad">
+                                        {{a.grad}}
+                                    </option>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Mesto sletanja:</label>
+                            <div class="col-sm-7">
+                                <select class="form-control" [(ngModel)]="selektovanoMestoSletanja" id="mestoSle">
+                                    <option *ngFor="let a of mojiAerodromi" [value]="a.grad">
+                                        {{a.grad}}
+                                    </option>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-sm-5 label">Klasa:</label>
+                            <div class="col-sm-7">
+                                <select class="form-control" [(ngModel)]="selektovanaKlasa" id="klasaLeta">
+                                    <option *ngFor="let k of klase">
+                                        {{k.name}}
+                                    </option>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-sm-5 label">Broj osoba:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="brOsoba" [(ngModel)]="pretragaLet.brOsoba" [ngModelOptions] = "{standalone:true}">
+                            </div>
+                    </div>
+                    <div class="form-group row">
+                            
+                            <div class="col-sm-12 text-center">
+                                <button class="btn btn-dark float-right" (click)="pretrazi()">Pretrazi</button>
+                            </div>
+                    </div>
+            </div>
+      </ng-template>
+
+      <ng-template #template3>
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Filtriranje leta:</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Avio kompanija:</label>
+                            <div class="col-sm-7">
+                                <select class="form-control" [(ngModel)]="selektovanaKompanija" id="kompanijaFilter">
+                                    <option *ngFor="let k of avioKompanije" [value]="k.naziv">
+                                        {{k.naziv}}
+                                    </option>
+                                </select>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-sm-5 col-form-label">Cena:</label>
+                            <div class="col-sm-7">
+                                <input type="number" class="form-control" id="cena" [(ngModel)]="cenaFilter" [ngModelOptions] = "{standalone:true}">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <div class="col-sm-12 text-center">
+                                <button class="btn btn-dark float-right" (click)="filtriraj()">Filtriraj</button>
+                            </div>
+                          </div>
+            </div>
+      </ng-template>
+
       <div class="col-6" *ngIf="prikazLokacija && !rezervisanje">
             <br><br>
             <h3>Lokacije presedanja:</h3><br>
@@ -221,7 +397,7 @@
                 </div>
         </div>
     </div>
-      <div class="col-6" *ngIf="filtriranje && !rezervisanje">
+      <!--<div class="col-6" *ngIf="filtriranje && !rezervisanje">
         <h3>Filtriraj letove:</h3><br>
           <div class="form-group row">
             <label class="col-sm-5 col-form-label">Avio kompanija:</label>
@@ -244,7 +420,7 @@
                 <button class="btn btn-dark" (click)="filtriraj()">Filtriraj</button>
             </div>
           </div>
-      </div>
+      </div>-->
       <div class="w-100"></div>
       
     <div class="col-12" *ngIf="rezervisanje && !prikazSedista && !prikazPutnika && !prikazPoruke && !prikazPoruke1">
@@ -391,5 +567,8 @@
         <p class="text-danger">{{poruka}}</p>
     </div>
     </div>
+
+
+
     </div>
 </div>

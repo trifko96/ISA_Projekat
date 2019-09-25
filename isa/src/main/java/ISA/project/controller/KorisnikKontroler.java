@@ -125,8 +125,9 @@ public class KorisnikKontroler {
 	@RequestMapping(value="/trenutniKorisnik",method = RequestMethod.GET)
 	public ResponseEntity<KorisnikDTO> trenutniKorisnik(@Context HttpServletRequest request){
 		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
-		KorisnikDTO kd = new KorisnikDTO(k);
-		if(k != null) {
+		Korisnik k1 = servis.vratiKorisnikaPoId(k.getId());
+		KorisnikDTO kd = new KorisnikDTO(k1);
+		if(k1 != null) {
 			return new ResponseEntity<>(kd, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -1,9 +1,16 @@
 <div class="container-fluid">
 		<div class="row">
-			<div class="col" style="max-height: 450px; overflow-y:  scroll;">
-				<h2>Letovi:</h2>
-				<table class="table">
-					<thead>
+			<div class="col-12" style="max-height: 450px; overflow-y:  scroll;">
+                <div class="row">
+                        <div class="col-8">
+                                <h5 class="mt-2">Letovi:</h5> 
+                        </div>
+                        <div class="col-4 py-1 px-3">
+                            <button class="btn btn-secondary float-right" (click)="dodaj()">Dodaj novi</button>         
+                        </div>
+                    </div>
+				<table class="table table-sm table-striped border mt-2">
+					<thead class="thead">
 						<tr>
                             <th style="text-align: center;">Tip</th>
                             <th style="text-align: center;">Avion</th>
@@ -12,18 +19,19 @@
                             <th style="text-align: center;">Datum i vreme polaska nazad</th>
 							<th style="text-align: center;">Datum i vreme dolaska nazad</th>
 							<th style="text-align: center;">Mesto poletanja</th>
-							<th style="text-align: center;">Mesto sletanja</th>
+                            <th style="text-align: center;">Mesto sletanja</th>
+                            <th style="text-align: center;">Duzina leta (km)</th>
 							<th style="text-align: center;">Lokacije presedanja</th>
                             <th style="text-align: center;">Prosecna ocena</th>
                             <th style="text-align: center;">Cena prve klase (EUR)</th>
 							<th style="text-align: center;">Cena biznis klase (EUR)</th>
                             <th style="text-align: center;">Cena ekonomske klase (EUR)</th>
                             <th style="text-align: center;">Popust</th>
-                            <th style="text-align: center;"><button class="btn btn-link" (click) = "dodaj()">Dodaj novi</button></th>
+                            <th style="text-align: center;">&nbsp;</th>
 						</tr>
 					</thead>
-					<tbody *ngFor = "let l of letovi">
-                        <tr>
+					<tbody style="max-height: 420px; overflow-y:  scroll;">
+                        <tr *ngFor = "let l of letovi">
                             <td>{{l.tip}}</td>
                             <td>{{l.avion.ime}}</td>
                             <td>{{l.datumPoletanja.slice(0,10)}} {{l.datumPoletanja.slice(11,19)}}</td>
@@ -34,6 +42,7 @@
                             <td *ngIf="l.tip == 'ONE_WAY'">/</td>
                             <td>{{l.polaznaDestinacija.ime}} {{l.polaznaDestinacija.grad}}</td>
                             <td>{{l.odredisnaDestinacija.ime}} {{l.odredisnaDestinacija.grad}}</td>
+                            <td>{{l.duzinaLeta}}</td>
                             <td><button class="btn btn-link" (click)="prikaziLokacije(l)">Prikazi</button></td>
                             <td>{{l.prosecnaOcena}}</td>
                             <td>{{l.cenaPrveKlase}}</td>
@@ -117,6 +126,12 @@
                     </div>
                     <p class="text-danger">{{porukaAero}}</p>
                     <div class="form-group row">
+                        <label class="col-sm-5 col-form-label">Duzina leta (km):</label>
+                        <div class="col-sm-7">
+                        <input type="number" class="form-control" id="duzinaLet" [(ngModel)]="noviLet.duzinaLeta" [ngModelOptions] = "{standalone:true}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
                             <label class="col-sm-5 col-form-label">Cena prve klase (EUR):</label>
                             <div class="col-sm-7">
                             <input type="number" class="form-control" id="cenaPrve" [(ngModel)]="noviLet.cenaPrveKlase" [ngModelOptions] = "{standalone:true}">
@@ -163,6 +178,9 @@
             </div>
             <div class="col-6" *ngIf="prikazLokacija">
                 <br><br>
+                
+                <h4>Lokacije presedanja:</h4>
+                <br>
                     <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
                         <div *ngFor="let lok of lokacijeZaPrikaz" class="list-group-item" style="display: block">
                             <div class="row">
