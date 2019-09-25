@@ -17,18 +17,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ISA.project.dto.AvioKompanijaDTO;
+import ISA.project.dto.DatumiPopustDTO;
 import ISA.project.dto.LetDTO;
 import ISA.project.dto.PretragaVoziloDTO;
 import ISA.project.dto.RezervacijaDTO;
 import ISA.project.dto.RezervacijaKarataDTO;
+import ISA.project.dto.RezervacijaVoziloDTO;
 import ISA.project.dto.VoziloDTO;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
 import ISA.project.model.Let;
 import ISA.project.model.RentACar;
+import ISA.project.model.RezervacijaVozilo;
 import ISA.project.model.Segment;
 import ISA.project.model.TipKlase;
 import ISA.project.model.Vozilo;
+import ISA.project.repository.RezervacijaVoziloRepozitorijum;
 import ISA.project.repository.VoziloRepozitorijum;
 import ISA.project.service.EmailServis;
 import ISA.project.service.KorisnikServis;
@@ -58,6 +62,9 @@ public class VoziloKontroler {
 	
 	@Autowired
 	VoziloRepozitorijum vozRep;
+	
+	@Autowired
+	RezervacijaVoziloRepozitorijum rezVoz;
 	
 	private Logger logger = LoggerFactory.getLogger(VoziloKontroler.class);
 	
@@ -111,6 +118,8 @@ public class VoziloKontroler {
 			v.setNaPopustu(vDTO.getNaPopustu());
 			v.setAdresaLokacije(vDTO.getAdresaLokacije());
 			v.setPopust(vDTO.getPopust());
+			v.setDatumPopustOd(vDTO.getDatumPopustOd());
+			v.setDatumPospustDo(vDTO.getDatumPopustDo());
 			servis.sacuvajVozilo(v);
 			return new ResponseEntity<>(vkd, HttpStatus.OK);
 		} else {
@@ -118,9 +127,9 @@ public class VoziloKontroler {
 		}
 	}
 	
-	@RequestMapping(value="/vratiBrzaVozila", method = RequestMethod.GET)
-	public ResponseEntity<List<VoziloDTO>> vratiBrzaVozila(){
-		List<VoziloDTO> vozila = servis.vratiBrzaVozila();
+	@RequestMapping(value="/vratiBrzaVozila", method = RequestMethod.POST)
+	public ResponseEntity<List<VoziloDTO>> vratiBrzaVozila(@RequestBody DatumiPopustDTO d){
+		List<VoziloDTO> vozila = servis.vratiBrzaVozila(d);
 		return new ResponseEntity<>(vozila, HttpStatus.OK);
 	}
 	
@@ -143,10 +152,10 @@ public class VoziloKontroler {
 		} else {
 			cena = l.getCenaPrveKlase();
 		}
-		String poruka = servis.brzoRezervisi(r, k, r.getVozilo());
+		String poruka = servis.brzoRezervisi(r, k);
 		if(poruka.equals("ok")) {
 			try {
-				eservis.rezervacijaInformacijeBrzoVozilo(r, k, l, s, r.getVozilo());
+				eservis.rezervacijaInformacijeBrzoVozilo(r, k, l, s, r.getRezervacijaVozilo().getVozilo());
 			}catch( Exception e ){
 				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
 			}
@@ -166,7 +175,7 @@ public class VoziloKontroler {
 					}
 				}
 			}
-			List<VoziloDTO> vozilaDTO = servis.vratiBrzaVozila();
+			List<VoziloDTO> vozilaDTO = servis.vrati();
 			return new ResponseEntity<>(vozilaDTO, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -180,31 +189,31 @@ public class VoziloKontroler {
 	}
 	
 	@RequestMapping(value="/rezervisanaVozila", method = RequestMethod.GET)
-	public ResponseEntity<List<VoziloDTO>> vratiRezVozila(@Context HttpServletRequest request){
+	public ResponseEntity<List<RezervacijaVoziloDTO>> vratiRezVozila(@Context HttpServletRequest request){
 		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
 		//RentACar rent = k.getRentACar();
-		List<VoziloDTO> pom = servis.vratiRezVozila(k);
+		List<RezervacijaVoziloDTO> pom = servis.vratiRezVozila(k);
 		return new ResponseEntity<>(pom, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/otkaziRezervacijuVozila/{idVozila}", method = RequestMethod.POST)
-	public ResponseEntity<List<VoziloDTO>> otkaziRezervacijuVozila(@RequestBody VoziloDTO vdto, @PathVariable long idVozila, @Context HttpServletRequest request) 
+	@RequestMapping(value = "/otkaziRezervacijuVozila/{idRezVozilo}", method = RequestMethod.POST)
+	public ResponseEntity<List<RezervacijaVoziloDTO>> otkaziRezervacijuVozila(@RequestBody RezervacijaVoziloDTO rdto, @PathVariable long idRezVozilo, @Context HttpServletRequest request) 
 	{
 		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
 		RentACar rent = carServis.nadjiRentACarPoKorisniku(k);
 		
-		Vozilo voz = vozRep.vratiVoziloPoNazivu(idVozila);
+		RezervacijaVozilo voz = rezVoz.vratiRezervacijuPoId(idRezVozilo);
 		
 		java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
         java.sql.Date tomorrow = new java.sql.Date(date.getTime() + 72*60*60*1000);
         //System.out.println(tomorrow);
 
-		if (tomorrow.before(voz.getDatumOd())) 
+		if (tomorrow.before(voz.getDatumRezervacijaOd())) 
 		{
 			
-			List<VoziloDTO> vtdo = servis.otkaziRezervaciju(idVozila, k);
+			List<RezervacijaVoziloDTO> rtdo = servis.otkaziRezervaciju(idRezVozilo, k);
 
-			return new ResponseEntity<>(vtdo, HttpStatus.OK);
+			return new ResponseEntity<>(rtdo, HttpStatus.OK);
 		}
 
 		else {
@@ -213,9 +222,9 @@ public class VoziloKontroler {
 		}
 	}
 	
-	@RequestMapping(value="/oceniVozilo/{id}/{idv}/{opcija}", method = RequestMethod.GET)
-	public ResponseEntity<List<VoziloDTO>> oceniVozilo(@PathVariable long id, @PathVariable long idv, @PathVariable double opcija){
-		List<VoziloDTO> lista = servis.oceniVozilo(id, idv, opcija);
+	@RequestMapping(value="/oceniVozilo/{id}/{idr}/{opcija}", method = RequestMethod.GET)
+	public ResponseEntity<List<RezervacijaVoziloDTO>> oceniVozilo(@PathVariable long id, @PathVariable long idr, @PathVariable double opcija){
+		List<RezervacijaVoziloDTO> lista = servis.oceniVozilo(id, idr, opcija);
 		if(lista != null) {
 			return new ResponseEntity<>(lista, HttpStatus.OK);
 		} else {

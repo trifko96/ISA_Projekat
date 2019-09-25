@@ -3,12 +3,11 @@ package ISA.project.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import ISA.project.model.Vozilo;
 
 public class RezervacijaDTO {
 
 	private List<RezervacijaKarataDTO> karte = new ArrayList<RezervacijaKarataDTO>();
-	private VoziloDTO vozilo;
+	private RezervacijaVoziloDTO rezervacijaVozilo;
 	
 	
 	public RezervacijaDTO() {
@@ -26,14 +25,17 @@ public class RezervacijaDTO {
 	}
 
 
-	public VoziloDTO getVozilo() {
-		return vozilo;
+	public RezervacijaVoziloDTO getRezervacijaVozilo() {
+		return rezervacijaVozilo;
 	}
 
 
-	public void setVozilo(VoziloDTO vozilo) {
-		this.vozilo = vozilo;
+	public void setRezervacijaVozilo(RezervacijaVoziloDTO rezervacijaVozilo) {
+		this.rezervacijaVozilo = rezervacijaVozilo;
 	}
+
+
+	
 	
 	
 }

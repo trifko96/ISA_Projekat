@@ -6,6 +6,7 @@ import { Vozilo } from 'src/app/model/Vozilo';
 import * as $ from 'jquery';
 import { voziloServis } from 'src/app/service/voziloServis';
 import { korisnikServis } from 'src/app/service/korisnikServis';
+import { RezervacijaVozilo } from 'src/app/model/RezervacijaVozilo';
 
 @Component({
   selector: 'app-istorija-rezervacija',
@@ -18,6 +19,7 @@ export class IstorijaRezervacijaComponent implements OnInit {
   porukaBrisanje : string = "";
   porukaBrisanje1 : string = "";
   vozila : Vozilo[] = [];
+  rezervacije : RezervacijaVozilo[] = [];
   opcije = [
     {name: "5", value: 5},
     {name: "4", value: 4},
@@ -42,7 +44,7 @@ export class IstorijaRezervacijaComponent implements OnInit {
   prikazFormeZaOcenjivanjeVozila : boolean = false;
 
   letZaOcenjivanje : Let = new Let();
-  voziloZaOcenjivanje : Vozilo = new Vozilo();
+  rezervacijaZaOcenjivanje : RezervacijaVozilo = new RezervacijaVozilo();
 
   idKorisnika : number;
 
@@ -74,10 +76,10 @@ export class IstorijaRezervacijaComponent implements OnInit {
 
     this.voziloServis.vratiRezezrvisanaVozila().subscribe(
       data => {
-        this.vozila = data;
-        for(let v of this.vozila){
-          if(v.brOcena != 0){
-            v.prosecnaOcena = v.ocene / v.brOcena;
+        this.rezervacije = data;
+        for(let r of this.rezervacije){
+          if(r.brOcena != 0){
+            r.prosecnaOcena = r.ocene / r.brOcena;
           }
         }
       }
@@ -113,21 +115,21 @@ export class IstorijaRezervacijaComponent implements OnInit {
     )
   }
 
-  obrisiVozilo(v : Vozilo)
+  obrisiVozilo(r : RezervacijaVozilo)
   {
-    let idVozila = v.id;
-    this.voziloServis.otkaziRezervacijuVozila(v, idVozila).subscribe(
+    let idRezVozilo = r.idRezVozilo;
+    this.voziloServis.otkaziRezervacijuVozila(r, idRezVozilo).subscribe(
       data => {
-        this.vozila = data;
-        for(let v of this.vozila){
-          if(v.brOcena != 0){
-            v.prosecnaOcena = v.ocene / v.brOcena;
+        this.rezervacije = data;
+        for(let r of this.rezervacije){
+          if(r.brOcena != 0){
+            r.prosecnaOcena = r.ocene / r.brOcena;
           }
         }
         this.porukaBrisanje1 = "";  
       },
       error => {
-        this.porukaBrisanje1 = "Nije moguce otkazivanje rezervaciju vozila!";
+        this.porukaBrisanje1 = "Nije moguce otkazivanje rezervacije vozila!";
       }
     )
   }
@@ -137,9 +139,9 @@ export class IstorijaRezervacijaComponent implements OnInit {
     this.letZaOcenjivanje = l;
   }
 
-  oceni1(v : Vozilo){
+  oceni1(r : RezervacijaVozilo){
     this.prikazFormeZaOcenjivanjeVozila = true;
-    this.voziloZaOcenjivanje = v;
+    this.rezervacijaZaOcenjivanje = r;
   }
  
   Oceni(){
@@ -172,17 +174,17 @@ export class IstorijaRezervacijaComponent implements OnInit {
   Oceni1(){
     //this.voziloZaOcenjivanje.ocene = this.selektovanaOpcija1;
     if(this.porukaOcenjivanje1 == ""){
-      this.voziloServis.oceniVozilo(this.voziloZaOcenjivanje.id, this.idKorisnika, this.selektovanaOpcija1).subscribe(
+      this.voziloServis.oceniVozilo(this.rezervacijaZaOcenjivanje.idRezVozilo, this.idKorisnika, this.selektovanaOpcija1).subscribe(
         data => {
               this.prikazFormeZaOcenjivanjeVozila = false;
-              this.vozila = data;
-              for(let v of this.vozila){
-                if(v.brOcena != 0){
-                  v.prosecnaOcena = v.ocene / v.brOcena;
+              this.rezervacije = data;
+              for(let r of this.rezervacije){
+                if(r.brOcena != 0){
+                  r.prosecnaOcena = r.ocene / r.brOcena;
                 }
               }
               $("#ocenaVozilo").val("");
-              this.voziloZaOcenjivanje = new Vozilo();
+              this.rezervacijaZaOcenjivanje = new RezervacijaVozilo();
               this.porukaOcenjivanje1 = "";
             },
             error => {

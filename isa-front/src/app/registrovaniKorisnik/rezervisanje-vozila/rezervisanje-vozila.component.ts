@@ -13,6 +13,8 @@ import { PretragaServis } from 'src/app/model/PretragaServis';
 import { lokacijeServis } from 'src/app/service/lokacijeServis';
 import * as $ from 'jquery';
 import { PretragaVozilo } from 'src/app/model/PretragaVozilo';
+import { DatumiPopust } from 'src/app/model/DatumiPopust';
+import { RezervacijaVozilo } from 'src/app/model/RezervacijaVozilo';
 
 @Component({
   selector: 'app-rezervisanje-vozila',
@@ -46,6 +48,8 @@ export class RezervisanjeVozilaComponent implements OnInit {
   porukaZaRezervaciju : string = "";
   pretragaServis : PretragaServis = new PretragaServis();
   prikazPretrageServisa : boolean = true;
+  datumPopust : DatumiPopust = new DatumiPopust();
+  rezervacijaVozilo : RezervacijaVozilo = new RezervacijaVozilo;
 
   
   selektovanaOpcija : number = 0;
@@ -118,10 +122,16 @@ export class RezervisanjeVozilaComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
+  } 
 
   prikaziBrzaVozila(){
-    this.voziloServis.vratiBrzaVozila().subscribe(
+    this.datumPopust.pocetni = this.datumOd;
+    if(this.datumDo == null){
+      this.datumPopust.krajnji = new Date("2019-10-10");
+    } else {
+      this.datumPopust.krajnji = this.datumDo;
+    }
+    this.voziloServis.vratiBrzaVozila(this.datumPopust).subscribe(
       data => {
         this.brzaVozila = data;
         this.prikazBrzihVozila = true;
@@ -151,17 +161,19 @@ export class RezervisanjeVozilaComponent implements OnInit {
 
   brzoRezervisi(v : Vozilo){
     if(this.rezervacija.karte.length != 0){
-      v.emailKorisnika = this.korisnik.email;
-      v.datumOd = this.datumOd;
+      this.rezervacijaVozilo.emailKorisnika = this.korisnik.email;
+      this.rezervacijaVozilo.vozilo = v;
+      this.rezervacijaVozilo.datumRezervacijaOd = this.datumOd;
       if(this.datumDo == null){
-        v.datumDo = new Date("2019-10-10");
+        this.rezervacijaVozilo.datumRezervacijaDo = new Date("2019-10-10");
       } else {
-        v.datumDo = this.datumDo;
+        this.rezervacijaVozilo.datumRezervacijaDo = this.datumDo;
       }
-      this.rezervacija.vozilo = v;
+      this.rezervacija.rezervacijaVozilo = this.rezervacijaVozilo;
       this.voziloServis.brzoRezervisiVozilo(this.rezervacija, this.idKorisnika).subscribe(
         data => {
-          this.brzaVozila = data;
+          let indeks = this.brzaVozila.indexOf(v);
+          this.brzaVozila.splice(indeks, 1);
           this.rezervacijaServis.rezervacija = new Rezervacija();
         },
 
@@ -244,6 +256,12 @@ export class RezervisanjeVozilaComponent implements OnInit {
       this.pretragaVozilo.mestoPreuzimanja = this.selektovanaLokacijaPre;
       this.pretragaVozilo.mestoVracanja = this.selektovanaLokacijaVra;
       this.pretragaVozilo.tipVozila = this.selektovanaOpcijaTip;
+      this.pretragaVozilo.pocetni = this.datumOd;
+    if(this.datumDo == null){
+      this.pretragaVozilo.krajnji = new Date("2019-10-10");
+    } else {
+      this.pretragaVozilo.krajnji = this.datumDo;
+    }
       this.voziloServis.pretraziVozilo(this.pretragaVozilo, this.trenutniServis.id).subscribe(
         data => {
           this.vozila = data;
@@ -262,10 +280,13 @@ export class RezervisanjeVozilaComponent implements OnInit {
 
   rezervisi(v : Vozilo){
     if(this.rezervacija.karte.length != 0){
-      v.emailKorisnika = this.korisnik.email;
-      v.datumOd = this.pretragaVozilo.datumPreuzimanja;
-      v.datumDo = this.pretragaVozilo.datumVracanja;
-      this.rezervacija.vozilo = v;
+      this.rezervacijaVozilo.emailKorisnika = this.korisnik.email;
+      this.rezervacijaVozilo.datumRezervacijaOd = this.pretragaVozilo.datumPreuzimanja;
+      this.rezervacijaVozilo.datumRezervacijaDo = this.pretragaVozilo.datumVracanja;
+      this.rezervacijaVozilo.mestoPreuzimanja = this.pretragaVozilo.mestoPreuzimanja;
+      this.rezervacijaVozilo.mestoVracanja = this.pretragaVozilo.mestoVracanja;
+      this.rezervacijaVozilo.vozilo = v;
+      this.rezervacija.rezervacijaVozilo = this.rezervacijaVozilo;
       this.voziloServis.brzoRezervisiVozilo(this.rezervacija, this.idKorisnika).subscribe(
         data => {
           this.prikazTabeleVozila = false;

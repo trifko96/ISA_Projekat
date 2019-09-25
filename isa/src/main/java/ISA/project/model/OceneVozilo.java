@@ -11,7 +11,7 @@ public class OceneVozilo {
 	@GeneratedValue
 	private long id;
 	private long idKorisnika;
-	private long idVozila;
+	private long idRezervacije;
 	
 	public OceneVozilo() {
 		
@@ -33,13 +33,15 @@ public class OceneVozilo {
 		this.idKorisnika = idKorisnika;
 	}
 
-	public long getIdVozila() {
-		return idVozila;
+	public long getIdRezervacije() {
+		return idRezervacije;
 	}
 
-	public void setIdVozila(long idVozila) {
-		this.idVozila = idVozila;
+	public void setIdRezervacije(long idRezervacije) {
+		this.idRezervacije = idRezervacije;
 	}
+
+
 	
 	
 }

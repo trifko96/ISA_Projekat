@@ -5,4 +5,6 @@ export class PretragaVozilo{
     mestoVracanja : string = "";
     tipVozila : string = "";
     brojPutnika : number;
+    pocetni : Date = new Date();
+    krajnji : Date = new Date();
 }

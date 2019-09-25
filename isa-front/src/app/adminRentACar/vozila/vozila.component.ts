@@ -57,6 +57,14 @@ export class VozilaComponent implements OnInit {
         this.idKorisnik = data.id;
         this.voziloServis.vratiVozilo().subscribe(
           data => {
+            for(let v of data)
+            {
+              if(v.datumPopustDo != null && v.datumPopustOd != null){
+                v.datumPopustOdString = v.datumPopustOd.toString().slice(0,10);
+                v.datumPopustDoString = v.datumPopustDo.toString().slice(0,10);
+              }
+             
+            }
             this.vozila = data;
          }
        )
@@ -78,6 +86,7 @@ export class VozilaComponent implements OnInit {
   }
 
   dodajNovi(){
+    this.novoVozilo = new Vozilo();
     this.prikazFormeZaDodavanjeNovog = true;
   }
 
@@ -94,6 +103,8 @@ export class VozilaComponent implements OnInit {
     this.selektovanaOpcijaIzmena = v.naPopustu;
     this.selektovanaLokacijaIzmena = v.adresaLokacije;
     this.novoVozilo.popust = v.popust;
+    this.novoVozilo.datumPopustOd = v.datumPopustOd;
+    this.novoVozilo.datumPopustDo = v.datumPopustDo;
     this.izmena = true;
     this.poruka = ""; 
   }
@@ -172,6 +183,11 @@ export class VozilaComponent implements OnInit {
         this.poruka = "Ako je vozilo na popustu, mora se zadati vrednost popusta, a ako nije ne sme imati popust!"
       }
 
+      else if((this.novoVozilo.popust == 0 && (this.novoVozilo.datumPopustOd !=null || this.novoVozilo.datumPopustDo != null)) || (this.novoVozilo.popust != 0 && (this.novoVozilo.datumPopustOd == null || this.novoVozilo.datumPopustDo == null)))
+      {
+        this.poruka = "Ako je vozilo na popustu, mora se odrediti datum popusta, a ako nije onda nema ni datum";
+      }
+
     else{  
 
     if(!provera){
@@ -179,6 +195,14 @@ export class VozilaComponent implements OnInit {
         data => {
           this.voziloServis.vratiVozilo().subscribe(
             data => {
+              for(let v of data)
+            {
+              if(v.datumPopustDo != null && v.datumPopustOd != null){
+                v.datumPopustOdString = v.datumPopustOd.toString().slice(0,10);
+                v.datumPopustDoString = v.datumPopustDo.toString().slice(0,10);
+              }
+             
+            }
               this.vozila = data;
               this.prikazFormeZaDodavanjeNovog = false;
               this.novoVozilo = new Vozilo();
@@ -200,6 +224,14 @@ export class VozilaComponent implements OnInit {
   obrisi(v : Vozilo){
     this.voziloServis.obrisi(v).subscribe(
       data => {
+        for(let v of data)
+            {
+              if(v.datumPopustDo != null && v.datumPopustOd != null){
+                v.datumPopustOdString = v.datumPopustOd.toString().slice(0,10);
+                v.datumPopustDoString = v.datumPopustDo.toString().slice(0,10);
+              }
+             
+            }
         this.vozila = data;
         this.porukaBrisanje = "";  
       },
@@ -219,12 +251,24 @@ export class VozilaComponent implements OnInit {
       {
         this.poruka = "Ako je vozilo na popustu, mora se zadati vrednost popusta, a ako nije ne sme imati popust!"
       }
+      else if((this.novoVozilo.popust == 0 && (this.novoVozilo.datumPopustOd !=null || this.novoVozilo.datumPopustDo != null)) || (this.novoVozilo.popust != 0 && (this.novoVozilo.datumPopustOd == null || this.novoVozilo.datumPopustDo == null)))
+      {
+        this.poruka = "Ako je vozilo na popustu, mora se odrediti datum popusta, a ako nije onda nema ni datum";
+      }
       else{
       this.voziloServis.izmeniVozilo(this.novoVozilo).subscribe(
         data => {
           this.voziloServis.vratiVozilo().subscribe(
             data => {
               this.prikazFormeZaIzmenuPostojeceg = false;
+              for(let v of data)
+            {
+              if(v.datumPopustDo != null && v.datumPopustOd != null){
+                v.datumPopustOdString = v.datumPopustOd.toString().slice(0,10);
+                v.datumPopustDoString = v.datumPopustDo.toString().slice(0,10);
+              }
+             
+            }
               this.vozila = data;
               $("#cenaVozila").val("");
               $("#nazivVozila").val("");
@@ -236,13 +280,15 @@ export class VozilaComponent implements OnInit {
               $("#popustVoz").val("");
               $("#adresaLokVozila").val("");
               $("#popustVozila").val("");
+              $("#popustOdVozila").val("");
+              $("#popustDoVozila").val("");
               this.novoVozilo = new Vozilo();
               this.poruka = "";
             }
           )
         },
         error => {
-          this.poruka = "Uneto ime vec postoji!";
+          this.poruka = "Ne moze se izmeniti rezervisano vozilo!";
         }
       )
       }

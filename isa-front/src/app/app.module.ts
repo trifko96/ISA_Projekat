@@ -36,6 +36,8 @@ import { FormsModule, FormBuilder } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PromenaLozinkeComponent } from './adminAvioKompanije/promena-lozinke/promena-lozinke.component';
 import { aerodromServis } from './service/aerodromServis';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
@@ -51,6 +53,8 @@ import { avionServis } from './service/avionServis';
 import { avioServis } from './service/avioServis';
 import { korisnikServis } from './service/korisnikServis';
 import { letServis } from './service/letServis';
+
+
 
 @NgModule({
   declarations: [
@@ -93,6 +97,7 @@ import { letServis } from './service/letServis';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,

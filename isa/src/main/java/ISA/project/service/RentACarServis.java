@@ -21,9 +21,11 @@ import ISA.project.model.Lokacija;
 import ISA.project.model.OceneKompanija;
 import ISA.project.model.OceneServis;
 import ISA.project.model.RentACar;
+import ISA.project.model.RezervacijaVozilo;
 import ISA.project.model.Vozilo;
 import ISA.project.repository.OceneServisRepozitorijum;
 import ISA.project.repository.RentACarRepozitorijum;
+import ISA.project.repository.RezervacijaVoziloRepozitorijum;
 import ISA.project.repository.VoziloRepozitorijum;
 
 
@@ -39,6 +41,9 @@ public class RentACarServis {
 	
 	@Autowired
 	OceneServisRepozitorijum oceneRepo;
+	
+	@Autowired
+	RezervacijaVoziloRepozitorijum rezervacijaRep;
 
 	public RentACarDTO nadjiRentCar(long id) {
 	
@@ -127,16 +132,15 @@ public class RentACarServis {
 	}
 
 	public PrihodDTO vratiPrihod(DatumskiOpsegDTO d, RentACar r) {
-		List<Vozilo> vozila = vozRepo.vratiVozila(r.getRentACarId());
+		List<RezervacijaVozilo> rezervacije = rezervacijaRep.vratiRezervacijePoRentACar(r.getRentACarId());
 		double prihod = 0;
-			for(Vozilo v : vozila) {
-				if(v.isRezervisano()) {
-					if((!(v.getTrenutniDatum().before(d.getDatum1())) && !(v.getTrenutniDatum().after(d.getDatum2()))) || (DateUtils.isSameDay(v.getTrenutniDatum(), d.getDatum1())) || (DateUtils.isSameDay(v.getTrenutniDatum(), d.getDatum2()))) {
-						double vreme = v.getDatumDo().getTime() - v.getDatumOd().getTime(); 
+			for(RezervacijaVozilo rez : rezervacije) {
+					if(!(rez.isOtkazano()) && (!(rez.getTrenutniDatumRezervacija().before(d.getDatum1())) && !(rez.getTrenutniDatumRezervacija().after(d.getDatum2()))) || (DateUtils.isSameDay(rez.getTrenutniDatumRezervacija(), d.getDatum1())) || (DateUtils.isSameDay(rez.getTrenutniDatumRezervacija(), d.getDatum2()))) {
+						double vreme = rez.getDatumRezervacijaDo().getTime() - rez.getDatumRezervacijaOd().getTime(); 
 						vreme /= (1000*60*60*24);
-						prihod += (v.getCena()*vreme);
+						prihod += (rez.getVozilo().getCena()*vreme);
 					}
-				}
+				
 			}
 		PrihodDTO prihodDto = new PrihodDTO(prihod, "EUR");
 		return prihodDto;

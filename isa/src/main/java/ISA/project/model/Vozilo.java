@@ -33,6 +33,8 @@ public class Vozilo {
 	private String mestoPreuzimanja;
 	private String mestoVracanja;
 	private double popust;
+	private Date datumPopustOd;
+	private Date datumPospustDo;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="rentACarId", referencedColumnName="rentACarId")
@@ -42,8 +44,10 @@ public class Vozilo {
 	@JoinColumn(name="lokacijaId", referencedColumnName="lokacijaId")
 	private Lokacija lokacija;
 	
-	@OneToMany(targetEntity=Rezervacija.class,mappedBy="vozilo", cascade = CascadeType.ALL)
-	private List<Rezervacija> rezervacije = new ArrayList<>();
+	@OneToOne
+	@JoinColumn(name = "idRezVozilo")
+	public RezervacijaVozilo rezervacija;
+	
 	
 	public Vozilo() {
 		this.brOcena = 0;
@@ -51,7 +55,7 @@ public class Vozilo {
 	}
 	
 	public Vozilo(double cena, String naziv, String marka, String model, String godinaProizvodnje, int brSedista,
-			String tip, double popust) {
+			String tip, double popust, RezervacijaVozilo rezervacija) {
 		super();
 		this.cena = cena;
 		this.naziv = naziv;
@@ -61,6 +65,7 @@ public class Vozilo {
 		this.brSedista = brSedista;
 		this.tip = tip;
 		this.popust = popust;
+		this.rezervacija = rezervacija;
 	}
 
 
@@ -264,13 +269,7 @@ public class Vozilo {
 		this.lokacija = lokacija;
 	}
 
-	public List<Rezervacija> getRezervacije() {
-		return rezervacije;
-	}
 
-	public void setRezervacije(List<Rezervacija> rezervacije) {
-		this.rezervacije = rezervacije;
-	}
 	
 	public void oceniVozilo(double ocena) {
 		this.ocene += ocena;
@@ -279,6 +278,32 @@ public class Vozilo {
 	public void povecajBrojOcena() {
 		this.brOcena++;
 	}
+
+	public Date getDatumPopustOd() {
+		return datumPopustOd;
+	}
+
+	public void setDatumPopustOd(Date datumPopustOd) {
+		this.datumPopustOd = datumPopustOd;
+	}
+
+	public Date getDatumPospustDo() {
+		return datumPospustDo;
+	}
+
+	public void setDatumPospustDo(Date datumPospustDo) {
+		this.datumPospustDo = datumPospustDo;
+	}
+
+	public RezervacijaVozilo getRezervacija() {
+		return rezervacija;
+	}
+
+	public void setRezervacija(RezervacijaVozilo rezervacija) {
+		this.rezervacija = rezervacija;
+	}
+	
+	
 	
 
 }

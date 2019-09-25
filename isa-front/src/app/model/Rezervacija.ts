@@ -1,7 +1,8 @@
 import { RezervacijaKarataDTO } from './RezervacijaKarataDTO';
 import { Vozilo } from './Vozilo';
+import { RezervacijaVozilo } from './RezervacijaVozilo';
 
 export class Rezervacija{
     karte : RezervacijaKarataDTO[] = [];
-    vozilo : Vozilo = new Vozilo();
+    rezervacijaVozilo : RezervacijaVozilo = new RezervacijaVozilo();
 }

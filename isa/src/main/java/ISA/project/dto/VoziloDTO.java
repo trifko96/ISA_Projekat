@@ -1,6 +1,6 @@
 package ISA.project.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 import ISA.project.model.Vozilo;
 
@@ -27,6 +27,8 @@ public class VoziloDTO {
 	private String mestoPreuzimanja;
 	private String mestoVracanja;
 	private double popust;
+	private Date datumPopustOd;
+	private Date datumPopustDo;
 	
 	public VoziloDTO(){}
 	
@@ -47,6 +49,8 @@ public class VoziloDTO {
 		this.naPopustu = vozilo.getNaPopustu();
 		this.adresaLokacije = vozilo.getAdresaLokacije();
 		this.popust = vozilo.getPopust();
+		this.datumPopustOd = vozilo.getDatumPopustOd();
+		this.datumPopustDo = vozilo.getDatumPospustDo();
 	}
 
 	public long getId() {
@@ -207,6 +211,22 @@ public class VoziloDTO {
 
 	public void setPopust(double popust) {
 		this.popust = popust;
+	}
+
+	public Date getDatumPopustOd() {
+		return datumPopustOd;
+	}
+
+	public void setDatumPopustOd(Date datumPopustOd) {
+		this.datumPopustOd = datumPopustOd;
+	}
+
+	public Date getDatumPopustDo() {
+		return datumPopustDo;
+	}
+
+	public void setDatumPopustDo(Date datumPopustDo) {
+		this.datumPopustDo = datumPopustDo;
 	}
 	
 	

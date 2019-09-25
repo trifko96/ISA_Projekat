@@ -10,6 +10,8 @@ public class PretragaVoziloDTO {
 	private String mestoVracanja;
 	private String tipVozila;
 	private int brojPutnika;
+	private Date pocetni;
+	private Date krajnji;
 	
 	public PretragaVoziloDTO() {
 		
@@ -62,6 +64,23 @@ public class PretragaVoziloDTO {
 	public void setBrojPutnika(int brojPutnika) {
 		this.brojPutnika = brojPutnika;
 	}
+
+	public Date getPocetni() {
+		return pocetni;
+	}
+
+	public void setPocetni(Date pocetni) {
+		this.pocetni = pocetni;
+	}
+
+	public Date getKrajnji() {
+		return krajnji;
+	}
+
+	public void setKrajnji(Date krajnji) {
+		this.krajnji = krajnji;
+	}
+	
 	
 	
 }

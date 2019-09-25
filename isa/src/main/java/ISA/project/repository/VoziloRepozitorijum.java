@@ -22,17 +22,20 @@ public interface VoziloRepozitorijum extends JpaRepository<Vozilo, Long> {
 	@Query("select spisakVozila from RentACar rentACar where rentACar.rentACarId =:id")
 	public List<Vozilo> vratiVozila(@Param("id") long id);
 	
+	@Query("select vozilo from Vozilo vozilo where vozilo.naPopustu = 'DA'")
+	public List<Vozilo> vratiVozilaNaPopustu();
+	
 	/*@Query("select vozilo from Vozilo vozilo where vozilo.voziloId = ?1")
 	public RentACar vratiVoziloPoId(long id);*/
 	
-	@Query("select vozilo.trenutniDatum, count(vozilo) from Vozilo vozilo where "
-			+ "vozilo.rentACar.rentACarId = :idRentACar and vozilo.rezervisano = 1 group by day(vozilo.trenutniDatum)")
+	@Query("select rezervacija.trenutniDatumRezervacija, count(rezervacija) from RezervacijaVozilo rezervacija where "
+			+ "rezervacija.vozilo.rentACar.rentACarId = :idRentACar and rezervacija.otkazano is false group by day(rezervacija.trenutniDatumRezervacija)")
 	public List<Object[]> vratiStatistikuPoDanu(@Param("idRentACar") long idRentACar);
 	
-	@Query(value = "select concat(year(trenutniDatum), '/', week(trenutniDatum)), count(*) from Vozilo vozilo where vozilo.rentACar.rentACarId = :idRentACar and vozilo.rezervisano = 1 group by concat(year(trenutniDatum), '/', week(trenutniDatum))")
+	@Query(value = "select concat(year(trenutniDatumRezervacija), '/', week(trenutniDatumRezervacija)), count(*) from RezervacijaVozilo rezervacija where rezervacija.vozilo.rentACar.rentACarId = :idRentACar and rezervacija.otkazano is false group by concat(year(trenutniDatumRezervacija), '/', week(trenutniDatumRezervacija))")
 	public List<Object[]> vratiStatistikuPoNedelji(@Param("idRentACar") long idRentACar);
 	
-	@Query(value = "select year(trenutniDatum), count(*) from Vozilo vozilo where vozilo.rentACar.rentACarId = :idRentACar and vozilo.rezervisano = 1 group by year(trenutniDatum)")
+	@Query(value = "select year(trenutniDatumRezervacija), count(*) from RezervacijaVozilo rezervacija where rezervacija.vozilo.rentACar.rentACarId = :idRentACar and rezervacija.otkazano is false group by year(trenutniDatumRezervacija)")
 	public List<Object[]> vratiStatistikuPoGodini(@Param("idRentACar") long idRentACar);
 	
 	@Query("select vozilo from Vozilo vozilo where vozilo.emailKorisnika = :emailKorisnik")

@@ -20,4 +20,8 @@ export class Vozilo{
     mestoVracanja : string = "";
     adresaLokacije : string = "";
     popust : number;
+    datumPopustOd : Date;
+    datumPopustDo : Date;
+    datumPopustOdString : string = "";
+    datumPopustDoString : string = "";
 } 

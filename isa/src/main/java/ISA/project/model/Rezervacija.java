@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Rezervacija {
@@ -22,9 +23,9 @@ public class Rezervacija {
 	@OneToMany(targetEntity=AvionskaKarta.class,mappedBy="rezervacija", cascade = CascadeType.ALL)
 	private List<AvionskaKarta> karte = new ArrayList<>();
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="idVozila", referencedColumnName="voziloId")
-	private Vozilo vozilo;
+	@OneToOne
+	@JoinColumn(name="idRezVozilo")
+	private RezervacijaVozilo rezervacijaVozilo;
 	
 	public Rezervacija() {
 		
@@ -46,13 +47,16 @@ public class Rezervacija {
 		this.karte = karte;
 	}
 
-	public Vozilo getVozilo() {
-		return vozilo;
+	public RezervacijaVozilo getRezervacijaVozilo() {
+		return rezervacijaVozilo;
 	}
 
-	public void setVozilo(Vozilo vozilo) {
-		this.vozilo = vozilo;
+	public void setRezervacijaVozilo(RezervacijaVozilo rezervacijaVozilo) {
+		this.rezervacijaVozilo = rezervacijaVozilo;
 	}
+
+
+
 	
 	
 }

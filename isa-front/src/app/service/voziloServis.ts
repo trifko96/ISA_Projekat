@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Vozilo } from '../model/Vozilo';
 import { Rezervacija } from '../model/Rezervacija';
 import { PretragaVozilo } from '../model/PretragaVozilo';
+import { DatumiPopust } from '../model/DatumiPopust';
+import { RezervacijaVozilo } from '../model/RezervacijaVozilo';
 
 @Injectable({
     providedIn : 'root',
@@ -39,8 +41,8 @@ export class voziloServis {
         return this.http.get<Lokacija[]>("api/Lokacija/vratiSveLokacije");
     }*/
 
-    vratiBrzaVozila(){
-        return this.http.get<Vozilo[]>("api/Vozilo/vratiBrzaVozila");
+    vratiBrzaVozila(d : DatumiPopust){
+        return this.http.post<Vozilo[]>("api/Vozilo/vratiBrzaVozila", d);
     }
 
     brzoRezervisiVozilo(r : Rezervacija, id : number){
@@ -52,15 +54,15 @@ export class voziloServis {
     }
 
     vratiRezezrvisanaVozila(){
-        return this.http.get<Vozilo[]>("api/Vozilo/rezervisanaVozila")
+        return this.http.get<RezervacijaVozilo[]>("api/Vozilo/rezervisanaVozila")
     }
 
-    otkaziRezervacijuVozila(v : Vozilo, id : number){
-        return this.http.post<Vozilo[]>("api/Vozilo/otkaziRezervacijuVozila/"+id, v);
+    otkaziRezervacijuVozila(r : RezervacijaVozilo, id : number){
+        return this.http.post<RezervacijaVozilo[]>("api/Vozilo/otkaziRezervacijuVozila/"+id, r);
     }
 
-    oceniVozilo(idv : number, id : number, opcija : number){
-        return this.http.get<Vozilo[]>("api/Vozilo/oceniVozilo/"+id+"/"+idv+"/"+opcija);
+    oceniVozilo(idr : number, id : number, opcija : number){
+        return this.http.get<RezervacijaVozilo[]>("api/Vozilo/oceniVozilo/"+id+"/"+idr+"/"+opcija);
     }
     
 }

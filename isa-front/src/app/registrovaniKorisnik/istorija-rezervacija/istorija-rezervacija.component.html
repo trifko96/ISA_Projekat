@@ -38,22 +38,22 @@
                 <table class="table">
                     <thead> 
                         <tr>
-                            <th>Naziv</th>
-                            <th>Marka</th>
-                            <th>Model</th>
+                            <th>Rezervacija</th>
+                            <th>Korisnik</th> 
                             <th>Prosecna ocena</th>
+                            <th>Vozilo</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <tbody *ngFor = "let v of vozila">
+                    <tbody *ngFor = "let r of rezervacije">
                         <tr>
-                            <td>{{v.naziv}}</td>
-                            <td>{{v.marka}}</td>
-                            <td>{{v.model}}</td>
-                            <td>{{v.prosecnaOcena}}</td>
-                            <td><button class="btn btn-link" (click) = "oceni1(v)">Oceni</button></td>
-                            <td><button class="btn btn-link" (click) = "obrisiVozilo(v)">Otkazi</button></td>
+                            <td>{{r.idRezVozilo}}</td>
+                            <td>{{r.emailKorisnika}}</td>
+                            <td>{{r.prosecnaOcena}}</td>
+                            <td>{{r.vozilo.id}}</td>
+                            <td><button class="btn btn-link" (click) = "oceni1(r)">Oceni</button></td>
+                            <td><button class="btn btn-link" (click) = "obrisiVozilo(r)">Otkazi</button></td>
                         </tr>
                     </tbody>
                 </table> 
