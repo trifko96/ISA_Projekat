@@ -88,6 +88,7 @@ public class LetServisTest {
 		l.setVremePoletanja(new GregorianCalendar(2019, Calendar.SEPTEMBER, 2).getTime());
 		l.setVremePolaskaNazad(new GregorianCalendar(2019, Calendar.SEPTEMBER, 3).getTime());
 		
+		
 		when(repozitorijumMock.findAll()).thenReturn(Arrays.asList(l));
 		List<LetDTO> letovi = letServis.pretraziLet(let);
 		assertEquals(letovi.get(0).getId(), 1);
