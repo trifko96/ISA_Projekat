@@ -187,6 +187,9 @@ export class AvioniComponent implements OnInit {
         },
         error => {
           this.poruka = "Uneto ime vec postoji!";
+          setTimeout(() => {
+            this.poruka = "";
+          }, 2000);
         }
       )
     }
@@ -219,6 +222,9 @@ export class AvioniComponent implements OnInit {
         }, 
         error => {
           this.porukaZaIzmenu = "Uneto ime vec postoji!";
+          setTimeout(() => {
+            this.porukaZaIzmenu = "";
+          }, 2000);
         }
       )
     }

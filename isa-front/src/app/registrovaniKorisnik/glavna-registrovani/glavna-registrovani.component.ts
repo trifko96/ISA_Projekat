@@ -11,7 +11,6 @@ export class GlavnaRegistrovaniComponent implements OnInit {
 
   navLinks = [
     {path: "rezervisanje", label: "Avio kompanije"},
-    {path: "rezervisanjeHotela", label: "Hoteli"},
     {path: "rezervisanjeVozila", label: "Vozila"},
     {path: "istorijaRezervacija", label: "Istorija rezervacija"},
     {path: "profil", label: "Profil"},

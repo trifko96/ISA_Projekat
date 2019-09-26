@@ -311,6 +311,10 @@ export class RezervisanjeComponent implements OnInit {
     this.modalRef.hide();
   }
 
+  nazadNaLetove(){
+    this.rezervisanje = false;
+  }
+
   rezervisi(l : Let){
     this.rezervisanje = true;
     this.filtriranje = false;
@@ -359,6 +363,17 @@ export class RezervisanjeComponent implements OnInit {
       }
     }
     this.prikazSedista = true;
+  }
+
+  nazadNaKlase(){
+    this.rezervisanje = true;
+    this.prikazSedista = false;
+  }
+
+  nazadNaSedista(){
+    this.prikazPutnika = false;
+    this.prikazSedista = true;
+    this.rezervacija.karte = [];
   }
 
   dalje(){
@@ -419,17 +434,29 @@ export class RezervisanjeComponent implements OnInit {
       }
       if(r.email == ""){
         provera = true;
+        $("#emailPutnika").addClass('border-danger');
+      } else {
+        $("#emailPutnika").removeClass('border-danger');
       }
       if(r.ime == ""){
         provera = true;
+        $("#imePutnika").addClass('border-danger');
+      } else {
+        $("#imePutnika").addClass('border-danger');
       }
       if(r.prezime == ""){
         provera = true;
+        $("#prezimePutnika").addClass('border-danger');
+      } else {
+        $("#prezimePutnika").addClass('border-danger');
       }
     }
     if(!provera){
       $("#telPutnika").removeClass('border-danger');
       $("#pasosPutnika").removeClass('border-danger');
+      $("#prezimePutnika").removeClass('border-danger');
+      $("#imePutnika").removeClass('border-danger');
+      $("#emailPutnika").removeClass('border-danger');
       this.prikazPoruke = true;
       this.prikazPutnika = false;
       this.poruka1 = "";

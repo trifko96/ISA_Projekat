@@ -94,6 +94,9 @@ export class AerodromiComponent implements OnInit {
         },
         error => {
           this.poruka = "Uneto ime vec postoji!";
+          setTimeout(() => {
+            this.poruka = "";
+          }, 2000);
         }
         
       )
@@ -168,6 +171,9 @@ export class AerodromiComponent implements OnInit {
       },
       error => {
         this.porukaBrisanje = "Nije moguce brisanje aerodroma!";
+        setTimeout(() => {
+          this.porukaBrisanje = "";
+        }, 2000);
       }
     )
   }

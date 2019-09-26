@@ -272,7 +272,9 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-dark" (click)="zatvaranje()">Zatvori</button>
+                </div>
+                <div class="d-flex flex-row-reverse">
+                        <button class="btn btn-dark mt-3" (click)="zatvaranje()">Zatvori</button>
                 </div>
             </div>
       </ng-template>
@@ -294,17 +296,17 @@
                         </div>
                         <div class="row">
                                 <div class="col-6 pt-2">
-                                  <p class="font-italic">Cena prve klase :  {{letDetalji.cenaPrveKlase}}</p>
+                                  <p class="font-italic">Cena prve klase :  {{letDetalji.cenaPrveKlase}} EUR</p>
                                 </div>
                         </div>
                         <div class="row">
                                 <div class="col-6 pt-2">
-                                  <p class="font-italic">Cena biznis klase :  {{letDetalji.cenaKarteBiznisKlase}}</p>
+                                  <p class="font-italic">Cena biznis klase :  {{letDetalji.cenaKarteBiznisKlase}} EUR</p>
                                 </div>
                         </div>
                         <div class="row">
                                 <div class="col-6 pt-2">
-                                  <p class="font-italic">Cena ekonomske klase :  {{letDetalji.cenaKarteEkonomskeKlase}}</p>
+                                  <p class="font-italic">Cena ekonomske klase :  {{letDetalji.cenaKarteEkonomskeKlase}} EUR</p>
                                 </div>
                         </div>
                         <div class="row">
@@ -313,7 +315,9 @@
                                 </div>
                         </div>
                     </div>
-                    <button class="btn btn-dark" (click)="zatvaranjeDetalja()">Zatvori</button>
+                </div>
+                <div class="d-flex flex-row-reverse">
+                        <button class="btn btn-dark mt-3" (click)="zatvaranjeDetalja()">Zatvori</button>
                 </div>
             </div>
       </ng-template>
@@ -468,10 +472,14 @@
       
     <div class="col-12" *ngIf="rezervisanje && !prikazSedista && !prikazPutnika && !prikazPoruke && !prikazPoruke1">
         <h4>Izaberite klasu:</h4><br>
-            <div>
+            <div class="row">
                 <button class="btn btn-link" (click)="prikaziPrvuKlasu()">Prva</button>
                 <button class="btn btn-link" (click)="prikaziBiznisKlasu()">Biznis</button>
                 <button class="btn btn-link" (click)="prikaziEkonomskuKlasu()">Ekonomska</button>
+            </div>
+            <br><br>
+            <div class="row d-flex justify-content-center">
+                <button class="btn btn-secondary" (click)="nazadNaLetove()">Nazad</button>
             </div>
     </div>
     <div class="row">
@@ -485,11 +493,15 @@
         <button class="btn btn-warning" ></button>&nbsp;selektovano
     </div>
     <div class="col-1" *ngIf="rezervisanje && prikazSedista"><br><br><br><br><br><br><br><br><br><br><br><br>
-        <p class="text-danger">{{poruka2}}</p>
-        <button class="btn btn-dark" (click) = "dalje()">Dalje</button>
+        <button class="btn btn-secondary" (click) = "dalje()">Dalje</button>
     </div>
-    <div class="col-1" *ngIf="rezervisanje && prikazSedista"></div>
-    <div class="col-5" *ngIf="rezervisanje && prikazSedista">
+    <div class="col-1" *ngIf="rezervisanje && prikazSedista"><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <p class="text-danger">{{poruka2}}</p>
+    </div>
+    <div class="col-1" *ngIf="rezervisanje && prikazSedista"><br><br><br><br><br><br><br><br><br><br><br><br>
+            <button class="btn btn-secondary" (click) = "nazadNaKlase()">Nazad</button>
+    </div>
+    <div class="col-4" *ngIf="rezervisanje && prikazSedista">
         <h4>Odaberite sedista:</h4>
         <br>
         <ng-container *ngFor = "let s of sedistaZaIzmenu">
@@ -572,8 +584,11 @@
         </div>
         <p class="text-danger">{{poruka1}}</p>
         <div class="form-group row">
-            <div class="col-sm-12 text-center">
-                <button class="btn btn-dark" (click)="dalje1()">Dalje</button>
+            <div class="col-sm-6 text-center">
+                <button class="btn btn-secondary" (click)="dalje1()">Dalje</button>
+            </div>
+            <div class="col-sm-6 text-center">
+                <button class="btn btn-secondary" (click)="nazadNaSedista()">Nazad</button>
             </div>
         </div>
     </div>
