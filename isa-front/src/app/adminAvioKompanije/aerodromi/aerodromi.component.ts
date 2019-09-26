@@ -4,6 +4,8 @@ import { aerodromServis } from 'src/app/service/aerodromServis';
 import * as $ from 'jquery';
 import { korisnikServis } from 'src/app/service/korisnikServis';
 import { Router } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-aerodromi',
@@ -22,8 +24,10 @@ export class AerodromiComponent implements OnInit {
   imaPostojecih : boolean = true;
   porukaBrisanje = "";
   idKorisnika : number;
+  modalRef: BsModalRef;
 
-  constructor(private aerodromServis : aerodromServis, private korisnikServis : korisnikServis, private router : Router) {
+
+  constructor(private modalService: BsModalService, private aerodromServis : aerodromServis, private korisnikServis : korisnikServis, private router : Router) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
         if(data.provera == "ADMINISTRATOR_HOTELA"){
@@ -82,7 +86,8 @@ export class AerodromiComponent implements OnInit {
           this.aerodromServis.vratiAerodrome(this.idKorisnika).subscribe(
             data => {
               this.aerodromi = data;
-              this.prikazFormeZaDodavanjeNovog = false;
+              //this.prikazFormeZaDodavanjeNovog = false;
+              this.modalRef.hide();
               this.noviAerodrom = new Aerodrom();
             }
           )
@@ -95,19 +100,28 @@ export class AerodromiComponent implements OnInit {
     }
   }
 
-  dodajNovi(){
-    this.prikazFormeZaDodavanjeNovog = true;
+  dodajNovi(template: TemplateRef<any>){
+    //this.prikazFormeZaDodavanjeNovog = true;
+    this.modalRef = this.modalService.show(template);
   }
 
-  dodajPostojeci(){
-    this.prikazFormeZaDodavanjePostojeceg = true;
+  zatvaranjeModala(){
+    this.modalRef.hide();
+    this.noviAerodrom = new Aerodrom();
+    this.poruka = "";
+  }
+
+  dodajPostojeci(template: TemplateRef<any>){
+    //this.prikazFormeZaDodavanjePostojeceg = true;
+    this.modalRef = this.modalService.show(template);
     if(this.postojeciAerodromi.length == 0){
       this.imaPostojecih = false;
     }
   }
 
   Zatvori(){
-    this.prikazFormeZaDodavanjePostojeceg = false;
+    //this.prikazFormeZaDodavanjePostojeceg = false;
+    this.modalRef.hide();
   }
 
   DodajPostojeci(){
@@ -121,7 +135,8 @@ export class AerodromiComponent implements OnInit {
         this.aerodromServis.vratiAerodrome(this.idKorisnika).subscribe(
           data => {
             this.aerodromi = data;
-            this.prikazFormeZaDodavanjePostojeceg = false;
+            //this.prikazFormeZaDodavanjePostojeceg = false;
+            this.modalRef.hide();
             this.aerodromiZaSlanje = [];
             this.aerodromServis.vratiSlobodne(this.idKorisnika).subscribe(
               data => {

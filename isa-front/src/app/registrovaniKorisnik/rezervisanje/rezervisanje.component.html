@@ -147,7 +147,7 @@
 				<table class="table table-sm table-striped border mt-2" >
 					<thead class="thead">
 						<tr>
-                            <th style="text-align: center;">Avion</th>
+                            <!-- <th style="text-align: center;">Avion</th> -->
 							<th style="text-align: center;">Vreme poletanja</th>
                             <th style="text-align: center;">Vreme sletanja</th>
                             <th style="text-align: center;">Vreme polaska nazad</th>
@@ -155,16 +155,17 @@
 							<th style="text-align: center;">Mesto poletanja</th>
 							<th style="text-align: center;">Mesto sletanja</th>
 							<th style="text-align: center;">Lokacije presedanja</th>
-                            <th style="text-align: center;">Cena prve klase (EUR)</th>
-							<th style="text-align: center;">Cena biznis klase (EUR)</th>
-                            <th style="text-align: center;">Cena ekonomske klase (EUR)</th>
-                            <th style="text-align: center;">Prosecna ocena</th>
+                            <!-- <th style="text-align: center;">Cena prve klase (EUR)</th> -->
+							<!-- <th style="text-align: center;">Cena biznis klase (EUR)</th> -->
+                            <!-- <th style="text-align: center;">Cena ekonomske klase (EUR)</th> -->
+                            <!-- <th style="text-align: center;">Prosecna ocena</th> -->
+                            <th style="text-align: center;">&nbsp;</th>
                             <th style="text-align: center;">&nbsp;</th>
 						</tr>
 					</thead>
 					<tbody >
                         <tr *ngFor = "let l of letovi" >
-                            <td>{{l.avion.ime}}</td>
+                            <!-- <td>{{l.avion.ime}}</td> -->
                             <td>{{l.datumPoletanja.slice(0,10)}} {{l.datumPoletanja.slice(11,19)}}</td>
                             <td>{{l.datumSletanja.slice(0,10)}} {{l.datumSletanja.slice(11,19)}}</td>
                             <td *ngIf="l.tip == 'ROUND_TRIP'">{{l.datumPolaskaNazad.slice(0,10)}} {{l.datumPolaskaNazad.slice(11,19)}}</td>
@@ -174,10 +175,11 @@
                             <td>{{l.polaznaDestinacija.ime}} {{l.polaznaDestinacija.grad}}</td>
                             <td>{{l.odredisnaDestinacija.ime}} {{l.odredisnaDestinacija.grad}}</td>
                             <td><button class="btn btn-link" (click)="prikaziLokacije(l, template1)">Prikazi</button></td>
-                            <td>{{l.cenaPrveKlase}}</td>
-                            <td>{{l.cenaKarteBiznisKlase}}</td>
-                            <td>{{l.cenaKarteEkonomskeKlase}}</td>
-                            <td>{{l.prosecnaOcena}}</td>
+                            <!-- <td>{{l.cenaPrveKlase}}</td> -->
+                            <!-- <td>{{l.cenaKarteBiznisKlase}}</td> -->
+                            <!-- <td>{{l.cenaKarteEkonomskeKlase}}</td> -->
+                            <!-- <td>{{l.prosecnaOcena}}</td> -->
+                            <td><button class="btn btn-link" (click) = "detalji(l, templateD)">Detalji</button></td>
                             <td><button class="btn btn-link" (click) = "rezervisi(l)">Rezervisi</button></td>
                         </tr>
 					</tbody>
@@ -271,6 +273,47 @@
                         </div>
                     </div>
                     <button class="btn btn-dark" (click)="zatvaranje()">Zatvori</button>
+                </div>
+            </div>
+      </ng-template>
+
+      <ng-template #templateD>
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Detalji o letu:</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
+                    <div class="list-group-item" style="display: block">
+                        <div class="row">
+                            <div class="col-6 pt-2">
+                              <p class="font-italic">Avion :  {{letDetalji.avion.ime}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-6 pt-2">
+                                  <p class="font-italic">Cena prve klase :  {{letDetalji.cenaPrveKlase}}</p>
+                                </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-6 pt-2">
+                                  <p class="font-italic">Cena biznis klase :  {{letDetalji.cenaKarteBiznisKlase}}</p>
+                                </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-6 pt-2">
+                                  <p class="font-italic">Cena ekonomske klase :  {{letDetalji.cenaKarteEkonomskeKlase}}</p>
+                                </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-6 pt-2">
+                                  <p class="font-italic">Prosecna ocena :  {{letDetalji.prosecnaOcena}}</p>
+                                </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-dark" (click)="zatvaranjeDetalja()">Zatvori</button>
                 </div>
             </div>
       </ng-template>

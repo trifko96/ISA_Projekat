@@ -10,6 +10,8 @@ import { letServis } from 'src/app/service/letServis';
 import { AvionskaKarta } from 'src/app/model/AvionskaKarta';
 import { korisnikServis } from 'src/app/service/korisnikServis';
 import { Router } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-letovi',
@@ -42,8 +44,10 @@ export class LetoviComponent implements OnInit {
   avioKarte : AvionskaKarta[] = [];
   prikazBrzihKarata : boolean = false;
   idKorisnika : number;
+  modalRef: BsModalRef;
+  letDetalji : Let = new Let();
 
-  constructor(private avionServis : avionServis, private aeroServis : aerodromServis, private letServis : letServis, private korisnikServis : korisnikServis, private router : Router) {
+  constructor(private modalService: BsModalService, private avionServis : avionServis, private aeroServis : aerodromServis, private letServis : letServis, private korisnikServis : korisnikServis, private router : Router) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
         if(data.provera == "ADMINISTRATOR_HOTELA"){
@@ -92,8 +96,14 @@ export class LetoviComponent implements OnInit {
   ngOnInit() {
   }
 
-  dodaj(){
-    this.prikazFormeZaDodavanje = true;
+  dodaj(template: TemplateRef<any>){
+    //this.prikazFormeZaDodavanje = true;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  zatvaranjeModala(){
+    this.modalRef.hide();
+    this.prikazDalje = false;
   }
 
   dalje(){
@@ -110,13 +120,15 @@ export class LetoviComponent implements OnInit {
     }
   }
 
-  prikaziLokacije(l : Let){
+  prikaziLokacije(l : Let, template: TemplateRef<any>){
     this.lokacijeZaPrikaz = l.lokacije;
-    this.prikazLokacija = true;
+    //this.prikazLokacija = true;
+    this.modalRef = this.modalService.show(template);
   }
 
   zatvori(){
-    this.prikazLokacija = false;
+    //this.prikazLokacija = false;
+    this.modalRef.hide();
   }
 
   dodavanjeLeta(){
@@ -239,6 +251,7 @@ export class LetoviComponent implements OnInit {
             }
           }
           this.prikazFormeZaDodavanje = false;
+          this.modalRef.hide();
           this.prikazDalje = false;
           this.noviLet = new Let();
           this.selektovanaOpcija = "";
@@ -260,15 +273,26 @@ export class LetoviComponent implements OnInit {
   }
 
   ok(){
-    this.prikazBrzihKarata = false;
+    //this.prikazBrzihKarata = false;
+    this.modalRef.hide();
   }
 
-  prikazKarata(l : Let){
+  prikazKarata(l : Let, template: TemplateRef<any>){
     this.avionServis.vratiKarte(l).subscribe(
       data => {
         this.avioKarte = data;
-        this.prikazBrzihKarata = true;
+        //this.prikazBrzihKarata = true;
+        this.modalRef = this.modalService.show(template);
       }
     )
+  }
+
+  detalji(l : Let, template: TemplateRef<any>){
+    this.letDetalji = l;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  zatvaranjeDetalja(){
+    this.modalRef.hide();
   }
 }

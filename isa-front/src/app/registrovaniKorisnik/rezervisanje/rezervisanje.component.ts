@@ -70,6 +70,7 @@ export class RezervisanjeComponent implements OnInit {
   filterLet : FilterLet = new FilterLet();
   gornji : boolean = true;
   donji : boolean = false;
+  letDetalji : Let = new Let();
 
   selektovanaOpcija1;
   porukaOcenjivanje1 : string = "";
@@ -251,6 +252,11 @@ export class RezervisanjeComponent implements OnInit {
     }
   }
 
+  detalji(l : Let, template: TemplateRef<any>){
+    this.letDetalji = l;
+    this.modalRef = this.modalService.show(template);
+  }
+
   filtriraj(){
     let provera = false;
     if(this.selektovanaKompanija == ""){
@@ -299,6 +305,10 @@ export class RezervisanjeComponent implements OnInit {
   zatvaranje(){
     this.modalRef.hide();
     //this.prikazLokacija = false;
+  }
+
+  zatvaranjeDetalja(){
+    this.modalRef.hide();
   }
 
   rezervisi(l : Let){

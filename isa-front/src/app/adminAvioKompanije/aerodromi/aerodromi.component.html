@@ -9,8 +9,8 @@
                         <h5 class="mt-2">Destinacije saobracanja:</h5> 
                 </div>
                 <div class="col-4 py-1 px-3">
-                        <button class="btn btn-secondary ml-2 float-right" (click)="dodajPostojeci()">Dodaj postojeci</button>
-                        <button class="btn btn-secondary float-right" (click)="dodajNovi()">Dodaj novi</button>         
+                        <button class="btn btn-secondary ml-2 float-right" (click)="dodajPostojeci(templateDP)">Dodaj postojeci</button>
+                        <button class="btn btn-secondary float-right" (click)="dodajNovi(templateDN)">Dodaj novi</button>         
                 </div>
             </div>      
             <table class="table table-sm table-striped border mt-2">
@@ -32,7 +32,7 @@
           </div>
           <p class="text-danger">{{porukaBrisanje}}</p>
         </div>
-          <div class="col-6" *ngIf = "prikazFormeZaDodavanjeNovog">
+          <!-- <div class="col-6" *ngIf = "prikazFormeZaDodavanjeNovog"> 
                 <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Ime:</label>
                         <div class="col-sm-10">
@@ -51,8 +51,77 @@
                           <button class="btn btn-dark" (click)="Dodaj()">Dodaj</button>
                         </div>
                 </div>
-          </div>
-          <div class="col-6" *ngIf = "prikazFormeZaDodavanjePostojeceg">
+          </div>-->
+          <ng-template #templateDN>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">Dodaj aerodrom:</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="zatvaranjeModala()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">Ime:</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="imeAero" [(ngModel)] = "noviAerodrom.ime" [ngModelOptions] = "{standalone:true}">
+                      </div>
+              </div>
+              <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">Grad:</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="gradAero" [(ngModel)] = "noviAerodrom.grad" [ngModelOptions] = "{standalone:true}">
+                      </div>
+              </div>
+              <div class="form-group row">
+                      <div class="col-sm-10 text-center">
+                        <p class="text-danger">{{poruka}}</p>
+                        <button class="btn btn-dark" (click)="Dodaj()">Dodaj</button>
+                      </div>
+              </div>   
+              </div>
+        </ng-template>
+
+        <ng-template #templateDP>
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Dodaj aerodrom:</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-4 form-group">
+                        <div class="list-group w-100" style="max-height: 191px; overflow-y:  scroll;">
+                            <div *ngFor="let p of postojeciAerodromi"class="list-group-item" style="display: block">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" [(ngModel)]="p.isChecked" [ngModelOptions]="{standalone: true}">
+                                    <label class="form-check-label">{{p.ime}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row" *ngIf = "imaPostojecih">
+                    <div class="col-sm-10 text-center">
+                        <button class="btn btn-dark" (click)="DodajPostojeci()">Dodaj</button>
+                    </div>
+                </div>
+                <div class="form-group row" *ngIf = "!imaPostojecih">
+                    <p class="text-danger text-center">
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            
+                            Nema postojecih aerodroma u sistemu!</p>
+                </div>
+                <div class="form-group row" *ngIf = "!imaPostojecih">
+                    <div class="col-sm-10 text-center">
+                        <button class="btn btn-dark" (click)="Zatvori()">OK</button>
+                    </div>
+                </div>
+            </div>
+      </ng-template>
+
+          <!-- <div class="col-6" *ngIf = "prikazFormeZaDodavanjePostojeceg"> 
             <div class="form-group row">
                 <div class="col-4 form-group">
                     <div class="list-group w-100" style="max-height: 191px; overflow-y:  scroll;">
@@ -81,6 +150,6 @@
                     <button class="btn btn-dark" (click)="Zatvori()">OK</button>
                 </div>
             </div>          
-          </div>
+          </div>-->
         </div>
 </div>

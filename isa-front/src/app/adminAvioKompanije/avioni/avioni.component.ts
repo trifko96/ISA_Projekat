@@ -6,6 +6,8 @@ import * as $ from 'jquery';
 import { Sediste } from 'src/app/model/Sediste';
 import { korisnikServis } from 'src/app/service/korisnikServis';
 import { Router } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-avioni',
@@ -42,13 +44,14 @@ export class AvioniComponent implements OnInit {
   imeKlase : string = "";
   porukaZaIzmenu : string = "";
   selektovanaOpcija : string = "";
+  modalRef: BsModalRef;
   opcije = [
     {name: "OBRISANO", value: "OBRISANO"},
     {name: "SLOBODNO", value: "SLOBODNO"},
     {name: "BRZA_REZERVACIJA", value: "BRZA_REZERVACIJA"}
   ]
 
-  constructor(private avionServis : avionServis, private korisnikServis : korisnikServis, private router : Router) {
+  constructor(private modalService: BsModalService, private avionServis : avionServis, private korisnikServis : korisnikServis, private router : Router) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
         if(data.provera == "ADMINISTRATOR_HOTELA"){
@@ -79,9 +82,24 @@ export class AvioniComponent implements OnInit {
   ngOnInit() {
   }
 
-  dodajAvion(){
-    this.prikazFormeZaDodavanjeAviona = true;
+  zatvaranjeModala(){
+    this.modalRef.hide();
+    this.avion.ime = "";
+    this.brRedPrva = 0;
+    this.brKolPrva = 0;
+    this.brRedBiznis = 0;
+    this.brKolBiznis = 0;
+    this.brRedEkonomska = 0;
+    this.brKolEkonomska = 0;
+    this.poruka = "";
   }
+
+  dodajAvion(template: TemplateRef<any>){
+    //this.prikazFormeZaDodavanjeAviona = true;
+    this.modalRef = this.modalService.show(template);
+  }
+
+
 
   dodaj(){
     let provera : boolean = false;
@@ -165,6 +183,7 @@ export class AvioniComponent implements OnInit {
           this.brRedEkonomska = 0;
           this.brKolEkonomska = 0;
           this.prikazFormeZaDodavanjeAviona = false;
+          this.modalRef.hide();
         },
         error => {
           this.poruka = "Uneto ime vec postoji!";
@@ -173,10 +192,11 @@ export class AvioniComponent implements OnInit {
     }
   }
 
-  izmeniAvion(a : Avion) {
+  izmeniAvion(a : Avion, template: TemplateRef<any>) {
     this.avionIzmena.id = a.id;
     this.trenutnoIme = a.ime;
     this.prikazFormeZaIzmenuAviona = true;
+    this.modalRef = this.modalService.show(template);
   }
 
   promena(){
@@ -193,6 +213,7 @@ export class AvioniComponent implements OnInit {
       this.avionServis.izmeniAvion(this.avionIzmena).subscribe(
         data => {
           this.prikazFormeZaIzmenuAviona = false;
+          this.modalRef.hide();
           this.avioni = data;
           this.porukaZaIzmenu = "";
         }, 
@@ -201,6 +222,11 @@ export class AvioniComponent implements OnInit {
         }
       )
     }
+  }
+
+  zatvaranjeModalaIzmena(){
+    this.modalRef.hide();
+    this.porukaZaIzmenu = "";
   }
 
   izmeniPrvuKlasu(a : Avion){
