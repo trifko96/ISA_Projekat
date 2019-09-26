@@ -54,10 +54,11 @@ public class SedisteServis {
 	@Autowired
 	KorisnikRepozitorijum korisnikRepo;
 	
+	@Transactional
 	public void izmeniSediste(SedisteDTO s) {
-		Sediste sediste = repozitorijum.vratiSediste(s.getId());
+		Sediste sediste = repozitorijum.vratiSedistePoId(s.getId());
 		sediste.setStatus(s.getStatus());
-		AvionskaKarta a = kartaRepo.vratiKartu(sediste.getId());
+		AvionskaKarta a = kartaRepo.vratiKartuPoSedistu(sediste.getId());
 		Let l = letRepozitorijum.vratiLetPoAvionu(sediste.getSegment().getAvion().getId());
 		if(s.getStatus().equals(StatusSedista.BRZA_REZERVACIJA)) {
 			if(a != null) {
@@ -131,7 +132,7 @@ public class SedisteServis {
 	public String brzoRezervisi(AvionskaKartaDTO a, Korisnik k) {
 		AvionskaKarta karta = kartaRepo.vratiKartuPoId(a.getId());
 		Sediste s = repozitorijum.vratiSedistePoKarti(karta.getIdKarte());
-		if(karta.getSediste().getStatus().equals(StatusSedista.REZERVISANO)) {
+		if(!karta.getSediste().getStatus().equals(StatusSedista.BRZA_REZERVACIJA)) {
 			return "greska";
 		} else {
 			karta.setImePutnika(k.getIme());
@@ -162,7 +163,7 @@ public class SedisteServis {
 		List<Korisnik> korisnici = korisnikRepo.findAll();
 		int br = 0;
 		for(Sediste sed : sedista) {
-			if(sed.getStatus().equals(StatusSedista.REZERVISANO)) {
+			if(!sed.getStatus().equals(StatusSedista.SLOBODNO)) {
 				br++;
 			}
 		}
