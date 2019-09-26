@@ -5,10 +5,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ISA.project.dto.AerodromDTO;
 import ISA.project.dto.AvioKompanijaDTO;
@@ -190,7 +190,7 @@ public class VoziloServis {
 	}
 	
 	@Transactional
-	public String brzoRezervisi(RezervacijaDTO r, Korisnik k) {
+	public Rezervacija rezervisi(RezervacijaDTO r, Korisnik k) {
 		Rezervacija rezervacija = new Rezervacija();
 		
 		ArrayList<Long> ids = new ArrayList<>();
@@ -202,7 +202,6 @@ public class VoziloServis {
 		
 		List<Sediste> sedista = sedisteRepo.vratiSedista(ids);
 		
-		RezervacijaVozilo rezVozilo = new RezervacijaVozilo();
 		List<Korisnik> korisnici = korisnikRepo.findAll();
 		//Vozilo voz = repozitorijum.vratiVoziloPoNazivu(v.getId());
 		int br = 0;
@@ -212,7 +211,7 @@ public class VoziloServis {
 			}
 		}
 		if(br != 0) {
-			return "greska";
+			return null;
 		} else {
 			for(RezervacijaKarataDTO rdto : r.getKarte()) {
 					for(AvionskaKarta av : listaKarata) {
@@ -243,23 +242,33 @@ public class VoziloServis {
 						}
 					}
 			}
-			rezVozilo.setTrenutniDatumRezervacija(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-			rezVozilo.setDatumRezervacijaOd(r.getRezervacijaVozilo().getDatumRezervacijaOd());
-			rezVozilo.setEmailKorisnika(r.getRezervacijaVozilo().getEmailKorisnika());
-			rezVozilo.setMestoPreuzimanja(r.getRezervacijaVozilo().getMestoPreuzimanja());
-			rezVozilo.setMestoVracanja(r.getRezervacijaVozilo().getMestoVracanja());
-			rezVozilo.setOtkazano(false);
-			Vozilo vozilo = repozitorijum.vratiVoziloPoNazivu(r.getRezervacijaVozilo().getVozilo().getId());
-			rezVozilo.setVozilo(vozilo);
-			//voz.getRezervacije().add(rezervacija);
-			rezVozilo.setDatumRezervacijaDo(r.getRezervacijaVozilo().getDatumRezervacijaDo());
-			rezervacija.setRezervacijaVozilo(rezVozilo);
-			rezVozRepozitorijum.save(rezVozilo);
-			rezervacijaRepo.save(rezervacija);
-			return "ok";
+			Rezervacija rez = rezervacijaRepo.save(rezervacija);
+			return rez;
 		}
 	}
 	
+	
+	@Transactional
+	public String brzoRezervisi(RezervacijaDTO r, Korisnik k, Rezervacija rez) {
+		Rezervacija rezervacija = rezervacijaRepo.getOne(rez.getId());
+		
+		RezervacijaVozilo rezVozilo = new RezervacijaVozilo();
+		rezVozilo.setTrenutniDatumRezervacija(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+		rezVozilo.setDatumRezervacijaOd(r.getRezervacijaVozilo().getDatumRezervacijaOd());
+		rezVozilo.setEmailKorisnika(r.getRezervacijaVozilo().getEmailKorisnika());
+		rezVozilo.setMestoPreuzimanja(r.getRezervacijaVozilo().getMestoPreuzimanja());
+		rezVozilo.setMestoVracanja(r.getRezervacijaVozilo().getMestoVracanja());
+		rezVozilo.setOtkazano(false);
+		Vozilo vozilo = repozitorijum.vratiVoziloPoNazivu(r.getRezervacijaVozilo().getVozilo().getId());
+		rezVozilo.setVozilo(vozilo);
+		//voz.getRezervacije().add(rezervacija);
+		rezVozilo.setDatumRezervacijaDo(r.getRezervacijaVozilo().getDatumRezervacijaDo());
+		rezervacija.setRezervacijaVozilo(rezVozilo);
+		rezVozRepozitorijum.save(rezVozilo);
+		rezervacijaRepo.save(rezervacija);
+		return "ok";
+	}
+		
 	public List<VoziloDTO> pretraziVozilo(PretragaVoziloDTO p, long id){
 		List<Vozilo> vozila = repozitorijum.findAll();
 		List<RezervacijaVozilo> rezervacijeVozila = rezVozRepozitorijum.findAll(); 

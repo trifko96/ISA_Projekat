@@ -28,6 +28,7 @@ import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
 import ISA.project.model.Let;
 import ISA.project.model.RentACar;
+import ISA.project.model.Rezervacija;
 import ISA.project.model.RezervacijaVozilo;
 import ISA.project.model.Segment;
 import ISA.project.model.TipKlase;
@@ -152,7 +153,11 @@ public class VoziloKontroler {
 		} else {
 			cena = l.getCenaPrveKlase();
 		}
-		String poruka = servis.brzoRezervisi(r, k);
+		Rezervacija povratnaRezervacija = servis.rezervisi(r, k);
+		String poruka = "";
+		if(povratnaRezervacija != null) {
+			poruka = servis.brzoRezervisi(r, k, povratnaRezervacija);
+		}
 		if(poruka.equals("ok")) {
 			try {
 				eservis.rezervacijaInformacijeBrzoVozilo(r, k, l, s, r.getRezervacijaVozilo().getVozilo());
