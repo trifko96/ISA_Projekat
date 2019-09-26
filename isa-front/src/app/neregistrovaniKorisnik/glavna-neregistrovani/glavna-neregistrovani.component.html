@@ -1,7 +1,13 @@
-<ul class="nav nav-tabs bg-dark navbar-right">
-   <li class="nav-item" *ngFor="let link of navLinks">
-     <a class="nav-link" [routerLink]="link.path" >{{link.label}}</a>
-   </li>
-</ul>
+<ul class="nav nav-tabs bg-light pl-3">
+    <li class="nav-item" *ngFor="let link of navLinks">
+      <a class="nav-link text-primary" [routerLink]="link.path" >{{link.label}}</a>
+    </li>
+    <li class="mx-5 px-5"></li>
+    <li class="mx-5 px-5"></li>
+    <li class="mx-5"></li>
+    <li class="ml-5 pt-1">
+        <button class="btn btn-link" (click)="logout()">Odjavi se</button>
+    </li>
+  </ul>
   
   <router-outlet></router-outlet>
