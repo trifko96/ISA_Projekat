@@ -155,4 +155,27 @@ public class AvionServisTest {
 		assertEquals(s, "ok");
 		verify(repozitorijumMock, times(1)).findAll();
 	}
+	
+	@Test
+	@Transactional
+    @Rollback(true)
+	public void testIzmeniAvion() {
+		Avion avion = new Avion();
+		avion.setId(1);
+		avion.setIme("Avion");
+		avion.setSlobodan(true);
+		List<Avion> lista = new ArrayList<>();
+		AvionDTO adto = new AvionDTO();
+		adto.setId(1);
+		adto.setIme("Avion1");
+		
+		when(repozitorijumMock.vratiAvion(1)).thenReturn(avion);
+		when(repozitorijumMock.vratiOstaleAvione(1)).thenReturn(lista);
+		String s = avionServis.izmeniAvion(adto);
+		assertEquals(s, "ok");
+		verify(repozitorijumMock, times(1)).vratiAvion(1);
+		verify(repozitorijumMock, times(1)).vratiOstaleAvione(1);
+		verify(repozitorijumMock, times(1)).save(avion);
+		verifyNoMoreInteractions(repozitorijumMock);
+	}
 }
