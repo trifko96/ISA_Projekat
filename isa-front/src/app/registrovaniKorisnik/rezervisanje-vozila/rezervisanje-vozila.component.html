@@ -11,7 +11,7 @@
                     <h5 class="mt-2">Rent a car servisi:</h5> 
             </div>
             <div class="col-4 py-1 px-3">
-                    <button class="btn btn-secondary ml-2 float-right" (click)="prikaziBrzaVozila()">Brza rezervacija</button>
+                    <button class="btn btn-secondary ml-2 float-right" (click)="prikaziBrzaVozila(template4)">Brza rezervacija</button>
                     <button class="btn btn-secondary float-right" (click)="pretragaServisa(template3)">Pretrazi</button>    
             </div>
         </div> 
@@ -79,8 +79,49 @@
       </div> -->
 
 
+      <ng-template #template4>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Spisak vozila za brzu rezervaciju:</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Marka</th>
+                      <th>Model</th>
+                      <th>Godine proizvodnje</th>
+                      <th>Broj sedista</th>
+                      <th>Tip</th>
+                      <th>Cena</th>
+                      <th>Popust</th>
+                      <th>&nbsp;</th> 
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let b of brzaVozila">
+                      <td>{{b.marka}}</td>
+                      <td>{{b.model}}</td>
+                      <td>{{b.godinaProizvodnje}}</td>
+                      <td>{{b.brSedista}}</td>
+                      <td>{{b.tip}}</td>
+                      <td>{{b.cena}} EUR</td>
+                      <td>{{b.popust}}%</td>
+                      <td><button class="btn btn-link" (click)="brzoRezervisi(b)">Rezervisi</button></td>
+                    </tr>
+                  </tbody>
+              </table>
+              <p class="text-danger">{{greskaPriBrzojRezervaciji}}</p>
+              <br>
+              <button class="btn btn-dark" (click)="zatvori()">Zatvori</button>
+          </div>
+    </ng-template>
 
-      <div class="col-6" style="max-height: 420px; overflow-y:  scroll;" *ngIf="prikazBrzihVozila">
+
+
+      <!-- <div class="col-6" style="max-height: 420px; overflow-y:  scroll;" *ngIf="prikazBrzihVozila">
         <br><br>
             <h4>Spisak vozila za brzu rezervaciju:</h4>
             <br>
@@ -94,7 +135,7 @@
                     <th>Tip</th>
                     <th>Cena</th>
                     <th>Popust</th>
-                    <th>&nbsp;</th>
+                    <th>&nbsp;</th> 
                   </tr>
                 </thead>
                 <tbody *ngFor="let b of brzaVozila">
@@ -113,7 +154,7 @@
             <p class="text-danger">{{greskaPriBrzojRezervaciji}}</p>
             <br>
             <button class="btn btn-dark" (click)="zatvori()">Zatvori</button>
-      </div>
+      </div> -->
 
       <ng-template #template2>
           <div class="modal-header">
@@ -367,8 +408,8 @@
                     <div class="col-sm-9">
                         <p class="text-danger">{{porukaOcenjivanje}}</p>
                     </div>
-                    <div class="col-sm-3">
-                      <button class="btn btn-dark" (click)="Oceni()">Sacuvaj</button>
+                    <div class="col-sm-12">
+                      <button class="btn btn-secondary float-right" (click)="Oceni()">Sacuvaj</button>
                    </div>  
                     
             </div>

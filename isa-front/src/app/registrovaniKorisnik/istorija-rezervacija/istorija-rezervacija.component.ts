@@ -7,6 +7,9 @@ import * as $ from 'jquery';
 import { voziloServis } from 'src/app/service/voziloServis';
 import { korisnikServis } from 'src/app/service/korisnikServis';
 import { RezervacijaVozilo } from 'src/app/model/RezervacijaVozilo';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { TemplateRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-istorija-rezervacija',
@@ -14,6 +17,8 @@ import { RezervacijaVozilo } from 'src/app/model/RezervacijaVozilo';
   styleUrls: ['./istorija-rezervacija.component.css']
 })
 export class IstorijaRezervacijaComponent implements OnInit {
+
+  modalRef: BsModalRef;
 
   letovi : Let[] = [];
   porukaBrisanje : string = "";
@@ -48,7 +53,7 @@ export class IstorijaRezervacijaComponent implements OnInit {
 
   idKorisnika : number;
 
-  constructor(private router : Router, private letServis : letServis, private voziloServis : voziloServis, private korisnikServis : korisnikServis) {
+  constructor(private modalService: BsModalService, private router : Router, private letServis : letServis, private voziloServis : voziloServis, private korisnikServis : korisnikServis) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
     data => {
       if(data.provera == "ADMINISTRATOR_HOTELA"){
@@ -72,7 +77,7 @@ export class IstorijaRezervacijaComponent implements OnInit {
           }
         }
       }
-    )
+    ) 
 
     this.voziloServis.vratiRezezrvisanaVozila().subscribe(
       data => {
@@ -134,13 +139,13 @@ export class IstorijaRezervacijaComponent implements OnInit {
     )
   }
 
-  oceni(l : Let){
-    this.prikazFormeZaOcenjivanjeLeta = true;
+  oceni(l : Let, template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
     this.letZaOcenjivanje = l;
   }
 
-  oceni1(r : RezervacijaVozilo){
-    this.prikazFormeZaOcenjivanjeVozila = true;
+  oceni1(r : RezervacijaVozilo, template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
     this.rezervacijaZaOcenjivanje = r;
   }
  
@@ -149,7 +154,7 @@ export class IstorijaRezervacijaComponent implements OnInit {
     if(this.porukaOcenjivanje == ""){
       this.letServis.oceniLet(this.letZaOcenjivanje.id, this.idKorisnika, this.selektovanaOpcija).subscribe(
         data => {
-              this.prikazFormeZaOcenjivanjeLeta = false;
+              this.modalRef.hide();
               this.letovi = data;
               for(let l of this.letovi){
                 if(l.brojOcena != 0){
@@ -176,7 +181,7 @@ export class IstorijaRezervacijaComponent implements OnInit {
     if(this.porukaOcenjivanje1 == ""){
       this.voziloServis.oceniVozilo(this.rezervacijaZaOcenjivanje.idRezVozilo, this.idKorisnika, this.selektovanaOpcija1).subscribe(
         data => {
-              this.prikazFormeZaOcenjivanjeVozila = false;
+              this.modalRef.hide();
               this.rezervacije = data;
               for(let r of this.rezervacije){
                 if(r.brOcena != 0){

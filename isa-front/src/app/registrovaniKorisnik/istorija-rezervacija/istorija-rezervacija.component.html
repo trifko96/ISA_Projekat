@@ -12,7 +12,7 @@
                         <th>Tip</th>
                         <th>Avion</th>
                         <th>Datum i vreme poletanja</th>
-                        <th>Datum i vreme sletanja</th>
+                        <th>Datum i vreme sletanja</th> 
                         <th>Mesto poletanja</th>
                         <th>Mesto sletanja</th>
                         <th>Prosecna ocena</th>
@@ -29,7 +29,7 @@
                         <td>{{l.polaznaDestinacija.ime}} {{l.polaznaDestinacija.grad}}</td>
                         <td>{{l.odredisnaDestinacija.ime}} {{l.odredisnaDestinacija.grad}}</td>
                         <td>{{l.prosecnaOcena}}</td>
-                        <td><button class="btn btn-link" (click) = "oceni(l)">Oceni</button></td>
+                        <td><button class="btn btn-link" (click) = "oceni(l, template)">Oceni</button></td>
                         <td><button class="btn btn-link" (click) = "obrisi(l)">Otkazi</button></td>
                     </tr>
                 </tbody>
@@ -60,7 +60,7 @@
                             <td>{{r.emailKorisnika}}</td>
                             <td>{{r.prosecnaOcena}}</td>
                             <td>{{r.vozilo.marka}}</td>
-                            <td><button class="btn btn-link" (click) = "oceni1(r)">Oceni</button></td>
+                            <td><button class="btn btn-link" (click) = "oceni1(r, template1)">Oceni</button></td>
                             <td><button class="btn btn-link" (click) = "obrisiVozilo(r)">Otkazi</button></td>
                         </tr>
                     </tbody>
@@ -68,9 +68,33 @@
                 <p class="text-danger">{{porukaBrisanje1}}</p>
             </div>
 
-            <div class="col-6" *ngIf = "prikazFormeZaOcenjivanjeLeta">
+            <ng-template #template>
+                    <div class="modal-header">
+                      <h4 class="modal-title pull-left">Ocena leta:</h4>
+                      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div> 
+                    <div class="modal-body">
+                            <div class="form-group row px-5">
+                                        <select class="form-control mx-1" [(ngModel)]="selektovanaOpcija" id="ocenaLet">
+                                            <option class="form-control" *ngFor="let o of opcije">
+                                                {{o.name}}
+                                            </option>
+                                        </select> 
+                            </div>
+                            <div class="form-group row px-5">
+                                    <div class="col-sm-12 text-center">
+                                      <p class="text-danger">{{porukaOcenjivanje}}</p>
+                                      <button class="btn btn-secondary float-right" (click)="Oceni()">Sacuvaj</button>
+                                    </div>
+                            </div>
+                    </div>
+              </ng-template>
+
+
+            <!-- <div class="col-6" *ngIf = "prikazFormeZaOcenjivanjeLeta">
                     <div class="form-group row">
-                            <label class="col-sm-5 col-form-label">Ocena leta:</label>
                                 <div class="col-sm-7">
                                     <select [(ngModel)]="selektovanaOpcija" id="ocenaLet">
                                         <option *ngFor="let o of opcije">
@@ -85,11 +109,34 @@
                                   <button class="btn btn-dark" (click)="Oceni()">Sacuvaj</button>
                                 </div>
                         </div>
-            </div>
+            </div> -->
 
-            <div class="col-6" *ngIf = "prikazFormeZaOcenjivanjeVozila">
+            <ng-template #template1>
+                    <div class="modal-header">
+                      <h4 class="modal-title pull-left">Ocena rezervacije vozila:</h4>
+                      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div> 
+                    <div class="modal-body">
+                            <div class="form-group row px-5">
+                                        <select class="form-control mx-1" [(ngModel)]="selektovanaOpcija1" id="ocenaVozilo">
+                                            <option class="form-control" *ngFor="let o1 of opcije1">
+                                                {{o1.name}}
+                                            </option>
+                                        </select>
+                            </div>
+                            <div class="form-group row px-5">
+                                    <div class="col-sm-12 text-center">
+                                      <p class="text-danger">{{porukaOcenjivanje1}}</p>
+                                      <button class="btn btn-secondary float-right" (click)="Oceni1()">Sacuvaj</button>
+                                    </div>
+                            </div>
+                    </div>
+              </ng-template>
+
+            <!-- <div class="col-6" *ngIf = "prikazFormeZaOcenjivanjeVozila">
                     <div class="form-group row">
-                            <label class="col-sm-5 col-form-label">Ocena vozila:</label>
                                 <div class="col-sm-7">
                                     <select [(ngModel)]="selektovanaOpcija1" id="ocenaVozilo">
                                         <option *ngFor="let o1 of opcije1">
@@ -104,6 +151,6 @@
                                   <button class="btn btn-dark" (click)="Oceni1()">Sacuvaj</button>
                                 </div>
                         </div>
-            </div>
+            </div> -->
     </div>
 </div>
