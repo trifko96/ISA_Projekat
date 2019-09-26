@@ -51,7 +51,7 @@ public class VoziloKontroler {
 	
 	@Autowired
 	RentACarServis carServis;
-	
+	 
 	@Autowired
 	KorisnikServis korisnikServis;
 	 

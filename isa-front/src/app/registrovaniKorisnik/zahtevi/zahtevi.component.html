@@ -1,9 +1,8 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-6">
+        <div class="col-6 pt-3">
             <h4>Moji prijatelji:</h4>
-            <br><br>
-                <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
+                <div class="list-group border rounded w-100 mt-1" style="max-height: 320px; overflow-y:  scroll;">
                     <div *ngFor="let p of prijatelji" class="list-group-item" style="display: block">
                         <div class="row">
                             <div class="col-9 pt-2">
@@ -16,23 +15,40 @@
                     </div>
                 </div>
         </div>
-        <div class="col-6" *ngIf="!prikaz">
+        <div class="col-6 pt-3">
             <h4>Pronadji korisnika:</h4>
-            <br><br>
-            <div class="form-group row">
+            <div class="form-group row mt-1">
                     <label class="col-sm-5 col-form-label">Ime i/ili prezime:</label>
-                    <div class="col-sm-7">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="pretragaIme" [(ngModel)] = "ime" [ngModelOptions] = "{standalone:true}"/>
                     </div>
-            </div><br>
-            <div class="form-group row">
-                <div class="col-sm-10 text-center">
-                    <button class="btn btn-secondary" (click)="pretrazi()">Pretrazi</button>
-                </div>
+                    <div class="col-sm-2 text-center">
+                            <button class="btn btn-secondary" (click)="pretrazi()">Pretrazi</button>
+                   </div>
             </div>
         </div>
-        <div class="col-6" *ngIf="prikaz">
-                <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
+       
+        <div class="w-100"></div>
+        <div class="col-6 mt-4 ">
+            <h4>Zahtevi za prijateljstvo:</h4>
+                <div class="list-group border rounded w-100 mt-1" style="max-height: 320px; overflow-y:  scroll;">
+                    <div *ngFor="let k of korisniciZahtevi" class="list-group-item" style="display: block">
+                        <div class="row">
+                            <div class="col-6 pt-2">
+                                <p class="font-italic">{{k.ime}}  {{k.prezime}}  {{k.brTelefona}} </p>
+                            </div>
+                            <div class="col-3 pt-2">
+                                <button class="btn btn-link" (click)="potvrdi(k)">Potvrdi</button>
+                            </div>
+                            <div class="col-3 pt-2">
+                                <button class="btn btn-link" (click)="izbrisi(k)">Izbrisi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="col-6 mt-5 pt-3" *ngIf="prikaz">
+                <div class="list-group border py-0 rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
                     <div *ngFor="let p of ponudjeni" class="list-group-item" style="display: block">
                         <div class="row">
                             <div class="col-9 pt-2">
@@ -47,26 +63,6 @@
                 <div class="form-group row" *ngIf="prikazOk">
                     <div class="col-sm-10 text-center">
                         <button class="btn btn-outline-primary" (click)="ok()">OK</button>
-                    </div>
-                </div>
-        </div>
-        <div class="w-100"></div>
-        <div class="col-6">
-            <h4>Zahtevi za prijateljstvo:</h4>
-            <br><br>
-                <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
-                    <div *ngFor="let k of korisniciZahtevi" class="list-group-item" style="display: block">
-                        <div class="row">
-                            <div class="col-6 pt-2">
-                                <p class="font-italic">{{k.ime}}  {{k.prezime}}  {{k.brTelefona}} </p>
-                            </div>
-                            <div class="col-3 pt-2">
-                                <button class="btn btn-link" (click)="potvrdi(k)">Potvrdi</button>
-                            </div>
-                            <div class="col-3 pt-2">
-                                <button class="btn btn-link" (click)="izbrisi(k)">Izbrisi</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
         </div>

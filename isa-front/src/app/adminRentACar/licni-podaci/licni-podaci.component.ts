@@ -150,7 +150,7 @@ export class LicniPodaciComponent implements OnInit {
       provera1 = true;
     } else {
       this.porukaLozinke = "";
-    }
+    } 
 
     if(!provera1){
       this.korisnik.lozinka = this.novaLozinka;

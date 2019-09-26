@@ -74,11 +74,13 @@ export class RezervisanjeVozilaComponent implements OnInit {
   ]
 
   opcije = [
+    {name: "", value: 0},
     {name: "5", value: 5},
     {name: "4", value: 4},
     {name: "3", value: 3},
     {name: "2", value: 2},
     {name: "1", value: 1}
+   
   ]
 
   constructor(private modalService: BsModalService, private rentCarServis : rentCarServis, private voziloServis : voziloServis, private rezervacijaServis : rezervacijaServis, private korisnikServis : korisnikServis, private router : Router, private lokacijaServis : lokacijeServis) {
@@ -285,7 +287,7 @@ export class RezervisanjeVozilaComponent implements OnInit {
           this.selektovanaLokacijaVra = "";
           this.selektovanaOpcijaTip = "";
           this.prikazPretrageVozila = false;
-          this.pretragaVozilo = new PretragaVozilo();
+          //this.pretragaVozilo = new PretragaVozilo();
           this.prikazTabeleVozila = true;
           this.modalRef.hide();
         }
@@ -317,6 +319,8 @@ export class RezervisanjeVozilaComponent implements OnInit {
               }
             }
           )
+          this.pretragaVozilo = new PretragaVozilo();
+
         },
 
         error => {
@@ -347,7 +351,7 @@ export class RezervisanjeVozilaComponent implements OnInit {
                   s.prosecnaOcena = s.ocena / s.brojOcena;
                 }
               }
-              $("#ocenaRent").val("");
+              $("#ocenaRent").val(0);
               this.servisZaOcenjivanje = new RentCar();
               this.porukaOcenjivanje = "";
             }
@@ -355,6 +359,11 @@ export class RezervisanjeVozilaComponent implements OnInit {
         },
         error => {
           this.porukaOcenjivanje = "Nije moguce oceniti rent a car servis!";
+         
+          setTimeout(() => {
+            this.porukaOcenjivanje="";
+            $("#ocenaRent").val(0);
+          }, 2000);
         }
       ) 
     } else {

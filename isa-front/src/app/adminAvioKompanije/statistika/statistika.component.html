@@ -1,6 +1,6 @@
 <div class="container-fluid">
 	<div class="row">
-        <div class="col-5">
+        <div class="col-5"> 
             <br>
             <h4>Odaberite datumski opseg za prikaz prihoda:</h4>
             <div class="form-group row">
@@ -16,8 +16,8 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-sm-10 text-center">
-                    <button class="btn btn-dark" (click)="posalji()">Posalji</button>
+                <div class="col-sm-12 text-center">
+                    <button class="btn btn-secondary float-right" (click)="posalji()">Posalji</button>
                 </div>
             </div>
             <div *ngIf="prikaz">
@@ -33,8 +33,10 @@
                 </div>
             </div>
         </div>
+
+
         <div class="col-1"></div>
-        <div class="col-6">
+        <div class="col-6 mt-3 pt-2">
             <h4>Statistika broja prodatih karata:</h4><br>
             <div>
                 <button class="btn btn-link" (click)="prikaziDnevnu()">Dnevna</button>

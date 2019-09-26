@@ -79,7 +79,7 @@
       </div> -->
 
 
-      <ng-template #template4>
+      <ng-template #template4 >
           <div class="modal-header">
             <h4 class="modal-title pull-left">Spisak vozila za brzu rezervaciju:</h4>
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -399,7 +399,7 @@
           <div class="modal-body">
               <div class="form-group row px-5">
                           <select class="form-control mx-1" [(ngModel)]="selektovanaOpcija" id="ocenaRent">
-                              <option class="form-control" *ngFor="let o of opcije">
+                              <option class="form-control" *ngFor="let o of opcije" value="o.value">
                                   {{o.name}}
                               </option>
                           </select> 
