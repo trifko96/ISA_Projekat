@@ -143,6 +143,8 @@ public class LetServis {
 			Aerodrom aero = aeroRepo.vratiAerodromPoImenu(lp.getAerodrom().getIme());
 			lok.setAerodrom(aero);
 			lok.setLet(l);
+			lok.setVremeSletanja(lp.getDatumSletanja());
+			lok.setVremePoletanja(lp.getDatumPoletanja());
 			lokacije.add(lok);
 		}
 		l.setLokacijePresedanja(lokacije);

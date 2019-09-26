@@ -46,6 +46,7 @@ export class LetoviComponent implements OnInit {
   idKorisnika : number;
   modalRef: BsModalRef;
   letDetalji : Let = new Let();
+  prikazFormeZaLet : boolean = true;
 
   constructor(private modalService: BsModalService, private avionServis : avionServis, private aeroServis : aerodromServis, private letServis : letServis, private korisnikServis : korisnikServis, private router : Router) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
@@ -104,6 +105,7 @@ export class LetoviComponent implements OnInit {
   zatvaranjeModala(){
     this.modalRef.hide();
     this.prikazDalje = false;
+    this.noviLet = new Let();
   }
 
   dalje(){
@@ -242,6 +244,11 @@ export class LetoviComponent implements OnInit {
       }
       this.noviLet.lokacije = this.izabraneLokacije;
       this.izabraneLokacije = [];
+      this.prikazFormeZaLet = false;
+    }
+  }
+
+    dodavanjeLetaKraj(){
       this.letServis.dodajNoviLet(this.noviLet, this.idKorisnika).subscribe(
         data => {
           this.letovi = data;
@@ -255,6 +262,7 @@ export class LetoviComponent implements OnInit {
           this.prikazDalje = false;
           this.noviLet = new Let();
           this.selektovanaOpcija = "";
+          this.prikazFormeZaLet = true;
           for(let l of this.lokacijeAerodromi){
             l.isChecked = false;
           }
@@ -268,9 +276,8 @@ export class LetoviComponent implements OnInit {
           )
         }
       )
-
     }
-  }
+  
 
   ok(){
     //this.prikazBrzihKarata = false;

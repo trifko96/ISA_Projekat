@@ -194,7 +194,7 @@ public class SedisteServisTest {
 		av.setIdKarte(1);
 		
 		Sediste sed = new Sediste();
-		sed.setStatus(StatusSedista.SLOBODNO);
+		sed.setStatus(StatusSedista.BRZA_REZERVACIJA);
 		av.setSediste(sed);
 		
 		when(kartaRepozitorijumMock.vratiKartuPoId(1)).thenReturn(av);

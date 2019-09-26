@@ -89,17 +89,6 @@ public class SedisteKontrolerTest {
 	@Transactional
 	@Rollback(true)
 	@Test
-	public void testBrzoRezervisi() throws Exception {
-		AvionskaKartaDTO a = new AvionskaKartaDTO();
-		a.setId(3);
-		String json = ISA.project.utils.TestUtil.json(a);
-		this.mockMvc.perform(post(URL_PREFIX + "/brzoRezervisi/7").contentType(contentType).content(json)).andExpect(status().isOk())
-		.andExpect(jsonPath("$.[*].id").value(hasItem(7)));
-	}
-	
-	@Transactional
-	@Rollback(true)
-	@Test
 	public void testRezervisi() throws Exception {
 		RezervacijaKarataDTO r = new RezervacijaKarataDTO();
 		r.setBrPasosa("312323");

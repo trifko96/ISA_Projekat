@@ -15,21 +15,21 @@
 						<tr>
                             <!-- <th style="text-align: center;">Tip</th> -->
                             <!-- <th style="text-align: center;">Avion</th> -->
-							<th style="text-align: center;">Vreme poletanja</th>
-                            <th style="text-align: center;">Vreme sletanja</th>
-                            <th style="text-align: center;">Vreme polaska nazad</th>
-							<th style="text-align: center;">Vreme dolaska nazad</th>
-							<th style="text-align: center;">Mesto poletanja</th>
-                            <th style="text-align: center;">Mesto sletanja</th>
+							<th>Vreme poletanja</th>
+                            <th>Vreme sletanja</th>
+                            <th>Vreme polaska nazad</th>
+							<th>Vreme dolaska nazad</th>
+							<th>Mesto poletanja</th>
+                            <th>Mesto sletanja</th>
                             <!-- <th style="text-align: center;">Duzina leta (km)</th> -->
-							<th style="text-align: center;">Lokacije presedanja</th>
+							<th>Lokacije presedanja</th>
                             <!-- <th style="text-align: center;">Prosecna ocena</th> -->
                             <!-- <th style="text-align: center;">Cena prve klase (EUR)</th> -->
 							<!-- <th style="text-align: center;">Cena biznis klase (EUR)</th> -->
                             <!-- <th style="text-align: center;">Cena ekonomske klase (EUR)</th> -->
                             <!-- <th style="text-align: center;">Popust</th> -->
-                            <th style="text-align: center;">&nbsp;</th>
-                            <th style="text-align: center;">&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
 						</tr>
 					</thead>
 					<tbody style="max-height: 420px; overflow-y:  scroll;">
@@ -207,6 +207,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
+                        <div *ngIf="prikazFormeZaLet">
                             <div class="form-group row">
                                     <label class="col-sm-5 col-form-label">Tip:</label>
                                     <div class="col-sm-7">
@@ -321,10 +322,32 @@
                                     <p class="text-danger">{{porukaLokacije}}</p>
                                     <div class="form-group row">
                                         <div class="col-sm-10 text-center">
-                                            <button class="btn btn-dark" (click)="dodavanjeLeta()">Dodaj</button>
+                                            <button class="btn btn-dark" (click)="dodavanjeLeta()">Nastavi</button>
                                         </div>
                                     </div>
                                 </div>  
+                            </div>
+                            <div *ngIf="!prikazFormeZaLet" >
+                                <div *ngFor="let l of noviLet.lokacije">
+                                    <div class="form-group row">
+                                            <label class="col-sm-5 col-form-label"> {{l.aerodrom.grad}} : vreme sletanja:</label>
+                                            <div class="col-sm-7">
+                                                <input type="datetime-local" class="form-control" [(ngModel)]="l.datumSletanja" [ngModelOptions] = "{standalone:true}">
+                                            </div>
+                                    </div>
+                                    <div class="form-group row">
+                                            <label class="col-sm-5 col-form-label">{{l.aerodrom.grad}} : vreme poletanja:</label>
+                                            <div class="col-sm-7">
+                                                <input type="datetime-local" class="form-control" [(ngModel)]="l.datumPoletanja" [ngModelOptions] = "{standalone:true}">
+                                            </div>
+                                    </div>
+                                </div>
+                                    <div class="form-group row">
+                                            <div class="col-sm-10 text-center">
+                                                <button class="btn btn-dark" (click)="dodavanjeLetaKraj()">Dodaj</button>
+                                            </div>
+                                    </div>
+                            </div>
                     </div>
               </ng-template>
 
@@ -339,8 +362,10 @@
                             <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
                                     <div *ngFor="let lok of lokacijeZaPrikaz" class="list-group-item" style="display: block">
                                         <div class="row">
-                                            <div class="col-6 pt-2">
-                                              <p class="font-italic">{{lok.aerodrom.ime}}  {{lok.aerodrom.grad}}</p>
+                                            <div class="col-12 pt-2">
+                                              <p class="font-italic">{{lok.aerodrom.ime}}  {{lok.aerodrom.grad}} </p> 
+                                              <p class="font-italic"> Vreme dolaska : {{lok.datumSletanja.slice(0,10)}}  {{lok.datumSletanja.slice(11,19)}} </p>
+                                              <p class="font-italic">Vreme polaska: {{lok.datumPoletanja.slice(0,10)}}  {{lok.datumPoletanja.slice(11,19)}} </p>
                                             </div>
                                         </div>
                                     </div>
