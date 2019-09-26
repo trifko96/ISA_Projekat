@@ -18,9 +18,10 @@ export class InfoStranicaComponent implements OnInit {
   rentACar : RentCar = new RentCar();
   rentACarIzmena : RentCar = new RentCar();
   prosecnaOcena : number = 0;
-  izmena : boolean = false;
+  izmena : boolean = true;
   poruka : string = "";
   idKorisnika : number;
+  uspesnaIzmena : string = "";
 
   constructor(private rentCarServis : rentCarServis, private http : HttpClient, private korisnikServis : korisnikServis, private router : Router) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
@@ -38,6 +39,9 @@ export class InfoStranicaComponent implements OnInit {
       this.rentCarServis.vratiRentCar().subscribe(
        data => {
          this.rentACar = data;
+         $("#nazivKom").val(this.rentACar.naziv);
+         $("#adresaKom").val(this.rentACar.adresa);
+         $("#opisKom").val(this.rentACar.opis);
          if(data.brojOcena != 0){
            this.prosecnaOcena = data.ocena/data.brojOcena;
          }
@@ -54,7 +58,7 @@ export class InfoStranicaComponent implements OnInit {
 
   Izmena(){
     if(this.izmena == true){
-      this.izmena = false;
+      this.izmena = true;
       this.rentACar.naziv = $("#nazivKom").val();
       this.rentACar.adresa = $("#adresaKom").val();
       this.rentACar.opis = $("#opisKom").val();
@@ -67,9 +71,10 @@ export class InfoStranicaComponent implements OnInit {
           this.rentCarServis.vratiRentCar().subscribe(
             data => {
               this.rentACar = data;
-              $("#nazivKom").val("");
-              $("#adresaKom").val("");
-              $("#opisKom").val("");
+              this.uspesnaIzmena = "Uspesno ste izmenili!";
+              setTimeout(() => {
+                this.uspesnaIzmena = "";
+              }, 2000);
               this.poruka = "";
             }
           )
@@ -94,5 +99,6 @@ export class InfoStranicaComponent implements OnInit {
   
   ngOnInit() {
   }
+
 
 }

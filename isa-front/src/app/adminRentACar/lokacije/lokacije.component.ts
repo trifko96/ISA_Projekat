@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Lokacija } from 'src/app/model/Lokacija';
 import { lokacijeServis } from 'src/app/service/lokacijeServis';
 import * as $ from 'jquery';
 import { korisnikServis } from 'src/app/service/korisnikServis';
 import { Router } from '@angular/router';
+import { TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-lokacije',
@@ -11,6 +13,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./lokacije.component.css']
 })
 export class LokacijeComponent implements OnInit {
+
+  modalRef: BsModalRef;
 
   lokacije : Lokacija[] = [];
   novaLokacija : Lokacija = new Lokacija();
@@ -25,7 +29,7 @@ export class LokacijeComponent implements OnInit {
   porukaBrisanje = "";
   idKorisnika : number;
 
-  constructor(private lokacijeServis : lokacijeServis, private korisnikServis : korisnikServis, private router : Router) {
+  constructor(private modalService: BsModalService, private lokacijeServis : lokacijeServis, private korisnikServis : korisnikServis, private router : Router) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
         if(data.provera == "ADMINISTRATOR_HOTELA"){
@@ -79,6 +83,7 @@ export class LokacijeComponent implements OnInit {
             data => {
               this.lokacije = data;
               this.prikazFormeZaDodavanjeNovog = false;
+              this.modalRef.hide();
               this.novaLokacija = new Lokacija();
             }
           )
@@ -91,12 +96,12 @@ export class LokacijeComponent implements OnInit {
     }
   }
 
-  dodajNovi(){
-    this.prikazFormeZaDodavanjeNovog = true;
+  dodajNovi(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
   }
 
-  izmeni(l : Lokacija){
-    this.prikazFormeZaIzmenuPostojeceg = true;
+  izmeni(l : Lokacija, template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
     this.novaLokacija.id = l.id;
     this.novaLokacija.adresa = l.adresa;
     this.izmena = true;
@@ -163,9 +168,9 @@ export class LokacijeComponent implements OnInit {
   }
 
   Izmena(){
-    if(this.izmena == true){
+    if(this.izmena == true){ 
       this.izmena = false;
-      this.prikazFormeZaIzmenuPostojeceg = false;
+      this.modalRef.hide();
       this.lokacijeServis.izmeniLokaciju(this.novaLokacija).subscribe(
         data => {
           this.lokacijeServis.vratiLokacije().subscribe(
@@ -178,7 +183,7 @@ export class LokacijeComponent implements OnInit {
           )
         },
         error => {
-          this.poruka = "Uneto ime vec postoji!";
+          this.poruka = "Nije moguce izmeniti lokaciju, jer ima vozila na njoj!";
         }
       )
     } else {

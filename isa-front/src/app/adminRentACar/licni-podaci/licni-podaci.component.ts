@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Korisnik } from 'src/app/model/Korisnik';
 import { korisnikServis } from 'src/app/service/korisnikServis';
 import * as $ from 'jquery';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { TemplateRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-licni-podaci',
@@ -10,20 +13,28 @@ import * as $ from 'jquery';
 })
 export class LicniPodaciComponent implements OnInit {
 
+  modalRef: BsModalRef;
+
   korisnik : Korisnik = new Korisnik();
   noviKorisnik : Korisnik = new Korisnik();
   prikazFormeZaIzmenu : boolean = false;
   poruka : string = "";
   poruka1 : string = "";
-  dozvolaZaIzmenu : boolean = false;
+  dozvolaZaIzmenu : boolean = true;
   novaLozinka : string = "";
   ponovljenaLozinka : string = "";
-  porukaLozinke : string = "";
+  porukaLozinke : string = ""; 
+  uspesnaIzmena : string = "";
 
-  constructor(private korisnikServis : korisnikServis) { 
+  constructor(private modalService: BsModalService, private korisnikServis : korisnikServis) { 
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
         this.korisnik = data;
+        $("#imeKor").val(this.korisnik.ime);
+        $("#prezKor").val(this.korisnik.prezime);
+        $("#emailKor").val(this.korisnik.email);
+        $("#gradKor").val(this.korisnik.grad);
+        $("#telKor").val(this.korisnik.brTelefona);
         this.noviKorisnik.id = data.id;
       }
     )
@@ -97,12 +108,12 @@ export class LicniPodaciComponent implements OnInit {
           data => {
             this.korisnik = data;
             //this.prikazFormeZaIzmenu = false;
-            this.dozvolaZaIzmenu = false;
-            $("#imeKor").val("");
-            $("#prezKor").val("");
-            $("#emailKor").val("");
-            $("#gradKor").val("");
-            $("#telKor").val("");
+            this.dozvolaZaIzmenu = true;
+            this.uspesnaIzmena = "Uspesno ste izmenili podatke!";
+            setTimeout(() => {
+              this.uspesnaIzmena = "";
+            }, 2000);
+            
           },
           error => {
             this.poruka = "Uneta email adresa je zauzeta!";
@@ -114,8 +125,8 @@ export class LicniPodaciComponent implements OnInit {
     }
   }
 
-  izmenaLozinke(){
-    this.prikazFormeZaIzmenu = true;
+  izmenaLozinke(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
   }
 
   izmeniLozinku(){
@@ -146,7 +157,7 @@ export class LicniPodaciComponent implements OnInit {
       this.korisnikServis.izmenaLozinke(this.korisnik).subscribe(
         data => {
           this.korisnik = data;
-          this.prikazFormeZaIzmenu = false;
+          this.modalRef.hide();
         }
       )
     }

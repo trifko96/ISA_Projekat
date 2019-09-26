@@ -15,6 +15,9 @@ import * as $ from 'jquery';
 import { PretragaVozilo } from 'src/app/model/PretragaVozilo';
 import { DatumiPopust } from 'src/app/model/DatumiPopust';
 import { RezervacijaVozilo } from 'src/app/model/RezervacijaVozilo';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-rezervisanje-vozila',
@@ -22,6 +25,9 @@ import { RezervacijaVozilo } from 'src/app/model/RezervacijaVozilo';
   styleUrls: ['./rezervisanje-vozila.component.css']
 })
 export class RezervisanjeVozilaComponent implements OnInit {
+
+  
+  modalRef: BsModalRef;
 
   servisi : RentCar[] = [];
   brzaVozila : Vozilo[] = [];
@@ -75,7 +81,7 @@ export class RezervisanjeVozilaComponent implements OnInit {
     {name: "1", value: 1}
   ]
 
-  constructor(private rentCarServis : rentCarServis, private voziloServis : voziloServis, private rezervacijaServis : rezervacijaServis, private korisnikServis : korisnikServis, private router : Router, private lokacijaServis : lokacijeServis) {
+  constructor(private modalService: BsModalService, private rentCarServis : rentCarServis, private voziloServis : voziloServis, private rezervacijaServis : rezervacijaServis, private korisnikServis : korisnikServis, private router : Router, private lokacijaServis : lokacijeServis) {
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
         if(data.provera == "ADMINISTRATOR_HOTELA"){
@@ -145,18 +151,18 @@ export class RezervisanjeVozilaComponent implements OnInit {
     this.greskaPriBrzojRezervaciji = "";
   }
 
-  prikaziFilijale(r : RentCar){
+  prikaziFilijale(r : RentCar, template: TemplateRef<any>){
     this.rentCarServis.vratiFilijaleServisa(r, r.id).subscribe(
       data => {
         this.filijaleZaPrikaz = data;
         this.prikazBrzihVozila = false;
-        this.prikazFilijala = true;
+        this.modalRef = this.modalService.show(template);
       }
     )
   }
 
   zatvoriFilijale(){
-    this.prikazFilijala = false;
+    this.modalRef.hide();
   }
 
   brzoRezervisi(v : Vozilo){
@@ -185,6 +191,11 @@ export class RezervisanjeVozilaComponent implements OnInit {
       this.greskaPriBrzojRezervaciji = "Morate rezervisati let!";
     }
   }
+
+  pretragaServisa(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
+    
+  }
   
   pretrazi(){
     let provera = false;
@@ -206,15 +217,15 @@ export class RezervisanjeVozilaComponent implements OnInit {
           }
           this.pretragaServis = new PretragaServis();
           this.selektovanaLokacija = "";
-          this.prikazPretrageServisa = false;
+          this.modalRef.hide();
         }
       )
     }
   }
 
-  prikazRezervisanja(s : RentCar){
+  prikazRezervisanja(s : RentCar, template: TemplateRef<any>){
     this.trenutniServis = s;
-    this.prikazPretrageVozila = true;
+    this.modalRef = this.modalService.show(template);
     this.lokacijaServis.vratiLokacijePoRent(s.id).subscribe(
       data => {
         this.mojeLokacije = data;
@@ -270,8 +281,13 @@ export class RezervisanjeVozilaComponent implements OnInit {
               v.prosecnaOcena = v.brOcena/v.ocene;
             }
           }
+          this.selektovanaLokacijaPre = "";
+          this.selektovanaLokacijaVra = "";
+          this.selektovanaOpcijaTip = "";
           this.prikazPretrageVozila = false;
+          this.pretragaVozilo = new PretragaVozilo();
           this.prikazTabeleVozila = true;
+          this.modalRef.hide();
         }
       )
     }
@@ -312,8 +328,8 @@ export class RezervisanjeVozilaComponent implements OnInit {
     }
   }
 
-  oceni(s : RentCar){
-    this.prikazFormeZaOcenjivanjeServisa = true;
+  oceni(s : RentCar, template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
     this.servisZaOcenjivanje = s;
   }
 
@@ -324,7 +340,7 @@ export class RezervisanjeVozilaComponent implements OnInit {
         data => {
           this.rentCarServis.vratiSveServise().subscribe(
             data => {
-              this.prikazFormeZaOcenjivanjeServisa = false;
+              this.modalRef.hide();
               this.servisi = data;
               for(let s of this.servisi){
                 if(s.brojOcena != 0){
@@ -342,7 +358,7 @@ export class RezervisanjeVozilaComponent implements OnInit {
         }
       ) 
     } else {
-      this.prikazFormeZaOcenjivanjeServisa = false;
+      this.modalRef.hide();
       this.porukaOcenjivanje = "";
     }
 

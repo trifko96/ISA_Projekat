@@ -1,34 +1,70 @@
 <div class="container-fluid">
     <div class="row">
-      <div class="col-6" style="max-height: 420px; overflow-y:  scroll;">
+
+
+
+      <div class="col-12">
         <br>
-        <h4>RentACar servisi:</h4>            
-        <table class="table">
-          <thead>
+
+        <div class="row">
+            <div class="col-8">
+                    <h5 class="mt-2">Rent a car servisi:</h5> 
+            </div>
+            <div class="col-4 py-1 px-3">
+                    <button class="btn btn-secondary ml-2 float-right" (click)="prikaziBrzaVozila()">Brza rezervacija</button>
+                    <button class="btn btn-secondary float-right" (click)="pretragaServisa(template3)">Pretrazi</button>    
+            </div>
+        </div> 
+                    
+        <table class="table table-sm table-striped border mt-2">
+            <thead class="thead ">
             <tr>
               <th>Naziv</th>
               <th>Adresa</th>
               <th>Promotivni opis</th>
               <th>Filijale</th>
               <th>Prosecna ocena</th>
-              <th><button class="btn btn-link" (click)="prikaziBrzaVozila()">Brza rezervacija</button></th>
+              <th>&nbsp;</th>
               <th>&nbsp;</th>
             </tr>
           </thead>
-          <tbody *ngFor="let s of servisi">
-            <tr>
+
+          <tbody style="max-height: 420px; overflow-y:  scroll;">
+            <tr *ngFor="let s of servisi">
               <td>{{s.naziv}}</td>
               <td>{{s.adresa}}</td>
               <td>{{s.opis}}</td>
-              <td><button class="btn btn-link" (click)="prikaziFilijale(s)">Prikazi</button></td>
+              <td><button class="btn btn-link" (click)="prikaziFilijale(s,template1)">Prikazi</button></td>
               <td>{{s.prosecnaOcena}}</td>
-              <td><button class="btn btn-link" (click)="prikazRezervisanja(s)">Rezervisi</button></td>
-              <td><button class="btn btn-link" (click) = "oceni(s)">Oceni</button></td>
+              <td><button class="btn btn-link" (click)="prikazRezervisanja(s, template2)">Rezervisi</button></td>
+              <td><button class="btn btn-link" (click) = "oceni(s, template)">Oceni</button></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="col-6" *ngIf="prikazFilijala">
+
+      <ng-template #template1>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Lokacije:</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="zatvoriFilijale()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
+                  <div *ngFor="let fil of filijaleZaPrikaz" class="list-group-item" style="display: block">
+                      <div class="row">
+                          <div class="col-6 pt-2">
+                            <p class="font-italic">{{fil.adresa}}</p>
+                          </div>
+                      </div>
+                  </div>
+                  <button class="btn btn-dark" (click)="zatvoriFilijale()">Zatvori</button>
+              </div>
+          </div>
+    </ng-template>
+
+      <!-- <div class="col-6" *ngIf="prikazFilijala">
         <br><br>
             <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
                 <div *ngFor="let fil of filijaleZaPrikaz" class="list-group-item" style="display: block">
@@ -40,7 +76,10 @@
                 </div>
                 <button class="btn btn-dark" (click)="zatvoriFilijale()">Zatvori</button>
             </div>
-      </div>
+      </div> -->
+
+
+
       <div class="col-6" style="max-height: 420px; overflow-y:  scroll;" *ngIf="prikazBrzihVozila">
         <br><br>
             <h4>Spisak vozila za brzu rezervaciju:</h4>
@@ -75,7 +114,114 @@
             <br>
             <button class="btn btn-dark" (click)="zatvori()">Zatvori</button>
       </div>
-      <div class="w-100"></div>
+
+      <ng-template #template2>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Pretrazi vozila:</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body px-2">
+              <div class="form-group row">
+                  <label class="col-sm-5 col-form-label">Mesto preuzimanja:</label>
+                  <div class="col-sm-7">
+                    <select class="form-control" [(ngModel)]="selektovanaLokacijaPre" id="lokacijaPre">
+                      <option value=""></option>
+                        <option *ngFor="let l of mojeLokacije" [value]="l.adresa">
+                            {{l.adresa}}
+                        </option>
+                    </select>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-5 col-form-label">Datum preuzimanja:</label>
+                <div class="col-sm-7">
+                    <input type="date" class="form-control" id="vremePol" [(ngModel)]="pretragaVozilo.datumPreuzimanja" [ngModelOptions] = "{standalone:true}">
+                </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-5 col-form-label">Mesto vracanja:</label>
+                  <div class="col-sm-7">
+                    <select class="form-control" [(ngModel)]="selektovanaLokacijaVra" id="lokacijaVra">
+                        <option value=""></option>
+                        <option *ngFor="let l of mojeLokacije" [value]="l.adresa">
+                            {{l.adresa}}
+                        </option>
+                    </select>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-5 col-form-label">Datum vracanja:</label>
+                <div class="col-sm-7">
+                    <input type="date" class="form-control" id="vremeSle" [(ngModel)]="pretragaVozilo.datumVracanja" [ngModelOptions] = "{standalone:true}">
+                </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-5 col-form-label">Tip:</label>
+                              <div class="col-sm-7">
+                                  <select class="form-control" [(ngModel)]="selektovanaOpcijaTip" id="tipVoz">
+                                      <option *ngFor="let o1 of opcije1">
+                                          {{o1.name}}
+                                      </option>
+                                  </select>
+                              </div>
+                </div> 
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label">Broj putnika:</label>
+                    <div class="col-sm-7">
+                        <input type="number" class="form-control " id="brojPutnika" [(ngModel)]="pretragaVozilo.brojPutnika" [ngModelOptions] = "{standalone:true}">
+                    </div>
+                </div>
+              <div class="form-group row">
+                  <div class="col-sm-12 text-center">
+                      <button class="btn btn-secondary float-right" (click)="pretraziVozila()">Pretrazi</button>
+                  </div>
+              </div>
+          </div>
+    </ng-template>
+
+
+    <ng-template #template3>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Pretrazi rent a car:</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body px-2">
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label">Odaberite lokaciju:</label>
+                <div class="col-sm-7">
+                  <select [(ngModel)]="selektovanaLokacija" id="lokacija">
+                      <option *ngFor="let l of sveLokacije" [value]="l.adresa">
+                          {{l.adresa}}
+                      </option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-5 col-form-label">Pocetni datum:</label>
+              <div class="col-sm-7">
+                  <input type="date" class="form-control" id="vremePol" [(ngModel)]="pretragaServis.datumOd" [ngModelOptions] = "{standalone:true}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-5 col-form-label">Krajnji datum:</label>
+              <div class="col-sm-7">
+                  <input type="date" class="form-control" id="vremeSle" [(ngModel)]="pretragaServis.datumDo" [ngModelOptions] = "{standalone:true}">
+              </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12 text-center">
+                    <button class="btn btn-secondary float-right" (click)="pretrazi()">Pretrazi</button>
+                </div>
+            </div>
+        </div>
+  </ng-template>
+
+
+      <!-- <div class="w-100"></div>
       <div class="col-6" *ngIf="prikazPretrageServisa">
           <h3>Pretrazi rent a car servise:</h3><br>
           <div class="form-group row">
@@ -105,10 +251,14 @@
                   <button class="btn btn-dark" (click)="pretrazi()">Pretrazi</button>
               </div>
           </div>
-      </div>
-      <div class="col-6" *ngIf="prikazPretrageVozila">
-          <h3>Pretrazi vozila:</h3><br>
-          <div class="form-group row">
+      </div> -->
+
+
+
+
+      <!-- <div class="col-6" *ngIf="prikazPretrageVozila">
+          <h3>Pretrazi vozila:</h3><br> -->
+          <!-- <div class="form-group row">
               <label class="col-sm-5 col-form-label">Odaberite mesto preuzimanja:</label>
               <div class="col-sm-7">
                 <select [(ngModel)]="selektovanaLokacijaPre" id="lokacijaPre">
@@ -160,14 +310,17 @@
               <div class="col-sm-10 text-center">
                   <button class="btn btn-dark" (click)="pretraziVozila()">Pretrazi</button>
               </div>
-          </div>
-      </div>
-      <div class="col-6" *ngIf="prikazTabeleVozila">
-          <div style="max-height: 320px; overflow-y:  scroll;">
-              <br>
-              <h4>Vozila:</h4>            
-              <table class="table">
-                <thead>
+          </div> -->
+      <!-- </div> -->
+      <div class="col-12" *ngIf="prikazTabeleVozila">
+          <br>
+          <div class="row">
+                  <div class="col-8">
+                          <h5 class="mt-2">Vozila:</h5> 
+                  </div>
+          </div>       
+              <table class="table table-sm table-striped border mt-2">
+                <thead class="thead">
                 <tr>
                   <th>Cena po danu</th>
                   <th>Naziv</th>
@@ -176,11 +329,11 @@
                   <th>Godina proizvodnje</th>
                   <th>Broj sedista</th>
                   <th>Tip</th>
-                  <th>Prosecna ocena</th>
+                  <th>&nbsp;</th>
                 </tr>
                 </thead>
-                <tbody *ngFor="let vozilo of vozila">
-                <tr>
+                <tbody>
+                <tr *ngFor="let vozilo of vozila">
                   <td>{{vozilo.cena}}</td>	
                   <td>{{vozilo.naziv}}</td>
                   <td>{{vozilo.marka}}</td>
@@ -188,17 +341,42 @@
                   <td>{{vozilo.godinaProizvodnje}}</td>
                   <td>{{vozilo.brSedista}}</td>
                   <td>{{vozilo.tip}}</td>
-                  <td>{{vozilo.prosecnaOcena}}</td>
                   <td><button class="btn btn-link" (click) = "rezervisi(vozilo)">Rezervisi</button></td>
                 </tr>
                 </tbody>
               </table> 
-            </div>
             <p class="text-danger">{{porukaZaRezervaciju}}</p>
       </div>
 
-      <div class="col-6" *ngIf = "prikazFormeZaOcenjivanjeServisa">
-          <div class="form-group row">
+      <ng-template #template>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Izaberi ocenu:</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div> 
+          <div class="modal-body">
+              <div class="form-group row px-5">
+                          <select class="form-control mx-1" [(ngModel)]="selektovanaOpcija" id="ocenaRent">
+                              <option class="form-control" *ngFor="let o of opcije">
+                                  {{o.name}}
+                              </option>
+                          </select> 
+              </div>
+              <div class="form-group row px-5">
+                    <div class="col-sm-9">
+                        <p class="text-danger">{{porukaOcenjivanje}}</p>
+                    </div>
+                    <div class="col-sm-3">
+                      <button class="btn btn-dark" (click)="Oceni()">Sacuvaj</button>
+                   </div>  
+                    
+            </div>
+          </div>
+    </ng-template>
+
+      <!-- <div class="col-6" *ngIf = "prikazFormeZaOcenjivanjeServisa">
+          <div class="form-group row px-5">
                   <label class="col-sm-5 col-form-label">Ocena rent a car-a:</label>
                       <div class="col-sm-7">
                           <select [(ngModel)]="selektovanaOpcija" id="ocenaRent">
@@ -208,11 +386,11 @@
                           </select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       </div>
               </div>
-              <div class="form-group row">
+              <div class="form-group row px-5">
                     <div class="col-sm-10 text-center">
                       <p class="text-danger">{{porukaOcenjivanje}}</p>
                       <button class="btn btn-dark" (click)="Oceni()">Sacuvaj</button>
                     </div>
             </div>
-    </div>
+    </div> -->
 </div>

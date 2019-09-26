@@ -6,6 +6,8 @@ import { Lokacija } from 'src/app/model/Lokacija';
 import { lokacijeServis } from 'src/app/service/lokacijeServis';
 import { korisnikServis } from 'src/app/service/korisnikServis';
 import { Router } from '@angular/router';
+import { TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-vozila',
@@ -13,6 +15,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./vozila.component.css']
 })
 export class VozilaComponent implements OnInit {
+
+  modalRef: BsModalRef;
 
   vozila : Vozilo[] = [];
   novoVozilo : Vozilo = new Vozilo();
@@ -41,7 +45,7 @@ export class VozilaComponent implements OnInit {
   lokacije : Lokacija[] = [];
   idKorisnik : number;
 
-  constructor(private voziloServis : voziloServis, private lokacijeServis : lokacijeServis, private korisnikServis : korisnikServis, private router : Router) { 
+  constructor(private modalService: BsModalService, private voziloServis : voziloServis, private lokacijeServis : lokacijeServis, private korisnikServis : korisnikServis, private router : Router) { 
     this.korisnikServis.vratiTrenutnogKorisnika().subscribe(
       data => {
         if(data.provera == "ADMINISTRATOR_HOTELA"){
@@ -85,13 +89,13 @@ export class VozilaComponent implements OnInit {
   ngOnInit() {
   }
 
-  dodajNovi(){
+  dodajNovi(template: TemplateRef<any>){
     this.novoVozilo = new Vozilo();
-    this.prikazFormeZaDodavanjeNovog = true;
+    this.modalRef = this.modalService.show(template);
   }
 
-  izmeni(v : Vozilo){
-    this.prikazFormeZaIzmenuPostojeceg = true;
+  izmeni(v : Vozilo, template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
     this.novoVozilo.id = v.id;
     this.novoVozilo.cena = v.cena;
     this.novoVozilo.naziv = v.naziv;
@@ -204,7 +208,7 @@ export class VozilaComponent implements OnInit {
              
             }
               this.vozila = data;
-              this.prikazFormeZaDodavanjeNovog = false;
+              this.modalRef.hide();
               this.novoVozilo = new Vozilo();
               this.poruka = "";
             }
@@ -260,7 +264,7 @@ export class VozilaComponent implements OnInit {
         data => {
           this.voziloServis.vratiVozilo().subscribe(
             data => {
-              this.prikazFormeZaIzmenuPostojeceg = false;
+              this.modalRef.hide();
               for(let v of data)
             {
               if(v.datumPopustDo != null && v.datumPopustOd != null){

@@ -54,12 +54,12 @@
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <tbody *ngFor = "let r of rezervacije">
-                        <tr>
+                    <tbody>
+                        <tr *ngFor = "let r of rezervacije">
                             <td>{{r.idRezVozilo}}</td>
                             <td>{{r.emailKorisnika}}</td>
                             <td>{{r.prosecnaOcena}}</td>
-                            <td>{{r.vozilo.id}}</td>
+                            <td>{{r.vozilo.marka}}</td>
                             <td><button class="btn btn-link" (click) = "oceni1(r)">Oceni</button></td>
                             <td><button class="btn btn-link" (click) = "obrisiVozilo(r)">Otkazi</button></td>
                         </tr>
