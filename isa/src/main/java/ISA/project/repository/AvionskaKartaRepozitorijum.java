@@ -15,6 +15,7 @@ import ISA.project.model.AvionskaKarta;
 public interface AvionskaKartaRepozitorijum extends JpaRepository<AvionskaKarta, Long> {
 
 	@Query("select karta from AvionskaKarta karta where karta.sediste.idSedista = ?1")
+	@Lock(LockModeType.PESSIMISTIC_READ)
 	public AvionskaKarta vratiKartu(long id);
 	
 	@Query("select karta from AvionskaKarta karta where karta.idKarte = ?1")

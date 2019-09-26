@@ -20,9 +20,11 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import ISA.project.dto.FilterLetDTO;
 import ISA.project.dto.LetDTO;
 import ISA.project.dto.PretragaLetDTO;
 import ISA.project.model.Aerodrom;
+import ISA.project.model.AvioKompanija;
 import ISA.project.model.Avion;
 import ISA.project.model.Let;
 import ISA.project.model.Sediste;
@@ -92,5 +94,106 @@ public class LetServisTest {
 		
 		verify(repozitorijumMock, times(1)).findAll();
 		verifyNoMoreInteractions(repozitorijumMock);
+	}
+	
+	@Test
+	public void testVratiLetovePoKompaniji() {
+		AvioKompanija a = new AvioKompanija();
+		a.setId(1);
+		Avion avion = new Avion();
+		avion.setId(1);
+		avion.setIme("ime");
+		Aerodrom aero1 = new Aerodrom();
+		Aerodrom aero2 = new Aerodrom();
+		aero1.setId(1);
+		aero1.setGrad("Beograd");
+		aero1.setIme("Aero1");
+		aero2.setId(2);
+		aero2.setGrad("Novi Sad");
+		aero2.setIme("Aero2");
+		Let l = new Let();
+		l.setIdLeta(1);
+		l.setAvion(avion);
+		l.setPolaznaDestinacija(aero1);
+		l.setOdredisnaDestinacija(aero2);
+		
+		when(repozitorijumMock.vratiLetove(1)).thenReturn(Arrays.asList(l));
+		
+		List<LetDTO> letovi = letServis.vratiLetove(a);
+		assertEquals(letovi.get(0).getId(), l.getIdLeta());
+		
+		verify(repozitorijumMock, times(1)).vratiLetove(1);
+		verifyNoMoreInteractions(repozitorijumMock);
+		
+	}
+	
+	@Test
+	public void testVratiSveLetove() {
+		AvioKompanija a = new AvioKompanija();
+		a.setId(1);
+		Avion avion = new Avion();
+		avion.setId(1);
+		avion.setIme("ime");
+		Aerodrom aero1 = new Aerodrom();
+		Aerodrom aero2 = new Aerodrom();
+		aero1.setId(1);
+		aero1.setGrad("Beograd");
+		aero1.setIme("Aero1");
+		aero2.setId(2);
+		aero2.setGrad("Novi Sad");
+		aero2.setIme("Aero2");
+		Let l = new Let();
+		l.setIdLeta(1);
+		l.setAvion(avion);
+		l.setPolaznaDestinacija(aero1);
+		l.setOdredisnaDestinacija(aero2);
+		
+		when(repozitorijumMock.findAll()).thenReturn(Arrays.asList(l));
+		
+		List<LetDTO> letovi = letServis.vratiSveLetove();
+		assertEquals(letovi.get(0).getId(), l.getIdLeta());
+		
+		verify(repozitorijumMock, times(1)).findAll();
+		verifyNoMoreInteractions(repozitorijumMock);
+		
+	}
+	
+	@Test
+	public void testFiltrirajLet() {
+		AvioKompanija a = new AvioKompanija();
+		a.setNaziv("Avio");
+		Avion avion = new Avion();
+		avion.setId(1);
+		avion.setIme("ime");
+		Aerodrom aero1 = new Aerodrom();
+		Aerodrom aero2 = new Aerodrom();
+		aero1.setId(1);
+		aero1.setGrad("Beograd");
+		aero1.setIme("Aero1");
+		aero2.setId(2);
+		aero2.setGrad("Novi Sad");
+		aero2.setIme("Aero2");
+		Let l = new Let();
+		l.setIdLeta(1);
+		l.setAvioKompanija(a);
+		l.setCenaKarteBiznisKlase(20);
+		l.setCenaKarteEkonomskeKlase(20);
+		l.setCenaPrveKlase(20);
+		l.setAvion(avion);
+		l.setPolaznaDestinacija(aero1);
+		l.setOdredisnaDestinacija(aero2);
+		FilterLetDTO f = new FilterLetDTO();
+		f.setAvioKompanija("Avio");
+		f.setCena(25);
+		when(repozitorijumMock.findAll()).thenReturn(Arrays.asList(l));
+		
+		List<LetDTO> letovi = new ArrayList<>();
+		letovi = letServis.filtrirajLet(f);
+		
+		assertEquals(letovi.get(0).getId(), l.getIdLeta());
+		
+		verify(repozitorijumMock, times(1)).findAll();
+		verifyNoMoreInteractions(repozitorijumMock);
+		
 	}
 }
