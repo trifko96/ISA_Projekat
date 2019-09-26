@@ -54,7 +54,7 @@ public class VoziloKontroler {
 	@Autowired
 	KorisnikServis korisnikServis;
 	
-	@Autowired
+	@Autowired 
 	EmailServis eservis;
 	
 	@Autowired
