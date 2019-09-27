@@ -247,54 +247,99 @@ export class VozilaComponent implements OnInit {
 
   Izmena(){
     if(this.izmena == true){
-      this.izmena = false;
-      this.novoVozilo.adresaLokacije = this.selektovanaLokacijaIzmena;
-      this.novoVozilo.naPopustu = this.selektovanaOpcijaIzmena;
-      this.novoVozilo.tip = this.selektovanaOpcijaIzmena1;
-      if((this.novoVozilo.popust == 0 && this.novoVozilo.naPopustu == 'DA') || ((this.novoVozilo.popust != 0 && this.novoVozilo.naPopustu == 'NE')))
-      {
-        this.poruka = "Ako je vozilo na popustu, mora se zadati vrednost popusta, a ako nije ne sme imati popust!"
+      let provera = false;
+      if(this.novoVozilo.cena == ""){
+        provera = true;
+        $("#cenaVozila").addClass('border-danger');
+      } else {
+        $("#cenaVozila").removeClass('border-danger');
       }
-      else if((this.novoVozilo.popust == 0 && (this.novoVozilo.datumPopustOd !=null || this.novoVozilo.datumPopustDo != null)) || (this.novoVozilo.popust != 0 && (this.novoVozilo.datumPopustOd == null || this.novoVozilo.datumPopustDo == null)))
-      {
-        this.poruka = "Ako je vozilo na popustu, mora se odrediti datum popusta, a ako nije onda nema ni datum";
+  
+      if(this.novoVozilo.naziv == ""){
+        provera = true;
+        $("#nazivVozila").addClass('border-danger');
+      } else {
+        $("#nazivVozila").removeClass('border-danger');
       }
-      else{
-      this.voziloServis.izmeniVozilo(this.novoVozilo).subscribe(
-        data => {
-          this.voziloServis.vratiVozilo().subscribe(
-            data => {
-              this.modalRef.hide();
-              for(let v of data)
-            {
-              if(v.datumPopustDo != null && v.datumPopustOd != null){
-                v.datumPopustOdString = v.datumPopustOd.toString().slice(0,10);
-                v.datumPopustDoString = v.datumPopustDo.toString().slice(0,10);
-              }
-             
-            }
-              this.vozila = data;
-              $("#cenaVozila").val("");
-              $("#nazivVozila").val("");
-              $("#markaVozila").val("");
-              $("#modelVozila").val("");
-              $("#proizGodVozila").val("");
-              $("#brSedVozila").val("");
-              $("#tipVozilo").val("");
-              $("#popustVoz").val("");
-              $("#adresaLokVozila").val("");
-              $("#popustVozila").val("");
-              $("#popustOdVozila").val("");
-              $("#popustDoVozila").val("");
-              this.novoVozilo = new Vozilo();
-              this.poruka = "";
-            }
-          )
-        },
-        error => {
-          this.poruka = "Ne moze se izmeniti rezervisano vozilo!";
+  
+      if(this.novoVozilo.marka == ""){
+        provera = true;
+        $("#markaVozila").addClass('border-danger');
+      } else {
+        $("#markaVozila").removeClass('border-danger');
+      }
+  
+      if(this.novoVozilo.model == ""){
+        provera = true;
+        $("#modelVozila").addClass('border-danger');
+      } else {
+        $("#modelVozila").removeClass('border-danger');
+      }
+  
+      if(this.novoVozilo.godinaProizvodnje == ""){
+        provera = true;
+        $("#proizGodVozila").addClass('border-danger');
+      } else {
+        $("#proizGodVozila").removeClass('border-danger');
+      }
+  
+      if(this.novoVozilo.brSedista == 0){
+        provera = true;
+        $("#brSedVozila").addClass('border-danger');
+      } else {
+        $("#brSedVozila").removeClass('border-danger');
+      }
+  
+      if(!provera){
+        this.izmena = false;
+        this.novoVozilo.adresaLokacije = this.selektovanaLokacijaIzmena;
+        this.novoVozilo.naPopustu = this.selektovanaOpcijaIzmena;
+        this.novoVozilo.tip = this.selektovanaOpcijaIzmena1;
+        if((this.novoVozilo.popust == 0 && this.novoVozilo.naPopustu == 'DA') || ((this.novoVozilo.popust != 0 && this.novoVozilo.naPopustu == 'NE')))
+        {
+          this.poruka = "Ako je vozilo na popustu, mora se zadati vrednost popusta, a ako nije ne sme imati popust!"
         }
-      )
+        else if((this.novoVozilo.popust == 0 && (this.novoVozilo.datumPopustOd !=null || this.novoVozilo.datumPopustDo != null)) || (this.novoVozilo.popust != 0 && (this.novoVozilo.datumPopustOd == null || this.novoVozilo.datumPopustDo == null)))
+        {
+          this.poruka = "Ako je vozilo na popustu, mora se odrediti datum popusta, a ako nije onda nema ni datum";
+        }
+        else{
+        this.voziloServis.izmeniVozilo(this.novoVozilo).subscribe(
+          data => {
+            this.voziloServis.vratiVozilo().subscribe(
+              data => {
+                this.modalRef.hide();
+                for(let v of data)
+              {
+                if(v.datumPopustDo != null && v.datumPopustOd != null){
+                  v.datumPopustOdString = v.datumPopustOd.toString().slice(0,10);
+                  v.datumPopustDoString = v.datumPopustDo.toString().slice(0,10);
+                }
+              
+              }
+                this.vozila = data;
+                $("#cenaVozila").val("");
+                $("#nazivVozila").val("");
+                $("#markaVozila").val("");
+                $("#modelVozila").val("");
+                $("#proizGodVozila").val("");
+                $("#brSedVozila").val("");
+                $("#tipVozilo").val("");
+                $("#popustVoz").val("");
+                $("#adresaLokVozila").val("");
+                $("#popustVozila").val("");
+                $("#popustOdVozila").val("");
+                $("#popustDoVozila").val("");
+                this.novoVozilo = new Vozilo();
+                this.poruka = "";
+              }
+            )
+          },
+          error => {
+            this.poruka = "Ne moze se izmeniti rezervisano vozilo!";
+          }
+        )
+        }
       }
     } else {
       this.poruka = "Odaberite vozilo za izmenu!";

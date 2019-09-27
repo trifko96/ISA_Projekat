@@ -165,6 +165,12 @@ export class LetoviComponent implements OnInit {
     } else {
       $("#cenaBiznis").removeClass('border-danger');
     }
+    if(this.noviLet.duzinaLeta <= 0){
+      $("#duzinaLeta").addClass('border-danger');
+      provera = true;
+    } else {
+      $("#duzinaLeta").removeClass('border-danger');
+    }
     if(this.noviLet.cenaKarteEkonomskeKlase <= 1){
       $("#cenaEkonomske").addClass('border-danger');
       provera = true;

@@ -6,7 +6,7 @@ export class Vozilo{
     marka : string = "";
     model : string = "";
     godinaProizvodnje : string = "";
-    brSedista : number;
+    brSedista : number = 0;
     tip : string = "";
     prosecnaOcena : number = 0;
     brOcena : number;
@@ -19,7 +19,7 @@ export class Vozilo{
     mestoPreuzimanja : string = "";
     mestoVracanja : string = "";
     adresaLokacije : string = "";
-    popust : number;
+    popust : number = 0;
     datumPopustOd : Date;
     datumPopustDo : Date;
     datumPopustOdString : string = "";

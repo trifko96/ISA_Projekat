@@ -169,23 +169,32 @@ export class LokacijeComponent implements OnInit {
 
   Izmena(){
     if(this.izmena == true){ 
-      this.izmena = false;
-      this.modalRef.hide();
-      this.lokacijeServis.izmeniLokaciju(this.novaLokacija).subscribe(
-        data => {
-          this.lokacijeServis.vratiLokacije().subscribe(
-            data => {
-              this.lokacije = data;
-              $("#adresaLokacije").val("");
-              this.novaLokacija = new Lokacija();
-              this.poruka = "";
-            }
-          )
-        },
-        error => {
-          this.poruka = "Nije moguce izmeniti lokaciju, jer ima vozila na njoj!";
-        }
-      )
+      let provera = false;
+      if(this.novaLokacija.adresa == ""){
+        provera = true;
+        $("#adresaLokacije").addClass('border-danger');
+      } else {
+        $("#adresaLokacije").removeClass('border-danger');
+      }
+      if(!provera){
+        this.izmena = false;
+        this.modalRef.hide();
+        this.lokacijeServis.izmeniLokaciju(this.novaLokacija).subscribe(
+          data => {
+            this.lokacijeServis.vratiLokacije().subscribe(
+              data => {
+                this.lokacije = data;
+                $("#adresaLokacije").val("");
+                this.novaLokacija = new Lokacija();
+                this.poruka = "";
+              }
+            )
+          },
+          error => {
+            this.poruka = "Nije moguce izmeniti lokaciju, jer ima vozila na njoj!";
+          }
+        )
+      }
     } else {
       this.poruka = "Odaberite lokaciju za izmenu!";
     }
