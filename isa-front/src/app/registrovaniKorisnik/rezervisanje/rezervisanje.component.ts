@@ -474,13 +474,12 @@ export class RezervisanjeComponent implements OnInit {
   }
 
   ne(){
-    this.poruka = "Uspesno ste rezervisali let!";
-    setTimeout(() => {
-      this.poruka = "";
-    }, 2000);
     this.avionServis.rezervisi(this.rezervacija, this.idKorisnika).subscribe(
       data => {
-        this.poruka = "";
+        this.poruka = "Uspesno ste rezervisali let!";
+        setTimeout(() => {
+          this.poruka = "";
+        }, 2000);
         this.rezervisanje = false;
         this.prikazPoruke = false;
         this.greskaPriRezervaciji = "";
@@ -488,6 +487,9 @@ export class RezervisanjeComponent implements OnInit {
 
       error => {
         this.greskaPriRezervaciji = "Neko od sedista je u medjuvremenu rezervisano!";
+        setTimeout(() => {
+          this.greskaPriRezervaciji = "";
+        }, 2000);
       }
     )
   }

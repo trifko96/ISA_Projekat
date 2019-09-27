@@ -118,6 +118,10 @@ export class IstorijaRezervacijaComponent implements OnInit {
       },
       error => {
         this.porukaBrisanje = "Nije moguce otkazivanje rezervaciju leta!";
+        setTimeout(() => {
+          this.porukaBrisanje="";
+          $("#ocenaLet").val(0);
+        }, 2000);
       }
     )
   }
@@ -137,6 +141,10 @@ export class IstorijaRezervacijaComponent implements OnInit {
       },
       error => {
         this.porukaBrisanje1 = "Nije moguce otkazivanje rezervacije vozila!";
+        setTimeout(() => {
+          this.porukaBrisanje1="";
+          $("#ocenaLet").val(0);
+        }, 2000);
       }
     )
   }
