@@ -84,4 +84,5 @@ public class AvionKontroler {
 		AvionDTO avion = servis.vratiAvionPoLetu(id);
 		return new ResponseEntity<>(avion, HttpStatus.OK);
 	}
+	
 }
