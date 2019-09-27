@@ -64,12 +64,19 @@ private static final String URL_PREFIX = "/Vozilo";
 	public void tearDown() throws Exception {
 	}
 	
-	@Test
+	/*@Test
 	public void testVratiBrzaVozila() throws Exception {
 		mockMvc.perform(get(URL_PREFIX + "/vratiBrzaVozila" )).andExpect(status().isOk())
 		.andExpect(content().contentType(contentType))
 		.andExpect(jsonPath("$.[*].id").value(hasItem(24)))
 		.andExpect(jsonPath("$.[*].id").value(hasItem(26)));
+	}*/
+	
+	@Test
+	public void testVratiVozilo() throws Exception {
+		mockMvc.perform(get(URL_PREFIX + "/vratiVoziloPom/78" )).andExpect(status().isOk())
+		.andExpect(content().contentType(contentType))
+		.andExpect(jsonPath("$.[*].id").value(hasItem(25)));
 	}
 	
 	@Transactional

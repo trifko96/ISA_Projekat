@@ -26,6 +26,7 @@ export class IstorijaRezervacijaComponent implements OnInit {
   vozila : Vozilo[] = [];
   rezervacije : RezervacijaVozilo[] = [];
   opcije = [
+    {name: "", value: 0},
     {name: "5", value: 5},
     {name: "4", value: 4},
     {name: "3", value: 3},
@@ -33,6 +34,7 @@ export class IstorijaRezervacijaComponent implements OnInit {
     {name: "1", value: 1}
   ]
   opcije1 = [
+    {name: "", value: 0},
     {name: "5", value: 5},
     {name: "4", value: 4},
     {name: "3", value: 3},
@@ -167,6 +169,10 @@ export class IstorijaRezervacijaComponent implements OnInit {
             },
             error => {
               this.porukaOcenjivanje = "Nije moguce oceniti let!";
+              setTimeout(() => {
+                this.porukaOcenjivanje="";
+                $("#ocenaLet").val(0);
+              }, 2000);
             }
           )
         } else {
@@ -194,6 +200,10 @@ export class IstorijaRezervacijaComponent implements OnInit {
             },
             error => {
               this.porukaOcenjivanje1 = "Nije moguce oceniti vozilo!";
+              setTimeout(() => {
+                this.porukaOcenjivanje1="";
+                $("#ocenaVozilo").val(0);
+              }, 2000);
             }
           )
         } else {

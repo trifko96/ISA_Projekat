@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import ISA.project.dto.AerodromDTO;
@@ -161,8 +162,9 @@ public class VoziloServis {
 		
 	}
 	
+	@Transactional
 	public String vratiVoziloIzmena(VoziloDTO vdto) {
-		Vozilo vozi = repozitorijum.vratiVoziloPoNazivu(vdto.getId());	
+		Vozilo vozi = repozitorijum.vratiVoziloPoId(vdto.getId());	
 		List<RezervacijaVozilo> rezervacije = rezVozRepozitorijum.vratiNeOtkazaneRezervacije(vozi.getVoziloId());
 		if(rezervacije.size()==0)
 			return "ok";
@@ -248,10 +250,12 @@ public class VoziloServis {
 	}
 	
 	
-	@Transactional
+	@Transactional(isolation=Isolation.SERIALIZABLE)
 	public String brzoRezervisi(RezervacijaDTO r, Korisnik k, Rezervacija rez) {
 		Rezervacija rezervacija = rezervacijaRepo.getOne(rez.getId());
-		
+		int a = rezVozRepozitorijum.getBrojRezervacijaUIntervalu(rez.getRezervacijaVozilo().getVozilo().getVoziloId(), rez.getRezervacijaVozilo().getDatumRezervacijaOd(), rez.getRezervacijaVozilo().getDatumRezervacijaDo());
+		if(a!=0)
+			return "greska";
 		RezervacijaVozilo rezVozilo = new RezervacijaVozilo();
 		rezVozilo.setTrenutniDatumRezervacija(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		rezVozilo.setDatumRezervacijaOd(r.getRezervacijaVozilo().getDatumRezervacijaOd());
@@ -294,9 +298,14 @@ public class VoziloServis {
 			}
 			if(v.getDatumPopustOd()==null)
 				continue;
-			if((v.getDatumPopustOd().after(p.getPocetni())) && (v.getDatumPospustDo().before(p.getKrajnji()))) {
+			/*if((v.getDatumPopustOd().after(p.getDatumPreuzimanja())) && (v.getDatumPospustDo().before(p.getDatumVracanja()))) {
 					lista2.remove(v);
-				}	
+				}	*/
+			if(p.getDatumPreuzimanja().before(v.getDatumPopustOd()) && p.getDatumVracanja().before(v.getDatumPopustOd()) || p.getDatumPreuzimanja().after(v.getDatumPospustDo()) && p.getDatumVracanja().after(v.getDatumPospustDo())) {
+				continue;
+				}
+			else
+				lista2.remove(v);
 			
 		}
 		

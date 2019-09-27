@@ -82,6 +82,7 @@ export class RezervisanjeComponent implements OnInit {
 
   
   opcije1 = [
+    {name: "", value: 0},
     {name: "5", value: 5},
     {name: "4", value: 4},
     {name: "3", value: 3},

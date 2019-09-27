@@ -33,6 +33,7 @@ import ISA.project.model.RezervacijaVozilo;
 import ISA.project.model.Segment;
 import ISA.project.model.TipKlase;
 import ISA.project.model.Vozilo;
+import ISA.project.repository.KorisnikRepozitorijum;
 import ISA.project.repository.RezervacijaVoziloRepozitorijum;
 import ISA.project.repository.VoziloRepozitorijum;
 import ISA.project.service.EmailServis;
@@ -67,6 +68,9 @@ public class VoziloKontroler {
 	@Autowired
 	RezervacijaVoziloRepozitorijum rezVoz;
 	
+	@Autowired
+	KorisnikRepozitorijum korRep;
+	
 	private Logger logger = LoggerFactory.getLogger(VoziloKontroler.class);
 	
 	@RequestMapping(value = "/dodajNovo", method = RequestMethod.POST)
@@ -86,6 +90,14 @@ public class VoziloKontroler {
 	@RequestMapping(value="/vratiVozilo", method = RequestMethod.GET)
 	public ResponseEntity<List<VoziloDTO>> vratiVozilo(@Context HttpServletRequest request){
 		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		RentACar rent = k.getRentACar();
+		List<VoziloDTO> pom = servis.vratiVozila(rent);
+		return new ResponseEntity<>(pom, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/vratiVoziloPom/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<VoziloDTO>> vratiVoziloPom(@PathVariable long id){
+		Korisnik k = korRep.vratiKorisnikaPoId(id);
 		RentACar rent = k.getRentACar();
 		List<VoziloDTO> pom = servis.vratiVozila(rent);
 		return new ResponseEntity<>(pom, HttpStatus.OK);
@@ -157,34 +169,38 @@ public class VoziloKontroler {
 		String poruka = "";
 		if(povratnaRezervacija != null) {
 			poruka = servis.brzoRezervisi(r, k, povratnaRezervacija);
-		}
-		if(poruka.equals("ok")) {
-			try {
-				eservis.rezervacijaInformacijeBrzoVozilo(r, k, l, s, r.getRezervacijaVozilo().getVozilo());
-			}catch( Exception e ){
-				logger.info("Greska prilikom slanja emaila: " + e.getMessage());
-			}
-			
-			for(RezervacijaKarataDTO rez : r.getKarte()) {
-				double pom = 0;
-				for(Korisnik kor : korisnici) {
-					if(rez.getEmail().equals(kor.getEmail())) {
-						pom++;
+		
+			if(poruka.equals("ok")) {
+				try {
+					eservis.rezervacijaInformacijeBrzoVozilo(r, k, l, s, r.getRezervacijaVozilo().getVozilo());
+				}catch( Exception e ){
+					logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+				}
+				
+				for(RezervacijaKarataDTO rez : r.getKarte()) {
+					double pom = 0;
+					for(Korisnik kor : korisnici) {
+						if(rez.getEmail().equals(kor.getEmail())) {
+							pom++;
+						}
+					}
+					if((pom != 0) && (!rez.getEmail().equals(k.getEmail()))) {
+						try {
+							eservis.pozivZaLet(l, cena, rez);
+						}catch( Exception e ){
+							logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+						}
 					}
 				}
-				if((pom != 0) && (!rez.getEmail().equals(k.getEmail()))) {
-					try {
-						eservis.pozivZaLet(l, cena, rez);
-					}catch( Exception e ){
-						logger.info("Greska prilikom slanja emaila: " + e.getMessage());
-					}
-				}
+				List<VoziloDTO> vozilaDTO = servis.vrati();
+				return new ResponseEntity<>(vozilaDTO, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
-			List<VoziloDTO> vozilaDTO = servis.vrati();
-			return new ResponseEntity<>(vozilaDTO, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		
 	}
 	
 	@RequestMapping(value="/pretraziVozilo/{id}", method = RequestMethod.POST)

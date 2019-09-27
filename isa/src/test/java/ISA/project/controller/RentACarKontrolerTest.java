@@ -71,6 +71,13 @@ private static final String URL_PREFIX = "/RentACar";
 		.andExpect(jsonPath("$.[*].id").value(hasItem(67)));
 	}
 	
+	@Test
+	public void testVratiRentACar() throws Exception {
+		mockMvc.perform(get(URL_PREFIX + "/vratiRentACarPom/78" )).andExpect(status().isOk())
+		.andExpect(content().contentType(contentType))
+		.andExpect(jsonPath("$.id").value((67)));
+	}
+	
 	@Transactional
 	@Rollback(true)
 	@Test

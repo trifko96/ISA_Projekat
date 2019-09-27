@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ISA.project.dto.AerodromDTO;
 import ISA.project.dto.AvioKompanijaDTO;
@@ -461,7 +462,7 @@ public class LetServis {
 		return letoviDTO;
 		
 	}
-	
+	@Transactional
 	public List<LetDTO> otkaziRezervaciju(long id, Korisnik k){
 		List<AvionskaKarta> karte = kartaRep.vratiKartuPoIdLeta(id, k.getEmail());
 		for(AvionskaKarta a : karte) {

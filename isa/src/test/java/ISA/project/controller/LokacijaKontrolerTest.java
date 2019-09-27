@@ -70,6 +70,13 @@ private static final String URL_PREFIX = "/Lokacija";
 	}
 	
 	@Test
+	public void testVratiLokacije() throws Exception {
+		mockMvc.perform(get(URL_PREFIX + "/vratiLokacijePom/78" )).andExpect(status().isOk())
+		.andExpect(content().contentType(contentType))
+		.andExpect(jsonPath("$.[*].id").value(hasItem(55)));
+	}
+	
+	@Test
 	public void testVratiSveLokacije() throws Exception {
 		mockMvc.perform(get(URL_PREFIX + "/vratiSveLokacije" )).andExpect(status().isOk())
 		.andExpect(content().contentType(contentType))

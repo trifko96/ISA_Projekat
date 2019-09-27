@@ -18,6 +18,7 @@ import ISA.project.dto.LokacijaDTO;
 import ISA.project.model.Korisnik;
 import ISA.project.model.Lokacija;
 import ISA.project.model.RentACar;
+import ISA.project.repository.KorisnikRepozitorijum;
 import ISA.project.service.LokacijaServis;
 import ISA.project.service.RentACarServis;
 
@@ -31,6 +32,9 @@ public class LokacijaKontroler {
 	
 	@Autowired
 	RentACarServis carServis;
+	
+	@Autowired
+	KorisnikRepozitorijum korRepo;
 	
 	@RequestMapping(value = "/dodajNovu", method = RequestMethod.POST)
 	public ResponseEntity<List<LokacijaDTO>> dodajNovi(@RequestBody LokacijaDTO adto, @Context HttpServletRequest request){
@@ -50,6 +54,14 @@ public class LokacijaKontroler {
 	@RequestMapping(value="/vratiLokacije", method = RequestMethod.GET)
 	public ResponseEntity<List<LokacijaDTO>> vratiAerodrome(@Context HttpServletRequest request){
 		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		RentACar avio = k.getRentACar();
+		List<LokacijaDTO> pom = servis.vratiLokacije(avio);
+		return new ResponseEntity<>(pom, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/vratiLokacijePom/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<LokacijaDTO>> vratiAerodromePom(@Context HttpServletRequest request, @PathVariable long id){
+		Korisnik k = korRepo.vratiKorisnikaPoId(id);
 		RentACar avio = k.getRentACar();
 		List<LokacijaDTO> pom = servis.vratiLokacije(avio);
 		return new ResponseEntity<>(pom, HttpStatus.OK);

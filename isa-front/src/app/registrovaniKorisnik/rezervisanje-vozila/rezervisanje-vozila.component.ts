@@ -132,7 +132,7 @@ export class RezervisanjeVozilaComponent implements OnInit {
   ngOnInit() {
   } 
 
-  prikaziBrzaVozila(template: TemplateRef<any>){
+  prikaziBrzaVozila(){
     this.datumPopust.pocetni = this.datumOd;
     if(this.datumDo == null){
       this.datumPopust.krajnji = new Date("2019-10-10");
@@ -142,14 +142,14 @@ export class RezervisanjeVozilaComponent implements OnInit {
     this.voziloServis.vratiBrzaVozila(this.datumPopust).subscribe(
       data => {
         this.brzaVozila = data;
-        this.modalRef = this.modalService.show(template);
+        this.prikazBrzihVozila = true;
         this.prikazFilijala = false;
       }
     )
   }
 
   zatvori(){
-    this.modalRef.hide();
+    this.prikazBrzihVozila = false;
     this.greskaPriBrzojRezervaciji = "";
   }
 

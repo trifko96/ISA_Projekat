@@ -24,6 +24,7 @@ import ISA.project.dto.StatistikaDTO;
 import ISA.project.model.AvioKompanija;
 import ISA.project.model.Korisnik;
 import ISA.project.model.RentACar;
+import ISA.project.repository.KorisnikRepozitorijum;
 import ISA.project.service.KorisnikServis;
 import ISA.project.service.LokacijaServis;
 import ISA.project.service.RentACarServis;
@@ -41,11 +42,26 @@ public class RentACarKontroler {
 	
 	@Autowired
 	LokacijaServis lokacijaServis;
+	
+	@Autowired
+	KorisnikRepozitorijum korRep;
 
 	@RequestMapping(value="/vratiRentACar", method = RequestMethod.GET)
 	public ResponseEntity<RentACarDTO> vratiRentACar(@Context HttpServletRequest request) {
 		
 		Korisnik k = (Korisnik) request.getSession().getAttribute("ulogovan");
+		RentACar r = k.getRentACar();
+		RentACarDTO rkd = servis.nadjiRentCar(r.getRentACarId());
+		if(rkd != null)
+			return new ResponseEntity<>(rkd, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value="/vratiRentACarPom/{id}", method = RequestMethod.GET)
+	public ResponseEntity<RentACarDTO> vratiRentACarPom(@PathVariable long id) {
+		
+		Korisnik k = korRep.vratiKorisnikaPoId(id);
 		RentACar r = k.getRentACar();
 		RentACarDTO rkd = servis.nadjiRentCar(r.getRentACarId());
 		if(rkd != null)
