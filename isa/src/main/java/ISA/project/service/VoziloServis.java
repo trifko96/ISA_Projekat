@@ -253,7 +253,7 @@ public class VoziloServis {
 	@Transactional(isolation=Isolation.SERIALIZABLE)
 	public String brzoRezervisi(RezervacijaDTO r, Korisnik k, Rezervacija rez) {
 		Rezervacija rezervacija = rezervacijaRepo.getOne(rez.getId());
-		int a = rezVozRepozitorijum.getBrojRezervacijaUIntervalu(rez.getRezervacijaVozilo().getVozilo().getVoziloId(), rez.getRezervacijaVozilo().getDatumRezervacijaOd(), rez.getRezervacijaVozilo().getDatumRezervacijaDo());
+		int a = rezVozRepozitorijum.getBrojRezervacijaUIntervalu(r.getRezervacijaVozilo().getVozilo().getId(), r.getRezervacijaVozilo().getDatumRezervacijaOd(), r.getRezervacijaVozilo().getDatumRezervacijaDo());
 		if(a!=0)
 			return "greska";
 		RezervacijaVozilo rezVozilo = new RezervacijaVozilo();
