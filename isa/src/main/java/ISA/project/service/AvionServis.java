@@ -30,6 +30,7 @@ public class AvionServis {
 	@Autowired
 	LetRepozitorijum letRepo;
 	
+	
 	public List<AvionDTO> vratiAvione(AvioKompanija a){
 		List<Avion> avioni = repozitorijum.vratiAvione(a.getId());
 		List<AvionDTO> avioniDTO = new ArrayList<>();
