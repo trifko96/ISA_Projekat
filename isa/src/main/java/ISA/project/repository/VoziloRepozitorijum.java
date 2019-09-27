@@ -21,7 +21,7 @@ public interface VoziloRepozitorijum extends JpaRepository<Vozilo, Long> {
 	
 	
 	@Query("select vozilo from Vozilo vozilo where vozilo.voziloId = :id")
-	@Lock(LockModeType.PESSIMISTIC_READ)
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	public Vozilo vratiVoziloPoId(@Param("id") long id);
 	
 	@Query("select vozilo from Vozilo vozilo where vozilo.voziloId = :id")

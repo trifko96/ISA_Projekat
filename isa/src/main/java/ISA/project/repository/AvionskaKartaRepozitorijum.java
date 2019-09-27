@@ -18,15 +18,15 @@ public interface AvionskaKartaRepozitorijum extends JpaRepository<AvionskaKarta,
 	public AvionskaKarta vratiKartu(long id);
 	
 	@Query("select karta from AvionskaKarta karta where karta.sediste.idSedista = ?1")
-	@Lock(LockModeType.PESSIMISTIC_READ)
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	public AvionskaKarta vratiKartuPoSedistu(long id);
 	
 	@Query("select karta from AvionskaKarta karta where karta.idKarte = ?1")
-	@Lock(LockModeType.PESSIMISTIC_READ)
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	public AvionskaKarta vratiKartuPoId(long id);
 	
 	@Query("select karta from AvionskaKarta karta where karta.sediste.idSedista in :ids")
-	@Lock(LockModeType.PESSIMISTIC_READ)
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	public List<AvionskaKarta> vratiKartePoIdSedista(@Param("ids") ArrayList<Long> ids);
 	
 	@Query("select karta from AvionskaKarta karta where karta.let.idLeta = :id and karta.emailPutnika = :email")
