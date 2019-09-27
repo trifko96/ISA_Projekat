@@ -81,13 +81,6 @@ private static final String URL_PREFIX = "/Aerodrom";
 		.andExpect(jsonPath("$.[*].id").value(hasItem(2)));
 	}
 	
-	@Test
-	public void testVratiSlobodneAerodrome() throws Exception {
-		mockMvc.perform(get(URL_PREFIX + "/vratiSlobodneAerodrome/7" )).andExpect(status().isOk())
-		.andExpect(content().contentType(contentType))
-		.andExpect(jsonPath("$.[*].id").value(3));
-	}
-	
 	@Transactional
 	@Rollback(true)
 	@Test
