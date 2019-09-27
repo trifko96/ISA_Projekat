@@ -223,7 +223,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label">Avion:</label>
                                         <div class="col-sm-7">
-                                            <select [(ngModel)]="selektovaniAvion" id="avionLet">
+                                            <select class= "form-control" [(ngModel)]="selektovaniAvion" id="avionLet">
                                                 <option *ngFor="let a of avioni" [value]="a.ime">
                                                     {{a.ime}}
                                                 </option>
@@ -258,7 +258,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label">Mesto poletanja:</label>
                                         <div class="col-sm-7">
-                                            <select [(ngModel)]="selektovanoMestoPoletanja" id="mestoPol">
+                                            <select class="form-control" [(ngModel)]="selektovanoMestoPoletanja" id="mestoPol">
                                                 <option *ngFor="let a of mojiAerodromi" [value]="a.ime">
                                                     {{a.grad}}
                                                 </option>
@@ -268,7 +268,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label">Mesto sletanja:</label>
                                         <div class="col-sm-7">
-                                            <select [(ngModel)]="selektovanoMestoSletanja" id="mestoSle">
+                                            <select class="form-control" [(ngModel)]="selektovanoMestoSletanja" id="mestoSle">
                                                 <option *ngFor="let a of mojiAerodromi" [value]="a.ime">
                                                     {{a.grad}}
                                                 </option>
@@ -308,7 +308,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label">Odaberite lokacije presedanja:</label>
-                                        <div class="col-4 form-group">
+                                        <div class="col-7 form-group">
                                             <div class="list-group w-100" style="max-height: 191px; overflow-y:  scroll;">
                                                 <div *ngFor="let l of lokacijeAerodromi"class="list-group-item" style="display: block">
                                                     <div class="form-check">
@@ -322,7 +322,7 @@
                                     <p class="text-danger">{{porukaLokacije}}</p>
                                     <div class="form-group row">
                                         <div class="col-sm-10 text-center">
-                                            <button class="btn btn-dark" (click)="dodavanjeLeta()">Nastavi</button>
+                                            <button class="btn btn-dark" (click)="dodavanjeLeta()">Dodaj</button>
                                         </div>
                                     </div>
                                 </div>  

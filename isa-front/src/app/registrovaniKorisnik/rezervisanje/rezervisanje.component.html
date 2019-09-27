@@ -267,8 +267,10 @@
                 <div class="list-group border rounded w-100" style="max-height: 320px; overflow-y:  scroll;">
                     <div *ngFor="let lok of lokacijeZaPrikaz" class="list-group-item" style="display: block">
                         <div class="row">
-                            <div class="col-6 pt-2">
+                            <div class="col-12 pt-2">
                               <p class="font-italic">{{lok.aerodrom.ime}}  {{lok.aerodrom.grad}}</p>
+                              <p class="font-italic"> Vreme dolaska : {{lok.datumSletanja.slice(0,10)}}  {{lok.datumSletanja.slice(11,19)}} </p>
+                              <p class="font-italic"> Vreme polaska : {{lok.datumPoletanja.slice(0,10)}}  {{lok.datumPoletanja.slice(11,19)}} </p>
                             </div>
                         </div>
                     </div>
@@ -492,13 +494,13 @@
         <button class="btn btn-primary" ></button>&nbsp;brza rezervacija<br><br>
         <button class="btn btn-warning" ></button>&nbsp;selektovano
     </div>
-    <div class="col-1" *ngIf="rezervisanje && prikazSedista"><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div class="col-1" *ngIf="rezervisanje && prikazSedista"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <button class="btn btn-secondary" (click) = "dalje()">Dalje</button>
     </div>
-    <div class="col-1" *ngIf="rezervisanje && prikazSedista"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div class="col-1" *ngIf="rezervisanje && prikazSedista"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <p class="text-danger">{{poruka2}}</p>
     </div>
-    <div class="col-1" *ngIf="rezervisanje && prikazSedista"><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div class="col-1" *ngIf="rezervisanje && prikazSedista"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <button class="btn btn-secondary" (click) = "nazadNaKlase()">Nazad</button>
     </div>
     <div class="col-4" *ngIf="rezervisanje && prikazSedista">

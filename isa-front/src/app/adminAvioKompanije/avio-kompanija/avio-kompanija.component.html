@@ -1,17 +1,22 @@
 <div class="container-fluid">
     <div class="row">
-      <div class="col-7" style="max-height: 320px; overflow-y:  scroll;">
-        <br>
-        <h4>Podaci o avio kompaniji:</h4>            
-        <table class="table">
-          <thead>
+      <div class="col-7">
+          <div class="row">
+              <div class="col-8">
+                 <h5 class="mt-2">Podaci o avio kompaniji:</h5> 
+              </div>
+              <div class="col-4 py-1 px-3">
+                 <button class="btn btn-secondary float-right" (click)="onClick()">Izmeni</button>         
+              </div>
+          </div>        
+        <table class="table table-sm table-striped border mt-2">
+          <thead class="thead ">
             <tr>
               <th>Naziv</th>
               <th>Adresa</th>
               <th>Promotivni opis</th>
               <th>Prosecna ocena</th>
-              <th>Dozvoljena tezina prtljaga (kg)</th>
-              <th>&nbsp;</th>
+              <th>Tezina prtljaga (kg)</th>
             </tr>
           </thead>
           <tbody>
@@ -21,7 +26,6 @@
               <td>{{avioKompanija.opis}}</td>
               <td>{{prosecnaOcena}}</td>
               <td>{{avioKompanija.infoPrtljag}}</td>
-              <td><button class="btn btn-link" (click) = "onClick()">Izmeni</button></td>
             </tr>
           </tbody>
         </table>

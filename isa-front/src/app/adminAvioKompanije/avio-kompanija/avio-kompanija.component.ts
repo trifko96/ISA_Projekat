@@ -162,12 +162,18 @@ export class AvioKompanijaComponent implements OnInit {
           },
           error => {
             this.poruka = "Uneto ime vec postoji!";
+            setTimeout(() => {
+              this.poruka = "";
+            }, 2000);
           }
         )
         }
       } 
         else {
       this.poruka = "Odaberite kompaniju za izmenu!";
+      setTimeout(() => {
+        this.poruka = "";
+      }, 2000);
     }
   }
 

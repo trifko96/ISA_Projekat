@@ -244,7 +244,39 @@ export class LetoviComponent implements OnInit {
       }
       this.noviLet.lokacije = this.izabraneLokacije;
       this.izabraneLokacije = [];
-      this.prikazFormeZaLet = false;
+      //this.prikazFormeZaLet = false;
+      if(this.noviLet.lokacije.length == 0){
+        this.letServis.dodajNoviLet(this.noviLet, this.idKorisnika).subscribe(
+          data => {
+            this.letovi = data;
+            for(let l of this.letovi){
+              if(l.brojOcena != 0){
+                l.prosecnaOcena = l.ocena / l.brojOcena;
+              }
+            }
+            this.prikazFormeZaDodavanje = false;
+            this.modalRef.hide();
+            this.prikazDalje = false;
+            this.noviLet = new Let();
+            this.selektovanaOpcija = "";
+            this.prikazFormeZaLet = true;
+            for(let l of this.lokacijeAerodromi){
+              l.isChecked = false;
+            }
+            this.selektovaniAvion = "";
+            this.selektovanoMestoPoletanja = "";
+            this.selektovanoMestoSletanja = "";
+            this.avionServis.vratiAvioneZaLet(this.idKorisnika).subscribe(
+              data => {
+                this.avioni = data;
+              }
+            )
+          }
+        )
+        this.modalRef.hide();
+      } else {
+        this.prikazFormeZaLet = false;
+      }
     }
   }
 
