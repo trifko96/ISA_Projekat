@@ -1,4 +1,3 @@
-#ISA_PROJEKAT
 Da bi aplikacija bila uspesno pokrenuta, neophodno je ispuniti sledece uslove:
 1. Potrebno je instalirati Node.js i angular-cli
 2. Potrebno je instalirati jdk 1.9
