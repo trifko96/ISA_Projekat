@@ -23,7 +23,7 @@
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ngx-bootstrap": "^4.3.0",
     "ngx-bootstrap-datetime-popup": "^4.4.0",
     "rxjs": "~6.4.0",
